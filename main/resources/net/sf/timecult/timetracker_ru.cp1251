@@ -1,0 +1,203 @@
+localized=yes
+menu.file=&Файл
+menu.new=&Новый
+menu.open=&Открыть
+menu.save=&Сохранить
+menu.saveAs=Сохранить &как...
+menu.exit=&Выход
+menu.edit=&Правка
+menu.add=&Добавить
+menu.add.project=&Проект...
+menu.add.task=&Задачу...
+menu.add.activity=&Активность...
+menu.delete=&Удалить...
+menu.join=&Объединить...
+mainwin.confirmation=Подтверждение
+mainwin.timeLog=Журнал
+mainwin.totals=Статистика
+menu.rename=Переименовать...
+menu.help=&Помощь
+menu.about=&О программе...
+menu.online=Веб-&ресурсы
+menu.blog=&Блог
+menu.homepage=&Домашняя страница TimeCult
+menu.helpContent=Справка
+menu.idle.enable=Включить
+menu.idle.disable=Отключить
+table.project=Проект
+table.task=Задача
+table.duration=Длительность
+table.object=Проект/задача
+table.startDate=Дата
+table.startTime=Время
+table.notes=Примечание
+menu.status.done=Готово
+menu.status.cancel=&Отмена
+menu.status.setFlag=&Пометить
+menu.status.unsetFlag=&Сбросить флаг
+menu.status.reopen=Переоткрыть
+menu.export=&Экспорт...
+menu.export.csv=В формат &CSV...
+menu.copy=Копировать
+menu.cut=Вырезать
+menu.paste=Вставить
+menu.selectAll=Выбрать все
+details.description=Описание:
+flagged.title=Помеченные
+tab.journal=Журнал
+tab.notes=Заметки
+tab.summary=Сводка
+traymenu.start=Начать
+traymenu.open=Открыть Timecult
+menu.go=Перейти
+menu.go.flaggedItem=Помеченные
+menu.waitingFor=В ожидании пока
+menu.waiting.other=Другое...
+menu.tools=Инструменты
+menu.options=Настройки...
+menu.view=Вид
+workspace.newWorkspace=Новая рабочая область
+workspace.idle=Простой
+workspace.unsaved=Не сохранено
+
+menu.properties=Свойства
+#
+# Buttons
+#
+button.newWorkspace.tooltip=Новый файл
+button.open.tooltip=Открыть файл
+button.save.tooltip=Сохранить файл
+button.start.tooltip=Запустить таймер
+button.expandAll.tooltip=Расширить все
+button.collapseAll.tooltip=Свернуть все
+#button.pause.tooltip=Пауза
+button.pauseResume.tooltip=Пауза/Продолжить
+button.stop.tooltip=Остановить и записать
+button.close=&Закрыть
+button.select=&Выбрать
+button.flaggedList.tooltip=Показать все помеченные
+button.ok=OK
+button.cancel=Отмена
+button.editEntry.tooltip=Редактировать запись
+button.quickTimesheet.tooltip=Быстрый отчёт
+button.minToTray.tooltip=Минимизировать в трей
+#
+# Error messages
+#
+error.invalidFormat=Ошибочный формат
+error.newerFormat=Файл создан более новой версией TimeCult. Пожалуйста проверьте обновления.
+warning.fileUpgrade=Данный файл был создан более ранней версией TimeCult. Он будет переписан в новом \
+	формате как только Вы сохраните его в следующий раз. После этого его нельзя будет открыть в \
+	старой версии!
+#
+# Other messages
+#
+message.activeTimers=Запущены таймеры. Прервать и всё равно выйти?
+message.saveChanges=Сохранить последние изменения?
+message.removeProject=Уверены, что хотите навсегда удалить проект
+message.removeTask=Уверены, что хотите навсегда удалить задачу
+message.itemName=Наименование
+message.total=Всего
+message.about.build=Сборка
+message.about.date=дата
+message.about.version=Версия
+message.confirmRemoveRecs=Вы действительно хотите удалить %N% запись(-и)?
+message.confirmJoinRecs=Вы уверены, что вы хотите объединить %N% выбраннные(-x) записи(-ей) с использованием времени %T%?
+message.item=Пункт
+message.reasonText=В ожидании пока
+message.invalidDate=Неправильный формат даты. Правильный пример:
+message.invalidTime=Неправильный формат времени. Правильный пример:
+message.invalidDuration=Неправильный формат длительности. Правильный пример:
+message.invalidHyperlink=Гиперссылка должна начинаться с http: или ftp: 
+message.invalidURL=Неправильный адрес в гиперссылке
+#
+# Dialogs
+#
+dialog.newTask=Новая задача
+dialog.renameTask=Переименовать задачу
+dialog.newProject=Новый проект
+dialog.newActivity=Новая активность
+dialog.renameProject=Переименовать проект
+dialog.about=О программе TimeCult
+dialog.help=Справка TimeCult
+dialog.editRecord=Редактировать запись
+dialog.addRecord=Добавить запись
+dialog.deleteRecord=Удалить запись
+dialog.quickTimesheet=Быстрый отчёт
+dialog.warning=Предупреждение
+dialog.waitReason=Ожидает пока
+dialog.options=Настройки
+dialog.options.general=Общие
+dialog.options.hideWhenMinimized=Скрыть окно при минимизации
+dialog.options.keepTimerPos=Сохранять положение таймера
+dialog.options.autoOpenRecentFile=Автоматически открывать последний файл
+dialog.options.hideClosedItems=Скрыть завершенные пункты
+dialog.options.autosave=Автосохранение
+dialog.options.showRecEditDialog=Редактировать время/примечание перед записью
+dialog.properties.task=Свойства задачи
+dialog.properties.project=Свойства проекта
+dialog.properties.activity=Свойства активности
+dialog.properties.workspace=Свойства рабочей области
+dialog.hyperlink=Гиперссылка:
+dialog.adjustTime=Округлять время до, мин:
+dialog.defaultNote=Прим. по умолчанию
+dialog.options.timeRec=Запись времени
+dialog.options.dontSaveEmptyTimeRec=Не сохранять пустые записи
+#
+# Time filter
+#
+filter.all=Все
+filter.today=Сегодня
+filter.thisMonth=Этот месяц
+filter.thisYear=Этот год
+filter.thisWeek=Эта неделя
+
+filter.name=Наименование:
+filter.startDate=Начальная дата:
+filter.endDate=Конечная дата:
+filter.dialog.title=Параметры фильтра
+#
+# Help
+#
+help.file=timecult_ru.chm
+#
+# Status line
+#
+status.created=Время создания
+status.closed=Время закрытия
+#
+# Task status strings
+#
+task.status.notStarted=Не начата
+task.status.inProgress=Выполняется
+task.status.finished=Закончена
+task.status.onHold=В ожидании
+task.status.cancelled=Отменена
+task.status.flagged=Помечена
+task.status.waiting=В ожидании пока
+#
+# Task list toolbar buttons
+#
+button.tasklist.activity.tooltip=Активности
+button.tasklist.waiting.tooltip=Ожидающие
+button.tasklist.notStarted.tooltip=Новые (не начатые)
+button.tasklist.inProgress.tooltip=Выполняющиеся
+button.tasklist.flagged.tooltip=Помеченные
+button.tasklist.tooltip=Группы задач по состояниям
+tasklist.title=Список задач
+
+button.editRecord.tooltip=Редактировать запись
+button.addRecord.tooltip=Добавить запись
+button.deleteRecord.tooltip=Удалить запись
+button.joinRecords.tooltip=Объединить записи
+#
+# Find dialog
+#
+button.find.tooltip=Найти
+button.find=&Найти
+button.find.next=&Дальше
+find.searchString=Искать:
+find.item=Найдено:
+find.title=Поиск
+menu.search=Поиск
+menu.search.find=Найти..
