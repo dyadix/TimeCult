@@ -1,0 +1,180 @@
+@~
+ * Copyright (c) Rustam Vishnyakov, 2008-2009 (dyadix@gmail.com)
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * $Id: history.dmi,v 1.7 2010/11/30 15:47:56 dyadix Exp $
+ *
+
+@section Change History
+    @section Version 0.11
+        @list
+
+            @* Feature: A list of tasks can be exported to PDF and opened in a system
+               Pdf viewer with a single button click.
+            @* Feature: Time records in Journal are filtered by a selected project/task, not
+               only by the current time filter. If a project is selected, the journal shows
+               time records of all the tasks under the project.
+            @* Feature: Notifications. Currently you can set up notifications for running tasks
+               and for idle time. A notification window with running task information will
+               be displayed periodically.
+            @* Better application error reporting. The application doesn't hang up
+               upon fatal error.
+            @* Other improvements.
+
+        @list \end
+    @section \end
+
+    @section Version 0.10.0
+        @list
+            @* On-line Help. Replaces the old Windows help shipped with installation.
+            @* Improved task list: shows parent project and task status for easier navigation.
+            @* Fixed: If there are two tasks/activities with the same name under different projects, both of them are
+               shown in the task list.
+            @* NEW: A possibility to specify time recording precision (automatic round up).
+            @* NEW: User-definable idle task message.
+            @* Improved status bar: hyperlilnk indicator/message, notes indicator, better arrangement of status messages.
+            @* Fixed: the splash screen doesn't remain open if there is an error or a warning message.
+            @* Fixed: the file is correctly closed if there are read errors.
+            @* Ctrl+Enter keyboard shortcut for project item property dialog.
+        @list \end
+    @section \end
+
+    @section Version 0.9.0
+        @list
+
+            @* NEW: A possibility to close a project (feature request 2515469).
+            @* NEW: Custom filters. A user can create an arbitrary filter specifying its start
+               and end dates. The filter is stored in the workspace. Feature requests: 1818537, 1957673.
+            @* NEW: Hyperlinks. A hyperlink (URL) can be associated with a project tree item (project,
+               task, activity). The hyperlink can be opened by double clicking to the item. The feature
+               is useful if you have an external bug- or task-tracking system and would like to open
+               an associated link with a minimal effort.
+            @* NEW: "Select All" menu item and Ctrl+A keyboard shortcut in "Journal" and "Summary" tabs.
+               Feature requests: 1818531, 2787894.
+            @* Fixed: A selected project tree item is made visible after add/edit operations.
+            @* Other minor bug fixes.
+
+        @list \end
+    @section \end
+
+    @section Version 0.8.2
+
+        @list
+        
+            @* Fixed: export to CSV of task name misses text qualifier (bug #2724981).
+            @* Fixed: correct time calculations when start/end time of some records in
+               journal do not belong to the same day (bugs #2107359, #2494172). When a filter
+               is applied some records in the journal may be displayed as partial (filtered) showing
+               only time which fits the currently selected filter.
+            @* Fixed: wrong boundary time set for quick time sheet (visible only for
+               those cases where start/end time are close to midnight).
+            @* Fixed: if there are two tasks with the same name, only one of them is shown.
+            @* More messages translated to German.
+        
+        @list \end
+
+    @section \end
+        
+    @section Version 0.8.1
+
+        @list
+    
+        @* Closed items (tasks and activities) can be optionally hidden in the tree view if they 
+           were closed before the beginning of a selected period. Changing the period may show a
+           different set of items depending on the period's start date/time.
+        @* New "Autosave" option. Currently autosave period is hardcoded to 30 seconds.
+        @* Timers are automatically moved to a visible area (monitor). See more in bug 2080480
+           description. This applies both to already running and newly started timers.
+        @* System tray menu for timer icons allowing to pause/resume/stop a timer without
+           showing its window.
+        @* Flagged items are highlighted with red foreground color.
+    
+        @list \end
+
+    @section \end
+
+    @section Version 0.8.0
+
+        @list
+    
+        @* New "Activity" object. This is another form of task which can only be cancelled, not finished.
+        @* TimeCult format has changed to support activites.
+        @* Tasks/activities can be browsed/selected by status. A corresponding dialog replaces the previous 
+              "Flagged items" dialog.
+        @* A bug when the applicaion hanged up upon exit if there were active timers has been fixed.
+        @* The same file can be opened only once (file locking), feature request #1955646.
+        @* "Save As" dialog is not shown anymore if an object is deleted in a newly created workspace.
+        @* A fix for task/project ID numbering. Previously the numbering was not reset for a new workspace
+           if TimeCult had not been restarted.
+        @* More layout settings are stored in a configuration file and retrieved upon TimeCult restart. This
+           includes column sizes for tables, tree/tab view separator position and etc. The changes are related
+           to feature request #1818523.
+        @* When editing notes in a time record, a user can just press [Enter] to finish editing (works the same
+              way as [OK] button).
+    
+        @list \end
+    @section \end
+
+    @section Version 0.7.1
+
+        @list
+    
+        @* German and French translations.
+        @* Faster saving using xmlenc library.
+        @* The end date can be chosen for a time sheet.
+        @* The most recently used file can be opened by default (when the application starts).
+        @* "[NL]" strings are not shown in menus if a current language is not supported,
+        i.e. there is no translation for it (bug #1926101). English messages are used by default.
+        @* Application's window title is updated if a workspace name has changed
+        (bug #1953671).
+        @* A tooltip of a system tray icon shows the same information as the application's window
+        title making it easier to choose the right application instance if several of them are
+        running with different workspaces opened.
+    
+        @list \end
+    
+    @section \end
+
+    @section Version 0.7.0
+
+        @list
+    
+        @* TimeCult .TMT file format has changed. It supports now project/task creation and closing date/time among
+           other things. A file in the new format can not be opened with earlier TimeCult versions.
+        @* New 'Waiting' task status. A reason (text note) for waiting state can be provided.
+        @* The application can be optionally minimized to system tray (feature request # 1848847).
+        @* Time record editing dialog has got additional buttons to select a date (calendar picker) and 
+           set up start time and duration.
+        @* For time records added manually there is a smarter algorithm which creates an adjacent record by default:
+           a default start time for the new record is set to the end time of the previous record.
+        @* A timer can be mimized to system tray with animated icon (feature request # 1818554).
+        @* Default timer position is saved for subsequent application launches (optionally).
+        @* Project tree selection and expansion status is saved to .tmt file and restored when the file
+           is reopened.
+        @* New "View"/"Flagged Items" menu item instead of "Go". The menu item has a shortcut Ctrl+T to
+           make it much easier to choose a flagged task.
+        @* More informative summary for tasks: time usage per date.
+        @* Notes are exported to CSV (feature request #1818543).
+        @* When a project is deleted, any associated time records are deleted too. Previously those had been kept until a workspace
+           was closed and opened again (bug #1557454).
+        @* A task can be reopened (new "Reopen" menu item in project tree context menu).
+        @* Other minor improvements.
+    
+        @list \end
+    
+    @section \end    
+
+@section \end

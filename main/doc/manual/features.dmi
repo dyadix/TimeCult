@@ -1,0 +1,49 @@
+@~
+ * Copyright (c) Rustam Vishnyakov, 2008 (dyadix@gmail.com)
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * $Id: features.dmi,v 1.2 2008/06/19 17:52:24 dyadix Exp $
+ *
+ 
+@section Key Features \id features
+    @section Manage Project and Tasks
+        @list
+            @* Create a hierarchy of projects, subprojects and tasks.
+            @* Add any detailed comments to a project or task.
+            @* At any time change task state to one of the following: in progress, finished, cancelled.
+            @* Flag tasks which need attention (since version 0.5.1). Browse flagged items.
+        @list \end
+    @section \end	
+
+    @section Collect Time Metrics
+        @list
+            @* Measure time spent for a task in real time. Several timers can be used if needed.
+            @* Keep detailed records of used time and comments on what has been done.
+            @* Quickly get a summary of time spent for each of projects, tasks over a specified 
+               period of time: one day, current week, month or year. Just click to a filter name to 
+               change a time scope.
+        @list \end
+    @section \end
+
+    @section Exchange Data With Other Applications
+        @list
+            @* Export data to a comma-separated (CSV) format understood by MS Excel and many other applications.
+            @* Copy and paste data from Time Log (journal) or from Summary to MS Excel or OpenOffice.org Calc.
+            @* Directly work with TimeCult XML file from other applications.
+        @list \end
+    @section \end
+
+@section \end

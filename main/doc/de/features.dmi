@@ -1,0 +1,49 @@
+@~
+ * Copyright (c) Rustam Vishnyakov, 2008 (dyadix@gmail.com)
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * $Id: features.dmi,v 1.1 2008/04/22 22:02:57 kstruck Exp $
+ *
+ 
+@section Grundfunktionen
+    @section Verwaltung von Projekten und Aufgaben
+        @list
+            @* Arbeiten Sie mit Projekten, Sub-Projekten und Aufgaben.
+            @* Versehen Sie Ihre Projekte und Aufgaben mit detaillierten Kommentaren.
+            @* Die Status der Aufgaben können jederzeit gesetzt werden: In Bearbeitung, Beendet, Abgebrochen.
+            @* Versehen Sie die Aufgaben mit besonderer Wichtigkeit mit einer Markierung (verfügbar seit Version 0.5.1).
+        @list \end
+    @section \end	
+
+    @section Erfassung der Zeiten von Projekten und Aufgaben
+        @list
+            @* Messen Sie die Zeiten, die für eine Aufgabe aufgewendet werden in Echtzeit. Bei Bedarf können mehrere Timer gleichzeitig verwendet werden.
+            @* Sie bekommen detaillierte Informationen über aufgewendete Zeiten und Kommentare, was getan wurde.
+            @* Sie bekommen schnell einen Überblick über Zeiten einzelner Projekte und Aufgaben in einem speziellen Zeitraum:  
+               ein Tag, die aktuelle Woche, den aktuellen Monat oder das aktuelle Jahr. Klicken Sie einfach auf den Namen des
+               gewünschten Filters, um den Bereich zu ändern.
+        @list \end
+    @section \end
+
+    @section Datenaustausch mit anderen Anwendungen
+        @list
+            @* Exportieren Sie Ihre Daten als Komma-separiertes Format (CSV), welches von MS Excel und anderen Anwendungen verarbeitet werden kann.
+            @* Benutzen Sie Kopieren und Einfügen im Zeitprotokoll oder in der Gesamtübersicht, um Daten in MS Excel or OpenOffice.org Calc zu übernehmen.
+            @* Verwenden Sie die TimeCult XML Datei direkt aus anderen Applikationen.
+        @list \end
+    @section \end
+
+@section \end

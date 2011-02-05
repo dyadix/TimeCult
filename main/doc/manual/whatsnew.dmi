@@ -1,0 +1,37 @@
+@~
+ * Copyright (c) Rustam Vishnyakov, 2008-2010 (dyadix@gmail.com)
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * $Id: whatsnew.dmi,v 1.17 2011/01/21 10:03:23 dyadix Exp $
+ *
+
+@section What's New in Version 0.12
+
+    @list
+    
+        @* Fixed 3110187: Index out of range exception.
+        @* Fixed 3150290: Invalid date range calculation for quick time sheet if start/end dates belong to
+           different years.
+        @* Alt+T keyboard shortcut to add a task.
+        @* Alt+S keyboard shortcut to start a timer.
+        @* New search feature ("Search" menu or Ctrl+F).
+        @* Migration to WinRun4j, a possibility to pin the program to Windows 7 task bar.
+        @* Join records feature.
+        @* Running timer data is saved periodically to the journal.
+    
+    @list \end
+
+@section \end

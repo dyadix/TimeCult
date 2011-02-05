@@ -1,0 +1,5 @@
+@section License
+
+@!include ../../gpl.txt
+
+@section \end

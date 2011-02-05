@@ -1,0 +1,59 @@
+@~
+ * Copyright (c) Rustam Vishnyakov, 2008 (dyadix@gmail.com)
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * $Id: options.dmi,v 1.3 2010/10/23 13:37:14 dyadix Exp $
+ *
+
+ @section Options
+ 
+    To set up application-level options choose "Tools"->"Options..." menu item.
+ 
+    @section General Options (General Tab)
+     
+        @list
+            @* Hide when minimized: if the flag is set, main window will be hidden when it is minimized (not visible in a
+               task bar). The window can be restored back by clicking to the icon in system tray.
+            @* Keep timer position: tells to use the latest timer position every time a new timer is launched. If the flag
+               is unchecked, a timer position is defined automatically for every new timer launch.
+            @* Automatically Open the Most Recent File: open the most recent file upon every application restart.
+            @* Hide Closed Items: show only those items which are not closed or if their close date/time is within the 
+               date/time range of the currently selected filter. Hide other closed items.
+            @* Autosave: automatically save the current workspace (by default every 30 seconds) if there are changes.
+        @list \end
+        
+    @section \end
+
+    @section Time Recoding
+
+        @list
+            @* Edit time and notes before recording: Allow editing time and notes before a time record is
+               added to the journal.
+            @* Don't save empty records: If record's time is zero and no notes are provided, don't save it.
+        @list \end
+
+    @section \end
+
+    @section Notifications
+
+        @list
+            @* Running timer(s): Periodically display a notification when timer(s) is/are running.
+            @* Idle Time: Periodically display a notification when in idle state (no timers are running).
+               Idle Time tracking must be on.
+        @list \end
+    @section \end
+ 
+ @section \end

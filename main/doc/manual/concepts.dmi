@@ -1,0 +1,67 @@
+@~
+ * Copyright (c) Rustam Vishnyakov, 2008 (dyadix@gmail.com)
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * $Id: concepts.dmi,v 1.2 2008/11/02 09:14:07 dyadix Exp $
+ *
+ 
+@section Concepts
+    
+    @section Workspace
+            
+    Workspace is a place where all project and task information is stored. 
+    You may have any number of workspaces but usually you need just one unless you simultaneously 
+    work in completely different areas.
+    
+    In terms of file system workspace is a single XML file with .tmt extension.
+    
+    @section \end
+
+    @section Project
+    
+    Project is a container for other (sub)projects and tasks. Note that you can't track time 
+    directly for a project, you need at least one task under it.
+
+    Projects are optional. You may not use those at all and create tasks directly at workspace 
+    root.
+    
+    @section \end
+
+    @section Task
+    
+    Task is an atomic unit for which you can track time. From the other hand, tasks in TimeCult 
+    may not have subtasks. This is done to avoid ambiguity when choosing whether to track time 
+    for the top level task or its subtasks.
+    
+    @section \end
+    
+    @section Activity
+    
+    Activity is another form of task. But unlike a regular task, it can only be cancelled (stopped).
+    An example of activity is "Customer technical support". Activities have no particular deadlines,
+	they last as long as they are needed.
+    
+    @section \end
+
+    @section Idle Task
+            
+    Idle task was introduced to allow tracking (wasted) time when no other tasks have been 
+    started (being tracked). Idle task is always created with a new workspace but disabled 
+    by default.
+
+    @section \end
+    
+@section \end

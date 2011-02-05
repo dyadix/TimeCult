@@ -1,0 +1,48 @@
+@~
+ * Copyright (c) Rustam Vishnyakov, 2008 (dyadix@gmail.com)
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * $Id: whatsnew.dmi,v 1.1 2008/04/22 22:02:57 kstruck Exp $
+ *
+
+@section Was ist neu in Version 0.7.0
+
+    @list
+    
+    @* Das TimeCult .TMT Dateiformat hat sich geändert. It supports now project/task creation and closing date/time among
+       other things. Eine Datei im neuen Format kann nicht mehr mit einer älteren Version von TimeCult geöffnet werden.
+    @* Es wurde ein neuer Status für Aufgaben eingeführt: "Wartend". Der Grund für das Warten kann als Notiz angegeben werden.
+    @* TimeCult kann in den System Tray minimiert werden (feature request # 1848847).
+    @* Time record editing dialog has got additional buttons to select a date (calendar picker) and 
+       set up start time and duration.
+    @* For time records added manually there is a smarter algorithm which creates an adjacent record by default:
+       a default start time for the new record is set to the end time of the previous record.
+    @* A timer can be mimized to system tray with animated icon (feature request # 1818554).
+    @* Default timer position is saved for subsequent application launches (optionally).
+    @* Project tree selection and expansion status is saved to .tmt file and restored when the file
+       is reopened.
+    @* New "View"/"Flagged Items" menu item instead of "Go". The menu item has a shortcut Ctrl+T to
+       make it much easier to choose a flagged task.
+    @* More informative summary for tasks: time usage per date.
+    @* Notes are exported to CSV (feature request #1818543).
+    @* When a project is deleted, any associated time records are deleted too. Previously those had been kept until a workspace
+       was closed and opened again (bug #1557454).
+    @* A task can be reopened (new "Reopen" menu item in project tree context menu).
+    @* Other minor improvements.
+    
+    @list \end
+
+@section \end

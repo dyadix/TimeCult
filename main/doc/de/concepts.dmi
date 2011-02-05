@@ -1,0 +1,60 @@
+@~
+ * Copyright (c) Rustam Vishnyakov, 2008 (dyadix@gmail.com)
+ * 
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * 
+ * $Id: concepts.dmi,v 1.2 2008/05/29 06:16:08 dyadix Exp $
+ *
+ 
+@section Konzepte
+    
+    @section Arbeitsbereich
+            
+    Der Arbeitsbereich bündelt alle Informationen zu den Projekten und deren Aufgaben.
+    Sie können unzählige Arbeitsbereiche verwenden, aber gewöhnlich werden Sie nur mit einem
+    der Arbeitsbereiche arbeiten, es sei denn, Ihre Aufgaben unterscheiden sich zu sehr voneinander.
+    
+    Aus der Sicht des Dateisystems, ist ein Arbeitsbereich eine XML-Datei mit der Endung ".tmt".
+    
+    @section \end
+
+    @section Projekt
+    
+    Ein Projekt enthält die einzelnen Aufgaben und kann selbst wieder (Unter-)Projekte enthalten.
+    Sie können keinen Zeiten nur für ein Projekt erfassen, es wird mindestens eine Aufgabe
+    unterhalb des Projektes benötigt.
+
+	Projekte sind optional. Sie brauchen keine Projekte zu verwenden, sondern können die
+	Aufgaben auch direkt unterhalb des Arbeitsbereiches anlegen.
+    
+    @section \end
+
+    @section Aufgabe
+    
+    Eine Aufgabe ist die kleinste Einheit, für welche Sie Zeiten erfassen können.
+    Im Gegensatz zu den Projekten gibt es keine weitere Untergliederung der Aufgaben.
+    Somit bleiben die erfassten Zeiten klar und eindeutig.
+    
+    @section \end
+
+    @section Untätigkeit / Leerlauf \id idle
+
+	Der Arbeitsbereich ermöglicht die Erfassung von Untätigkeit oder Leerlaufzeiten
+	mit der dafür vorgesehenen Aufgabe "Untätig". Diese Aufgabe ist Bestandteil eines
+	jeden Arbeitsbereiches aber ist standardmässig deaktiviert.
+
+    @section \end
+    
+@section \end
