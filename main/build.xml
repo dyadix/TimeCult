@@ -1,7 +1,7 @@
 <!--
     TimeCult Build File
     
-    Copyright (c) R.Vishnyakov, 2005-2010 <dyadix@gmail.com>
+    Copyright (c) R.Vishnyakov, 2005-2011 <dyadix@gmail.com>
 
      BUILD TARGETS:
 
@@ -24,214 +24,226 @@
 -->
 <project name="TimeCult" default="all" basedir=".">
 
-        <!-- Configure the context path for this application -->
-        <property name="path" value="/${appname}"/>
+    <!-- Configure the context path for this application -->
+    <property name="path" value="/${appname}"/>
 
-        <!-- Configure directories for building -->
-        <property name="source" location="src"/>
-        <property name="resources" location="resources"/>
-        <property name="build" location="build"/>
-        <property name="classes" location="${build}/classes"/>
-        <property name="lib" location="lib"/>
-        <property name="dist" location="dist"/>
-        <property name="javadoc" location="${build}/doc/java"/>
-        <property name="appname" value="timecult"/>
-        <property name="appfile" value="${appname}.jar"/>
-        <property name="version-file" location="version.number"/>
-        <property name="appinfo-file" value="${classes}/net/sf/timecult/appinfo.properties"/>
-        <property file="build.properties"/>
-        <property file="${version-file}"/>
-		<property name="temp.dir" location="build/temp"/>
-        <property name="doc.temp" location="${temp.dir}/doc"/>
-        <property name="setup.ini" location="setup.ini"/>
-        <property name="docmc.jar"    location="tools/docmc.jar"/> <!-- DocMC compiler -->
-        <property name="doc.base" location="doc"/>
+    <!-- Configure directories for building -->
+    <property name="source" location="src"/>
+    <property name="resources" location="resources"/>
+    <property name="build" location="build"/>
+    <property name="classes" location="${build}/classes"/>
+    <property name="lib" location="lib"/>
+    <property name="dist" location="dist"/>
+    <property name="javadoc" location="${build}/doc/java"/>
+    <property name="appname" value="timecult"/>
+    <property name="appfile" value="${appname}.jar"/>
+    <property name="version-file" location="version.number"/>
+    <property name="appinfo-file" value="${classes}/net/sf/timecult/appinfo.properties"/>
+    <property file="build.properties"/>
+    <property file="${version-file}"/>
+    <property name="temp.dir" location="build/temp"/>
+    <property name="doc.temp" location="${temp.dir}/doc"/>
+    <property name="setup.ini" location="setup.ini"/>
+    <property name="docmc.jar" location="tools/docmc.jar"/>
+    <!-- DocMC compiler -->
+    <property name="doc.base" location="doc"/>
 
-        <!-- Configure the custom Ant tasks for the Manager application -->
-        <path id="classpath.id">
+    <condition property="isOsWindows">
+        <os family="windows"/>
+    </condition>
+
+    <condition property="isOsLinux">
+        <os family="unix"/>
+    </condition>
+
+    <!-- Configure the custom Ant tasks for the Manager application -->
+    <path id="classpath.id">
+        <fileset dir="${lib}">
+            <include name="*.jar"/>
+            <exclude name="swt.jar"/>
+        </fileset>
+        <fileset dir="${swt.dir}">
+            <filename name="swt.jar"/>
+        </fileset>
+    </path>
+
+    <target name="init" depends="update-build-number">
+        <tstamp>
+            <format property="TODAY" pattern="MMMM d, yyyy" locale="en"/>
+        </tstamp>
+        <property file="build.number"/>
+        <property name="build-stamp" value="${appname}-${major}.${minor}-${build.number}"/>
+    </target>
+
+
+    <!-- Deploy to the final location -->
+    <target name="deploy" depends="package">
+        <copy todir="${deploy.dir}">
+            <fileset dir="${dist}">
+                <include name="${appfile}"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="all" depends="dist,source-package,winsetup"/>
+
+    <!-- Compile all the application -->
+    <target name="compile" depends="init">
+        <mkdir dir="${classes}"/>
+        <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" debug="on">
+            <classpath refid="classpath.id"/>
+        </javac>
+    </target>
+
+    <!-- Build the application and copy all resoruce to build directory -->
+    <target name="build" depends="localize,compile,manifest" description="Compile app Java files and copy resources">
+        <copy todir="${classes}">
+            <fileset dir="${resources}">
+                <include name="**/*.png"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.properties"/>
+                <include name="**/*.html"/>
+                <include name="**/*.ttf"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- Make a package -->
+    <target name="package" depends="build,appinfo" description="Packages .jar file">
+        <echo message="Packaging to .jar file...."/>
+        <mkdir dir="${dist}"/>
+        <!-- <delete file="${dist}/${appfile}" /> -->
+        <jar jarfile="${dist}/${appfile}" manifest="${classes}/manifest.mf">
+            <fileset dir="${classes}">
+                <include name="**/*.class"/>
+                <include name="**/*.gif"/>
+                <include name="**/*.png"/>
+                <include name="**/*.properties"/>
+                <include name="**/*.html"/>
+                <include name="**/*.ttf"/>
+            </fileset>
+        </jar>
+        <!-- Copy libraries -->
+        <mkdir dir="${dist}/lib"/>
+        <copy todir="${dist}/lib">
             <fileset dir="${lib}">
-                <include name="*.jar"/>
+                <include name="**/*.jar"/>
+                <exclude name="skylf.jar"/>
                 <exclude name="swt.jar"/>
             </fileset>
             <fileset dir="${swt.dir}">
-                <filename name="swt.jar"/>
+                <include name="swt.jar"/>
             </fileset>
-        </path>
+            <fileset dir="${lib}" includes="*.txt,*.TXT"/>
+        </copy>
+        <copy todir="${dist}">
+            <fileset dir="." includes="*.txt,*.TXT"/>
+            <fileset dir="${lib}" includes="*.dll" excludes="swt*.dll"/>
+            <!-- Native libraries -->
+        </copy>
+        <!--
+        <copy todir="${dist}/${appfile}!">
+            <fileset dir="${resources}">
+                <include name="**/*.html" />
+                <include name="**/*.gif" />
+                <include name="**/*.png" />
+            </fileset>
+        </copy>
+        -->
+    </target>
 
-        <target name="init" depends="update-build-number"> 
-            <tstamp>
-                <format property="TODAY" pattern="MMMM d, yyyy" locale="en"/>
-            </tstamp>            
-            <property file="build.number"/>
-            <property name="build-stamp" value="${appname}-${major}.${minor}-${build.number}"/>                
-        </target>
-
-        
-        <!-- Deploy to the final location -->
-        <target name="deploy" depends="package">
-            <copy todir="${deploy.dir}">
-                <fileset dir="${dist}">
-                    <include name="${appfile}"/>
-                </fileset>
-            </copy>
-        </target>
-
-        <target name="all" depends="dist,source-package,winsetup"/>
-
-        <!-- Compile all the application -->
-        <target name="compile" depends="init">
-            <mkdir dir="${classes}"/>
-            <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" debug="on">
-                <classpath refid="classpath.id"/>
-            </javac>
-        </target>
-
-        <!-- Build the application and copy all resoruce to build directory -->
-        <target name="build" depends="localize,compile,manifest" description="Compile app Java files and copy resources">
-            <copy todir="${classes}">
-                <fileset dir="${resources}">
-                    <include name="**/*.png"/>
-                    <include name="**/*.gif"/>
-                    <include name="**/*.properties"/>
-                    <include name="**/*.html"/>
-					<include name="**/*.ttf"/>
-                </fileset>
-            </copy>
-        </target>
-
-        <!-- Make a package -->
-        <target name="package" depends="build,appinfo" description="Packages .jar file">
-            <echo message="Packaging to .jar file...." />
-            <mkdir dir="${dist}" />
-            <!-- <delete file="${dist}/${appfile}" /> -->
-            <jar jarfile="${dist}/${appfile}" manifest="${classes}/manifest.mf">
-                <fileset dir="${classes}">
-                    <include name="**/*.class" />
-                    <include name="**/*.gif" />
-                    <include name="**/*.png" />
-                    <include name="**/*.properties" />
-                    <include name="**/*.html" />
-					<include name="**/*.ttf"/>
-                </fileset>
-            </jar>
-            <!-- Copy libraries -->
-            <mkdir dir="${dist}/lib" />
-            <copy todir="${dist}/lib">
-                <fileset dir="${lib}">
-                    <include name="**/*.jar" />
-                    <exclude name="skylf.jar"/>
-                    <exclude name="swt.jar"/>
-                </fileset>
-                <fileset dir="${swt.dir}">
-                    <include name="swt.jar" />
-                </fileset>
-                <fileset dir="${lib}" includes="*.txt,*.TXT"/>
-            </copy>
-            <copy todir="${dist}">
-                <fileset dir="." includes="*.txt,*.TXT"/>
-                <fileset dir="${lib}" includes="*.dll" excludes="swt*.dll"/> <!-- Native libraries -->
-            </copy>
-            <!--
-            <copy todir="${dist}/${appfile}!">
-                <fileset dir="${resources}">
-                    <include name="**/*.html" />
-                    <include name="**/*.gif" />
-                    <include name="**/*.png" />
-                </fileset>
-            </copy>
-            -->
-        </target>
-
-        <!-- Clean up build results -->
-        <target name="clean">
-            <delete dir="${dist}"/>
-            <delete dir="${build}"/>
-            <delete>
-                <fileset dir="." includes="*.zip,*.log,*.exe"/>
-            </delete>
-        </target>
+    <!-- Clean up build results -->
+    <target name="clean">
+        <delete dir="${dist}"/>
+        <delete dir="${build}"/>
+        <delete>
+            <fileset dir="." includes="*.zip,*.log,*.exe"/>
+        </delete>
+    </target>
 
 
-        <!-- Create manifest file -->
-        <target name="manifest">
-            <mkdir dir="${classes}"/>
-            <manifest file="${classes}/manifest.mf">
-                <attribute name="Built-By" value="rvishnyakov"/>
-                <attribute name="Main-Class" value="net.sf.timecult.TimeTracker"/>
-                <attribute name="Class-Path" value="lib/swt.jar lib/swtcalendar.jar lib/xmlenc-0.52.jar lib/iText-5.0.2.jar"/>
-            </manifest>
-        </target>
+    <!-- Create manifest file -->
+    <target name="manifest">
+        <mkdir dir="${classes}"/>
+        <manifest file="${classes}/manifest.mf">
+            <attribute name="Built-By" value="rvishnyakov"/>
+            <attribute name="Main-Class" value="net.sf.timecult.TimeTracker"/>
+            <attribute name="Class-Path"
+                       value="lib/swt.jar lib/swtcalendar.jar lib/xmlenc-0.52.jar lib/iText-5.0.2.jar"/>
+        </manifest>
+    </target>
 
-        <!-- Create application info -->
-        <target name="appinfo" depends="init">            
-            <propertyfile file="${appinfo-file}">
-                <entry key="appname" value="TimeCult"/>
-                <entry key="author"  value="rvishnyakov"/>
-                <entry key="eMail" value="dyadix@gmail.com"/>
-                <entry key="majorVersion" value="${major}"/>
-                <entry key="minorVersion" value="${minor}"/>
-                <entry key="versionType" value="Beta"/>
-                <entry key="build" value="${build.number}"/>
-                <entry key="buildDate" value="${TODAY}"/>
-            </propertyfile>
-        </target>
+    <!-- Create application info -->
+    <target name="appinfo" depends="init">
+        <propertyfile file="${appinfo-file}">
+            <entry key="appname" value="TimeCult"/>
+            <entry key="author" value="rvishnyakov"/>
+            <entry key="eMail" value="dyadix@gmail.com"/>
+            <entry key="majorVersion" value="${major}"/>
+            <entry key="minorVersion" value="${minor}"/>
+            <entry key="versionType" value="Beta"/>
+            <entry key="build" value="${build.number}"/>
+            <entry key="buildDate" value="${TODAY}"/>
+        </propertyfile>
+    </target>
 
-        <!-- Create a distributable package -->
-        <target name="dist" depends="launcher">                        
-            <zip destfile="./${build-stamp}-win32-portable.zip">
-                <zipfileset dir="${dist}" prefix="${build-stamp}"/>
-            </zip>
-        </target>
+    <!-- Create a distributable package -->
+    <target name="dist" depends="launcher">
+        <zip destfile="./${build-stamp}-win32-portable.zip">
+            <zipfileset dir="${dist}" prefix="${build-stamp}"/>
+        </zip>
+    </target>
 
 
-        <target name="launcher" depends="package">
-            <copy file="${winrun4j.dir}/bin/WinRun4J.exe" tofile="${dist}/timecult.exe"/>
-            <copy file="${basedir}/timecult.ini" todir="${dist}"/>
-            <copy file="${basedir}/splash.gif" todir="${dist}"/>
-            <exec executable="${winrun4j.dir}/bin/RCEDIT.EXE">
-                <arg value="/I"/>
-                <arg value="${dist}/timecult.exe"/>
-                <arg value="${basedir}/timecult.ico"/>
-            </exec>
-        </target>
-        
-        <!-- Create Windows setup file -->
-        <target name="winsetup" depends="launcher,gen-iss-version-info">
-            <property name="build-stamp" value="${appname}-${major}.${minor}-${build.number}"/>
-            <exec executable="${innosetup.dir}/ISCC" failonerror="true">
-                <arg value="/O${basedir}"/>
-                <arg value="/F${build-stamp}-win32-setup"/>
-                <arg value="timecult-win32.iss"/>
-            </exec>
-        </target>
+    <target name="launcher" depends="package" if="isOsWindows">
+        <copy file="${winrun4j.dir}/bin/WinRun4J.exe" tofile="${dist}/timecult.exe"/>
+        <copy file="${basedir}/timecult.ini" todir="${dist}"/>
+        <copy file="${basedir}/splash.gif" todir="${dist}"/>
+        <exec executable="${winrun4j.dir}/bin/RCEDIT.EXE">
+            <arg value="/I"/>
+            <arg value="${dist}/timecult.exe"/>
+            <arg value="${basedir}/timecult.ico"/>
+        </exec>
+    </target>
 
-        <target name="localize">
-            <native2ascii encoding="cp1251" src="${resources}" dest="${resources}" includes="**/*.cp1251" ext=".properties"/>
-        </target>
-        
-        <target name="source-package" depends="init">
-            <zip destfile="./${build-stamp}-src.zip">
-                <fileset dir="." includes="build.number,build.properties,build.xml,gpl.txt,launch4j.xml"/>
-                <fileset dir="." includes="readme.txt,timecult.ico,timecult-win32.iss,version.number"/>
-                <zipfileset dir="src" includes="*/**" excludes="**/CVS" prefix="src"/>
-                <zipfileset dir="resources" includes="*/**" excludes="**/CVS" prefix="resources"/>
-                <zipfileset dir="lib" includes="*/**" excludes="**/CVS" prefix="lib"/>
-                <zipfileset dir="tools" includes="*/**" excludes="**/CVS" prefix="tools"/>
-                <zipfileset dir="doc" includes="*/**" excludes="**/CVS" prefix="doc"/>
-            </zip>
-        </target>
+    <!-- Create Windows setup file -->
+    <target name="winsetup" depends="launcher,gen-iss-version-info" if="isOsWindows">
+        <property name="build-stamp" value="${appname}-${major}.${minor}-${build.number}"/>
+        <exec executable="${innosetup.dir}/ISCC" failonerror="true">
+            <arg value="/O${basedir}"/>
+            <arg value="/F${build-stamp}-win32-setup"/>
+            <arg value="timecult-win32.iss"/>
+        </exec>
+    </target>
 
-        <target name="update-build-number">
-            <propertyfile file="build.number" comment="Generated automatically. Don&apos;t change!">
-                <entry key="build.number" type="int" default="000" operation="+" pattern="000"/>
-            </propertyfile>
-        </target>
-        
+    <target name="localize">
+        <native2ascii encoding="cp1251" src="${resources}" dest="${resources}" includes="**/*.cp1251"
+                      ext=".properties"/>
+    </target>
 
-        <!-- Generate Java documentation -->
-        <target name="javadoc" description="Generate java documentation">
-            <mkdir dir="${javadoc}"/>
-            <javadoc 
+    <target name="source-package" depends="init">
+        <zip destfile="./${build-stamp}-src.zip">
+            <fileset dir="." includes="build.number,build.properties,build.xml,gpl.txt,launch4j.xml"/>
+            <fileset dir="." includes="readme.txt,timecult.ico,timecult-win32.iss,version.number"/>
+            <zipfileset dir="src" includes="*/**" excludes="**/CVS" prefix="src"/>
+            <zipfileset dir="resources" includes="*/**" excludes="**/CVS" prefix="resources"/>
+            <zipfileset dir="lib" includes="*/**" excludes="**/CVS" prefix="lib"/>
+            <zipfileset dir="tools" includes="*/**" excludes="**/CVS" prefix="tools"/>
+            <zipfileset dir="doc" includes="*/**" excludes="**/CVS" prefix="doc"/>
+        </zip>
+    </target>
+
+    <target name="update-build-number">
+        <propertyfile file="build.number" comment="Generated automatically. Don&apos;t change!">
+            <entry key="build.number" type="int" default="000" operation="+" pattern="000"/>
+        </propertyfile>
+    </target>
+
+
+    <!-- Generate Java documentation -->
+    <target name="javadoc" description="Generate java documentation">
+        <mkdir dir="${javadoc}"/>
+        <javadoc
                 packagenames="*"
                 sourcepath="src"
                 destdir="${javadoc}"
@@ -239,17 +251,17 @@
                 package="true"
                 windowtitle="TimeCult"
                 bottom="Copyright (c) R.Vishnyakov, 2005-2010">
-            </javadoc>
-        </target>
-		
-		<target name="gen-iss-version-info" depends="init">
-			<mkdir dir="${temp.dir}"/>
-			<echo file="${temp.dir}/version.iss">
-[Setup]
-AppVerName=TimeCult ${major}.${minor}.${build.number}
-VersionInfoVersion=${major}.${minor}.${build.number}
-			</echo>
-		</target>
+        </javadoc>
+    </target>
+
+    <target name="gen-iss-version-info" depends="init" if="isOsWindows">
+        <mkdir dir="${temp.dir}"/>
+        <echo file="${temp.dir}/version.iss">
+            [Setup]
+            AppVerName=TimeCult ${major}.${minor}.${build.number}
+            VersionInfoVersion=${major}.${minor}.${build.number}
+        </echo>
+    </target>
 
 
     <target name="upload-doc" depends="doc">
@@ -261,14 +273,14 @@ VersionInfoVersion=${major}.${minor}.${build.number}
         </scp>
     </target>
 
-        <!-- Generate documentation -->
-        <target name="doc">
-            <antcall target="dm2help">
-                <param name="doc.src" value="${doc.base}/manual"/>
-                <param name="doc.out" value="${build}/doc"/>
-                <param name="help.file" value="timecult_en.chm"/>
-            </antcall>
-        </target>
+    <!-- Generate documentation -->
+    <target name="doc">
+        <antcall target="dm2help">
+            <param name="doc.src" value="${doc.base}/manual"/>
+            <param name="doc.out" value="${build}/doc"/>
+            <param name="help.file" value="timecult_en.chm"/>
+        </antcall>
+    </target>
 
     <!-- Assamble help file from .dm files -->
     <target name="dm2help">
