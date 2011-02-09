@@ -213,17 +213,25 @@ public class SWTTimerWindow implements StopwatchListener {
         }
     }
 
+    private boolean mustKeep(TimeRecord record) {
+        if (_timeRec.getDuration().getValue() == 0 && AppPreferences.getInstance().isDontSaveEmptyTimeRec()) {
+            return false;
+        }
+        return true;
+    }
 
     private TimeRecord getTimeRecord() {
         if (_timeRec == null) {
             _timeRec = workspace.createRecord(
                 _task,
                 _stopwatch.getStartTime(),
-                _stopwatch.getDuration(),
+                _workspace.roundUpTime(_stopwatch.getDuration()),
                 "running...",
                 true);
-            TimeTracker.getInstance().getWorkspace()
-                .recordTimeEx(_timeRec, false);
+            if (mustKeep(_timeRec)) {
+                TimeTracker.getInstance().getWorkspace()
+                        .recordTimeEx(_timeRec, false);
+            }
         }
         return _timeRec;
     }
@@ -232,7 +240,6 @@ public class SWTTimerWindow implements StopwatchListener {
     private void addTimeRecord() {
         AppPreferences appPrefs = TimeTracker.getInstance().getAppPreferences();
         TimeRecord timeRec = getTimeRecord();
-        timeRec.setDuration(_workspace.roundUpTime(_stopwatch.getDuration()));
         timeRec.setNotes("");
         TimeLogEntryEditDialog entryDialog = null;
         if (appPrefs.isShowRecEditDialog()) {
@@ -240,7 +247,9 @@ public class SWTTimerWindow implements StopwatchListener {
                 true);
         }
         else {
-            TimeTracker.getInstance().getWorkspace().recordTimeFinish(timeRec);
+            if (mustKeep(timeRec)) {
+                TimeTracker.getInstance().getWorkspace().recordTimeFinish(timeRec);
+            }
         }
         _parent.restoreWindow();
         _shell.dispose();
