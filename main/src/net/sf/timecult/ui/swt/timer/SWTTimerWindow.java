@@ -184,9 +184,11 @@ public class SWTTimerWindow implements StopwatchListener {
                 _parent.showPopupMessage(_task.toString() + "\n"
                     + Formatter.toDurationString(_duration, true));
             }
-            if (_duration - _lastIntervalTime >= _saveTimersInterval) {
+            long intervalTime = _duration - _lastIntervalTime;
+            intervalTime = _workspace.roundUpTime(intervalTime);
+            if (intervalTime >= _saveTimersInterval) {
                 _lastIntervalTime = _duration;
-                getTimeRecord().setDuration(_stopwatch.getDuration());
+                getTimeRecord().setDuration(_workspace.roundUpTime(_stopwatch.getDuration()));
                 if (!_display.isDisposed()) {
                     _display.asyncExec(new Runnable() {
 
