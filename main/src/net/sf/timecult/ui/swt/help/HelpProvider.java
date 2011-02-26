@@ -38,6 +38,6 @@ public class HelpProvider {
      */
     public static void openHelp() {
         String baseUrl = ResourceHelper.getString("help.baseUrl");
-        Program.launch(baseUrl + "/index.html");
+        Program.launch(baseUrl);
     }
 }
