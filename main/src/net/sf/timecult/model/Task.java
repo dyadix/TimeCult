@@ -2,7 +2,7 @@
  * File: Task.java
  * Created: 20.05.2005
  *
- * Copyright (c) Rustam Vishnyakov, 2005-2006 (rvishnyakov@yahoo.com)
+ * Copyright (c) Rustam Vishnyakov, 2005-2011 (rvishnyakov@yahoo.com)
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,6 +70,14 @@ public class Task extends ProjectTreeItem implements Totals, DescriptionHolder {
     public void setStatus(int statusId) {
         _status.setId(statusId);
         updateCloseDateTime(statusId);
+    }
+
+    public void setFlagColor(TaskStatus.FlagColor flagColor) {
+        _status.setFlagColor(flagColor);
+    }
+
+    public TaskStatus.FlagColor getFlagColor() {
+        return _status.getFlagColor();
     }
 
     public void setStatusFromString(String str) {

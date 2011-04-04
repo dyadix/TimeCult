@@ -34,6 +34,15 @@ public class TaskStatus {
     private final static String CANCELLED_STR = "cancelled";
     private final static String FLAGGED_STR = "flagged";
     private final static String WAITING_STR = "waiting";
+
+    public enum FlagColor {
+        RED,
+        GREEN,
+        BLUE
+    }
+
+    private int _id = NOT_STARTED;
+    private FlagColor flagColor = FlagColor.RED;
     
     
     public TaskStatus(int id) {
@@ -45,6 +54,13 @@ public class TaskStatus {
         this._id = NOT_STARTED;
     }
 
+    public void setFlagColor(FlagColor flagColor) {
+        this.flagColor = flagColor;
+    }
+
+    public FlagColor getFlagColor() {
+        return this.flagColor;
+    }
     
     public String toString() {
         switch (_id) {
@@ -108,5 +124,17 @@ public class TaskStatus {
         return _id == FINISHED;
     }
 
-    private int _id = NOT_STARTED;
+    public static FlagColor parseColorString(String str) {
+        return FlagColor.valueOf(str);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof TaskStatus)) return false;
+        TaskStatus otherStatus = (TaskStatus)obj;
+        if (_id == FLAGGED) {
+            return (otherStatus.getId() == FLAGGED) && (otherStatus.getFlagColor() == flagColor);
+        }
+        return otherStatus.getId() == _id;
+    }
 }

@@ -28,7 +28,7 @@ public interface WorkspaceXMLElements {
     /*
      * The current file version. File versions are not backwards compatible.
      */
-    public final static int FILE_VERSION = 10;
+    public final static int FILE_VERSION = 11;
 
     /*
      * Tag and attribute names
@@ -67,6 +67,7 @@ public interface WorkspaceXMLElements {
     public final static String FILTER_END_TIME = "endTime";
     public final static String HYPERLINK_ATTR = "url";
     public final static String DEFAULT_NOTE_ATTR = "defaultNote";
+    public final static String FLAG_COLOR_ATTR = "flagColor";
 
     /*
      * Settings (properties)

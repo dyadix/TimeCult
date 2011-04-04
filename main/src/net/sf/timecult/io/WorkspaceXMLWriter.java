@@ -189,8 +189,7 @@ public class WorkspaceXMLWriter implements WorkspaceXMLElements {
     
     private void addTasks(Project parent) throws Exception {
         Task[] tasks = parent.getTasks(SortCriteria.DEFAULT);
-        for (int i = 0; i < tasks.length; i++) {
-            Task task = tasks[i];
+        for (Task task : tasks) {
             switch(task.getItemType()) {
             case TASK:
             case IDLE_TASK:
@@ -203,6 +202,9 @@ public class WorkspaceXMLWriter implements WorkspaceXMLElements {
             this.output.attribute(ID_ATTR, task.getId());
             this.output.attribute(NAME_ATTR, task.getName());
             this.output.attribute(STATUS_ATTR, task.getStatusAsString());
+            if (task.isFlagged()) {
+                this.output.attribute(FLAG_COLOR_ATTR, task.getFlagColor().toString());
+            }
             if (task.getItemType() == ItemType.IDLE_TASK) {
                 if (((IdleTask) task).getDefaultNote() != null) {
                     this.output.attribute(DEFAULT_NOTE_ATTR, ((IdleTask) task)

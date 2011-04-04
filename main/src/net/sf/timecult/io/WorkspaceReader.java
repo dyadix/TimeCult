@@ -160,6 +160,7 @@ public class WorkspaceReader extends DefaultHandler implements
                 String taskId = attributes.getValue(ID_ATTR);
                 String taskName = attributes.getValue(NAME_ATTR);
                 String taskStatus = attributes.getValue(STATUS_ATTR);
+                String flagColorStr = attributes.getValue(FLAG_COLOR_ATTR);
                 if (taskId != null && taskName != null) {
                     Task task = null;
                     if (isActivity) {
@@ -180,6 +181,9 @@ public class WorkspaceReader extends DefaultHandler implements
                     }
                     if (taskStatus != null) {
                         task.setStatusFromString(taskStatus);
+                    }
+                    if (flagColorStr != null) {
+                        task.setFlagColor(TaskStatus.parseColorString(flagColorStr));
                     }
                     setCommonItemAttributes(attributes, task);
                     String taskFlags = attributes.getValue(FLAGS_ATTR);
