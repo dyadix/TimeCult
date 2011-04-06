@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rustam Vishnyakov, 2005-2009 (dyadix@gmail.com)
+ * Copyright (c) Rustam Vishnyakov, 2005-2011 (dyadix@gmail.com)
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,7 +44,19 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 
 public class SWTProjectTreePopup implements WorkspaceListener {
-	
+
+    private SWTProjectTreeView _treeView;
+    private Menu _popup;
+    private MenuItem _deleteItem;
+    private MenuItem _doneItem;
+    private MenuItem _enableIdle;
+    private MenuItem _disableIdle;
+    private MenuItem _cancelItem;
+    private MenuItem _markWithItem;
+    private MenuItem _waitItem;
+    private MenuItem _reopenItem;
+    private ProjectTreeItem _selection;
+
 	public SWTProjectTreePopup(SWTProjectTreeView projTreeView) {
 		_treeView = projTreeView;
 		setup(projTreeView.getTree());
@@ -141,21 +153,16 @@ public class SWTProjectTreePopup implements WorkspaceListener {
     private void createTaskItems() {
         Task task = (Task) _selection;
         boolean isActivity = task.getItemType().equals(ProjectTreeItem.ItemType.ACTIVITY);
-        _flagItem = new MenuItem(_popup, SWT.CASCADE);
-        setFlagItemText(task);
-        _flagItem.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent evt) {
-                if (_selection != null && _selection instanceof Task) {
-                    Task task = (Task) _selection;
-                    if (task.isFlagged()) {
-                        fireStatusChanged(TaskStatus.IN_PROGRESS);
-                    }
-                    else {
-                        fireStatusChanged(TaskStatus.FLAGGED);
-                    }
-                }
-            }
-        });
+
+        Menu markWithMenu = new Menu(_popup);
+        _markWithItem = new MenuItem(_popup, SWT.CASCADE);
+        _markWithItem.setMenu(markWithMenu);
+        _markWithItem.setText("Mark with");
+
+        createFlagItem(markWithMenu, "Red Flag", TaskStatus.FlagColor.RED);
+        createFlagItem(markWithMenu, "Green Flag", TaskStatus.FlagColor.GREEN);
+        createFlagItem(markWithMenu, "Blue Flag", TaskStatus.FlagColor.BLUE);
+        createFlagItem(markWithMenu, "Clear Flag", null);
 
         if (!isActivity) {
             createWaitMenu();
@@ -170,7 +177,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
             _doneItem.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
                     if (_selection != null && _selection instanceof Task) {
-                        fireStatusChanged(TaskStatus.FINISHED);
+                        changeStatus(TaskStatus.FINISHED);
                     }
                 }
             });
@@ -182,7 +189,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
         _cancelItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 if (_selection != null && _selection instanceof Task) {
-                    fireStatusChanged(TaskStatus.CANCELLED);
+                    changeStatus(TaskStatus.CANCELLED);
                 }
             }
         });
@@ -193,7 +200,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
         _reopenItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 if (_selection != null && _selection instanceof Task) {
-                    fireStatusChanged(TaskStatus.IN_PROGRESS);
+                    changeStatus(TaskStatus.IN_PROGRESS);
                 }
             }
         });
@@ -204,7 +211,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
                 _waitItem.setEnabled(false);
             }
             _cancelItem.setEnabled(false);
-            _flagItem.setEnabled(false);            
+            _markWithItem.setEnabled(false);
             _reopenItem.setEnabled(!task.hasClosedParent());
         }
         else {
@@ -213,7 +220,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
                 _waitItem.setEnabled(true);
             }
             _cancelItem.setEnabled(true);
-            _flagItem.setEnabled(true);            
+            _markWithItem.setEnabled(true);
             _reopenItem.setEnabled(false);
         }
 
@@ -334,14 +341,21 @@ public class SWTProjectTreePopup implements WorkspaceListener {
 		setup(_treeView.getTree());
 	}
     
-    private void fireStatusChanged(int statusId) {
-        fireStatusChanged(statusId, null);
+    private void changeStatus(int statusId) {
+        changeStatus(new TaskStatus(statusId), null);
+    }
+
+    private void changeStatus(TaskStatus newStatus) {
+        changeStatus(newStatus, null);
     }
     
-    private void fireStatusChanged(int statusId, WaitReason waitReason) {
+    private void changeStatus(TaskStatus status, WaitReason waitReason) {
         Task task = (Task) _selection;
         boolean isActivity = task.getItemType().equals(ProjectTreeItem.ItemType.ACTIVITY);
-        task.setStatus(statusId);
+        task.setStatus(status.getId());
+        if (status.getId() == TaskStatus.FLAGGED) {
+            task.setFlagColor(status.getFlagColor());
+        }
         task.setWaitReason(waitReason);
         if (task.isClosed()) {
             if (!isActivity) {
@@ -349,10 +363,10 @@ public class SWTProjectTreePopup implements WorkspaceListener {
                 _waitItem.setEnabled(false);
             }
             _cancelItem.setEnabled(false);
-            _flagItem.setEnabled(false);            
+            _markWithItem.setEnabled(false);
             task.setCloseDateTime(Calendar.getInstance().getTime());
         }
-        setFlagItemText(task);
+        //setFlagItemText(task);
         TimeTracker
                 .getInstance()
                 .getWorkspace()
@@ -364,7 +378,8 @@ public class SWTProjectTreePopup implements WorkspaceListener {
         //_treeView.getParent().getMainMenu().updateFlagged();
         _treeView.getParent().getStatusLine().setSelection(task);
     }
-    
+
+    /*
     private void setFlagItemText(Task task) {
         if (task.isFlagged()) {
             _flagItem.setText(ResourceHelper.getString("menu.status.unsetFlag"));
@@ -375,6 +390,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
             _flagItem.setImage(getIcon("flagged"));
         }
     }
+    */
     
     private Image getIcon(String iconTag) {
         return _treeView.getParent().getIconSet().getIcon(iconTag, true);
@@ -423,7 +439,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
     }
     
     public void setWaiting(WaitReason reason) {
-        fireStatusChanged(TaskStatus.WAITING, reason);
+        changeStatus(new TaskStatus(TaskStatus.WAITING), reason);
     }
     
     
@@ -439,18 +455,32 @@ public class SWTProjectTreePopup implements WorkspaceListener {
             }
         }
     }
-	
-	private SWTProjectTreeView _treeView;
-	private Menu _popup;
-	private MenuItem _deleteItem;
-	private MenuItem _doneItem;
-	private MenuItem _enableIdle;
-	private MenuItem _disableIdle;
-    private MenuItem _cancelItem;
-    private MenuItem _flagItem;
-    private MenuItem _waitItem;
-    private MenuItem _reopenItem;    
-	private ProjectTreeItem _selection;
-    
-	
+
+    private MenuItem createFlagItem(Menu markWithMenu, String text, final TaskStatus.FlagColor flagColor) {
+        MenuItem flagItem = new MenuItem(markWithMenu, SWT.CASCADE);
+        flagItem.setText(text);
+        if (flagColor != null) {
+            flagItem.addSelectionListener(new SelectionAdapter() {
+                public void widgetSelected(SelectionEvent evt) {
+                    if (_selection != null && _selection instanceof Task) {
+                        TaskStatus newStatus = new TaskStatus(TaskStatus.FLAGGED);
+                        newStatus.setFlagColor(flagColor);
+                        changeStatus(newStatus);
+                    }
+                }
+            });
+        } else {
+            flagItem.addSelectionListener(new SelectionAdapter() {
+                public void widgetSelected(SelectionEvent evt) {
+                    if (_selection != null && _selection instanceof Task) {
+                        Task task = (Task) _selection;
+                        if (task.isFlagged()) {
+                            changeStatus(TaskStatus.IN_PROGRESS);
+                        }
+                    }
+                }
+            });
+        }
+        return flagItem;
+    }
 }
