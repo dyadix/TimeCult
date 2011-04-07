@@ -51,7 +51,11 @@ public class IconSet {
         imageMap.put("workspace.enabled", createImage(display, "cog.png"));
         imageMap.put("cancel.enabled", createImage(display, "cancel.png"));
         imageMap.put("cancelled.enabled", createImage(display, "cancelled.png"));
-        imageMap.put("flagged.enabled", createImage(display, "flag_red.png"));
+
+        imageMap.put("redFlag.enabled", createImage(display, "flag_red.png"));
+        imageMap.put("greenFlag.enabled", createImage(display, "flag_green.png"));
+        imageMap.put("blueFlag.enabled", createImage(display, "flag_blue.png"));
+
         imageMap.put("open.enabled",createImage(display, "fileopen.png"));
         imageMap.put("open.disabled", createImage(display, "fileopen.png"));
         imageMap.put("delete.enabled", createImage(display, "delete.png"));

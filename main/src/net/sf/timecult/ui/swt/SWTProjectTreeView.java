@@ -59,9 +59,29 @@ public class SWTProjectTreeView implements AppPreferencesListener {
     
     private Color normalTextColor;
     private Color disabledTextColor;
-    private Color flaggedTextColor;
+    private final Color refFlagTextColor;
+    private final Color greenFlagTextColor;
+    private final Color blueFlagTextColor;
     private HashMap<Integer,Font> fontMap = new HashMap<Integer,Font>();
     private SortCriteria sortCriteria = SortCriteria.BY_NAME;
+
+    private Tree _tree = null;
+    private SWTMainWindow _mainWindow = null;
+    private SWTProjectTreePopup _popup;
+    private HashMap<Object,TreeItem> _itemHash = new HashMap<Object,TreeItem>();
+    final private Image _workspaceImage;
+    final private Image _projectImage;
+    final private Image _newTaskImage;
+    final private Image _inProgressImage;
+    final private Image _finishedImage;
+    final private Image _cancelledImage;
+    final private Image _redFlagImage;
+    final private Image _greenFlagImage;
+    final private Image _blueFlagImage;
+    final private Image _idleImage;
+    final private Image _waitingImage;
+    final private Image _activityImage;
+    final private Image _closedProjectImage;
 
 	public SWTProjectTreeView(SWTMainWindow mainWindow) {
         _mainWindow = mainWindow;
@@ -91,7 +111,11 @@ public class SWTProjectTreeView implements AppPreferencesListener {
         _inProgressImage = iconSet.getIcon("inProgress", true);
         _finishedImage = iconSet.getIcon("finished", true);
         _cancelledImage = iconSet.getIcon("cancelled", true);
-        _flaggedImage = iconSet.getIcon("flagged", true);
+
+        _redFlagImage = iconSet.getIcon("redFlag", true);
+        _greenFlagImage = iconSet.getIcon("greenFlag", true);
+        _blueFlagImage = iconSet.getIcon("blueFlag", true);
+
         _idleImage = iconSet.getIcon("idle", true);
         _waitingImage = iconSet.getIcon("waiting", true);
         _activityImage = iconSet.getIcon("activity", true);
@@ -101,8 +125,9 @@ public class SWTProjectTreeView implements AppPreferencesListener {
             128, 128, 192);
         this.normalTextColor = new Color(_mainWindow.getShell().getDisplay(),
             0, 0, 0);
-        this.flaggedTextColor = new Color(_mainWindow.getShell().getDisplay(),
-            255, 0, 0);
+        this.refFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 255, 0, 0);
+        this.greenFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 0, 127, 0);
+        this.blueFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 0, 0, 255);
         
         AppPreferences.getInstance().addListener(this);
         
@@ -241,8 +266,8 @@ public class SWTProjectTreeView implements AppPreferencesListener {
                 break;
             case TaskStatus.FLAGGED:
                 setFontStyle(item, SWT.NORMAL);
-                item.setImage(_flaggedImage);
-                item.setForeground(this.flaggedTextColor);
+                item.setImage(getFlagImage(task.getFlagColor()));
+                item.setForeground(getFlagTextColor(task.getFlagColor()));
                 break;
             case TaskStatus.WAITING:
                 setFontStyle(item, SWT.NORMAL);
@@ -271,8 +296,8 @@ public class SWTProjectTreeView implements AppPreferencesListener {
                 item.setForeground(this.disabledTextColor);
                 break;
             case TaskStatus.FLAGGED:
-                item.setImage(_flaggedImage);
-                item.setForeground(this.flaggedTextColor);
+                item.setImage(getFlagImage(activity.getFlagColor()));
+                item.setForeground(getFlagTextColor(activity.getFlagColor()));
                 break;
             }            
             break;
@@ -447,24 +472,30 @@ public class SWTProjectTreeView implements AppPreferencesListener {
             taskDialog.open();
         }
     }
-    
-	
-	private Tree _tree = null;
-	private SWTMainWindow _mainWindow = null;
-	private SWTProjectTreePopup _popup;
-    private HashMap<Object,TreeItem> _itemHash = new HashMap<Object,TreeItem>();
-    private Image _workspaceImage;
-    private Image _projectImage;
-    private Image _newTaskImage;
-    private Image _inProgressImage;
-    private Image _finishedImage;
-    private Image _cancelledImage;
-    private Image _flaggedImage;
-    private Image _idleImage;
-    private Image _waitingImage;
-    private Image _activityImage;
-    private Image _closedProjectImage;
 
 
+    private Image getFlagImage(TaskStatus.FlagColor flagColor) {
+        switch (flagColor) {
+            case RED:
+                return _redFlagImage;
+            case GREEN:
+                return _greenFlagImage;
+            case BLUE:
+                return _blueFlagImage;
+        }
+        return null;
+    }
+
+    private Color getFlagTextColor(TaskStatus.FlagColor flagColor) {
+        switch (flagColor) {
+            case RED:
+                return refFlagTextColor;
+            case GREEN:
+                return greenFlagTextColor;
+            case BLUE:
+                return blueFlagTextColor;
+        }
+        return null;
+    }
 
 }
