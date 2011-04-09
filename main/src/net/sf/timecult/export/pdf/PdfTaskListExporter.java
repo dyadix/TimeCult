@@ -65,10 +65,10 @@ public class PdfTaskListExporter {
             Paragraph title = new Paragraph(ResourceHelper.getString("tasklist.title"), titleFont);
             title.setSpacingAfter(10);
             document.add(title);                        
-            createTaskList(document, TaskStatus.FLAGGED, Task.class);
-            createTaskList(document, TaskStatus.NOT_STARTED, Task.class);
-            createTaskList(document, TaskStatus.IN_PROGRESS, Task.class);
-            createTaskList(document, TaskStatus.WAITING, Task.class);
+            createTaskList(document, new TaskStatus(TaskStatus.FLAGGED), Task.class);
+            createTaskList(document, new TaskStatus(TaskStatus.NOT_STARTED), Task.class);
+            createTaskList(document, new TaskStatus(TaskStatus.IN_PROGRESS), Task.class);
+            createTaskList(document, new TaskStatus(TaskStatus.WAITING), Task.class);
         }
         catch (DocumentException e) {
             throw new IOException(e);
@@ -76,8 +76,8 @@ public class PdfTaskListExporter {
         document.close();
     }      
     
-    private static void createTaskList(Document doc, int taskStatus, Class<Task> taskSubtype) throws DocumentException, IOException {
-        String tag = (new TaskStatus(taskStatus)).toString();
+    private static void createTaskList(Document doc, TaskStatus taskStatus, Class<Task> taskSubtype) throws DocumentException, IOException {
+        String tag = taskStatus.toString();
         String titleText = ResourceHelper.getString("button.tasklist." + tag + ".tooltip");
         Paragraph subTitle = new Paragraph(titleText, sectionFont);
         subTitle.setSpacingAfter(10);
@@ -95,13 +95,13 @@ public class PdfTaskListExporter {
             //
             // Add flagged items regardless of their subtype (task or activity)
             //
-            if ((taskStatus == TaskStatus.FLAGGED && task.getStatus() == TaskStatus.FLAGGED)
+            if ((taskStatus.getId() == TaskStatus.FLAGGED && task.getStatus().getId() == TaskStatus.FLAGGED)
                 || task.getClass().equals(taskSubtype)) {
                 
                 Paragraph namePar = new Paragraph(task.getName(), textFont);                
                 ListItem taskItem = new ListItem();
                 taskItem.add(namePar);
-                if (taskStatus == TaskStatus.WAITING) {
+                if (taskStatus.getId() == TaskStatus.WAITING) {
                     Paragraph reasonPar = new Paragraph(task.getWaitReason().getText(), commentFont);
                     taskItem.add(reasonPar);
                 }

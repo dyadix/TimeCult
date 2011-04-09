@@ -55,7 +55,7 @@ public class TaskListView extends SWTDialog {
     private static final int[]    align     = { SWT.LEFT };
     private SWTMainWindow         mainWindow;
     private Table                 taskListTable;
-    private int                   taskStatus = TaskStatus.FLAGGED;
+    private TaskStatus            taskStatus = new TaskStatus(TaskStatus.FlagColor.RED);
     private Class                 taskSubtype;
     private TaskListToolbar       toolbar;
     private Label                 infoText;
@@ -180,7 +180,7 @@ public class TaskListView extends SWTDialog {
             //
             // Add flagged items regardless of their subtype (task or activity)
             //
-            if ((this.taskStatus == TaskStatus.FLAGGED && task.getStatus() == TaskStatus.FLAGGED)
+            if ((this.taskStatus.getId() == TaskStatus.FLAGGED && task.getStatusId() == TaskStatus.FLAGGED)
                 || task.getClass().equals(this.taskSubtype)) {
                 TableItem taskItem = new TableItem(taskListTable, SWT.NONE);
                 taskItem.setData(task);
@@ -216,7 +216,7 @@ public class TaskListView extends SWTDialog {
     }
     
     
-    public void listTasks(int status, Class subtype) {
+    public void listTasks(TaskStatus status, Class subtype) {
         this.taskStatus = status;
         this.taskListTable.removeAll();
         this.taskSubtype = subtype;
@@ -224,7 +224,7 @@ public class TaskListView extends SWTDialog {
     }
     
     
-    public int getCurrTaskStatus() {
+    public TaskStatus getCurrTaskStatus() {
         return this.taskStatus;
     }
     

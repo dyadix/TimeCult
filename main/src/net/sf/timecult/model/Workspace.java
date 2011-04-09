@@ -317,22 +317,20 @@ public class Workspace extends Project {
     }
     
     
-    public Task[] getTasksByStatus(int status) {
+    public Task[] getTasksByStatus(TaskStatus status) {
         Vector<Task> tasks = new Vector<Task>();
         addSubprojectTasksByStatus(tasks, this.getRoot(), status);
         return tasks.toArray(new Task[0]);
     }
     
-    private void addSubprojectTasksByStatus(Vector<Task> tasks, Project project, int status) {
-        Task[] allTasks = project.getTasks(SortCriteria.DEFAULT);
-        for (int i = 0; i < allTasks.length; i++) {
-            if (allTasks[i].getStatus() == status) {
-                tasks.add(allTasks[i]);
+    private void addSubprojectTasksByStatus(Vector<Task> tasks, Project project, TaskStatus status) {
+        for (Task task : project.getTasks(SortCriteria.DEFAULT)) {
+            if (task.getStatus().equals(status)) {
+                tasks.add(task);
             }
         }
-        Project[] subprojects = project.getSubprojects(SortCriteria.DEFAULT);
-        for (int i = 0; i < subprojects.length; i++) {
-            addSubprojectTasksByStatus(tasks, subprojects[i], status);
+        for (Project subproject :  project.getSubprojects(SortCriteria.DEFAULT)) {
+            addSubprojectTasksByStatus(tasks, subproject, status);
         }
     }
     

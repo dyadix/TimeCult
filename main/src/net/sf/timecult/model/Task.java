@@ -85,8 +85,12 @@ public class Task extends ProjectTreeItem implements Totals, DescriptionHolder {
         updateCloseDateTime(_status.getId());
     }
 
-    public int getStatus() {
+    public int getStatusId() {
         return _status.getId();
+    }
+
+    public TaskStatus getStatus() {
+        return _status;
     }
 
     public String getStatusAsString() {

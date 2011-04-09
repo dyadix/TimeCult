@@ -262,7 +262,7 @@ public class WorkspaceReader extends DefaultHandler implements
                             // status to 'in progress' anyway because it has some
                             // time records.
                             //
-                            if (task.getStatus() == TaskStatus.NOT_STARTED) {
+                            if (task.getStatus().getId() == TaskStatus.NOT_STARTED) {
                                 task.setStatus(TaskStatus.IN_PROGRESS);
                             }
                         }

@@ -54,7 +54,7 @@ public class ObjectInfoHelper {
     public static String taskStatusToLocalizedString(Task task) {
         String statusStr = task.getStatusAsString();
         String localStr = ResourceHelper.getString("task.status." + statusStr);
-        if (task.getStatus() == TaskStatus.WAITING
+        if (task.getStatus().getId() == TaskStatus.WAITING
             && task.getWaitReason() != null) {
             localStr = localStr + " " + task.getWaitReason().getText();
         }

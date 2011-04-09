@@ -245,7 +245,7 @@ public class SWTProjectTreeView implements AppPreferencesListener {
             break;
         case TASK:
             Task task = (Task) modelItem;
-            switch (task.getStatus()) {
+            switch (task.getStatus().getId()) {
             case TaskStatus.NOT_STARTED:
                 item.setImage(_newTaskImage);
                 setFontStyle(item, SWT.BOLD);
@@ -287,7 +287,7 @@ public class SWTProjectTreeView implements AppPreferencesListener {
             break;
         case ACTIVITY:
             Activity activity = (Activity) modelItem;
-            switch (activity.getStatus()) {
+            switch (activity.getStatus().getId()) {
             case TaskStatus.IN_PROGRESS:
                 item.setImage(_activityImage);
                 break;

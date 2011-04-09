@@ -43,7 +43,11 @@ public class TaskStatus {
 
     private int _id = NOT_STARTED;
     private FlagColor flagColor = FlagColor.RED;
-    
+
+    public TaskStatus(FlagColor flagColor) {
+        this.flagColor = flagColor;
+        this._id = FLAGGED;
+    }
     
     public TaskStatus(int id) {
         this._id = id;
@@ -137,4 +141,6 @@ public class TaskStatus {
         }
         return otherStatus.getId() == _id;
     }
+
+
 }

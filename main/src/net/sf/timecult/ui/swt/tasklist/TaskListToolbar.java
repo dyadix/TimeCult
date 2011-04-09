@@ -57,11 +57,13 @@ public class TaskListToolbar extends ToolBarBase {
         switch (toolBarNumber) {
             case 0:
                 this.items = new LinkedList<ToolItem>();
-                items.add(createStatusButton(TaskStatus.FLAGGED, Task.class));
-                items.add(createStatusButton(TaskStatus.NOT_STARTED, Task.class));
-                items.add(createStatusButton(TaskStatus.IN_PROGRESS, Task.class));
-                items.add(createStatusButton(TaskStatus.IN_PROGRESS, Activity.class));
-                items.add(createStatusButton(TaskStatus.WAITING, Task.class));
+                items.add(createStatusButton(new TaskStatus(TaskStatus.FlagColor.RED), Task.class));
+                items.add(createStatusButton(new TaskStatus(TaskStatus.FlagColor.BLUE), Task.class));
+                items.add(createStatusButton(new TaskStatus(TaskStatus.FlagColor.GREEN), Task.class));
+                items.add(createStatusButton(new TaskStatus(TaskStatus.NOT_STARTED), Task.class));
+                items.add(createStatusButton(new TaskStatus(TaskStatus.IN_PROGRESS), Task.class));
+                items.add(createStatusButton(new TaskStatus(TaskStatus.IN_PROGRESS), Activity.class));
+                items.add(createStatusButton(new TaskStatus(TaskStatus.WAITING), Task.class));
                 this.items.get(0).setSelection(true);
                 break;
 
@@ -79,12 +81,18 @@ public class TaskListToolbar extends ToolBarBase {
     }       
         
     
-    private ToolItem createStatusButton(int status, Class subtype) {
-        String tag = (new TaskStatus(status)).toString();
+    private ToolItem createStatusButton(TaskStatus status, Class subtype) {
+        String tag = status.toString();
         if (subtype.equals(Activity.class)) {
             tag = "activity";
         }
-        ToolItem item = createButton("tasklist." + tag, SWT.RADIO);
+        if (status.getId() == TaskStatus.FLAGGED) {
+            tag = status.getFlagColor().toString().toLowerCase() + "Flag";
+        }
+        else {
+            tag = "tasklist." + tag;
+        }
+        ToolItem item = createButton(tag, SWT.RADIO);
         item.setData(new TaskData(status, subtype));
         item.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent e) {
@@ -100,14 +108,14 @@ public class TaskListToolbar extends ToolBarBase {
     
     private class TaskData {
         private Class subtype;
-        private int   status;
+        private TaskStatus status;
         
-        public TaskData(int status, Class subtype) {
+        public TaskData(TaskStatus status, Class subtype) {
             this.subtype = subtype;
             this.status = status;
         }
         
-        public int getStatus() {
+        public TaskStatus getStatus() {
             return this.status;
         }
         

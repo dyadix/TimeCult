@@ -184,7 +184,7 @@ public class WorkspaceWriter implements WorkspaceXMLElements {
                 addAttribute(FLAGS_ATTR, SELECTED_FLAG);
             }
             addDateTimeAttributes(task);
-            if (task.getStatus() == TaskStatus.WAITING
+            if (task.getStatus().getId() == TaskStatus.WAITING
                 && task.getWaitReason() != null) {
                 addTextNode(WAIT_REASON_TAG, task.getWaitReason().getText());
             }

@@ -215,7 +215,7 @@ public class WorkspaceXMLWriter implements WorkspaceXMLElements {
                 this.output.attribute(FLAGS_ATTR, SELECTED_FLAG);
             }
             addCommonItemAttributes(task);
-            if (task.getStatus() == TaskStatus.WAITING
+            if (task.getStatus().getId() == TaskStatus.WAITING
                 && task.getWaitReason() != null) {
                 addTextNode(WAIT_REASON_TAG, task.getWaitReason().getText());
             }

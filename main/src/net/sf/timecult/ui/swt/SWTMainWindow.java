@@ -294,7 +294,7 @@ public class SWTMainWindow {
         SelectionListener l) {
         Menu startMenu = new Menu(parentItem);
         Task flaggedTasks[] = TimeTracker.getInstance().getWorkspace()
-            .getTasksByStatus(TaskStatus.FLAGGED);
+            .getTasksByStatus(new TaskStatus(TaskStatus.FlagColor.RED));
         TreeMap<String, Task> sortedItems = new TreeMap<String, Task>();
         for (int i = 0; i < flaggedTasks.length; i++) {
             sortedItems.put(flaggedTasks[i].getName(), flaggedTasks[i]);
