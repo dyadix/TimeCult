@@ -157,12 +157,15 @@ public class SWTProjectTreePopup implements WorkspaceListener {
         Menu markWithMenu = new Menu(_popup);
         _markWithItem = new MenuItem(_popup, SWT.CASCADE);
         _markWithItem.setMenu(markWithMenu);
-        _markWithItem.setText("Mark with");
+        _markWithItem.setText(ResourceHelper.getString("menu.markWith"));
 
-        createFlagItem(markWithMenu, "Red Flag", TaskStatus.FlagColor.RED);
-        createFlagItem(markWithMenu, "Green Flag", TaskStatus.FlagColor.GREEN);
-        createFlagItem(markWithMenu, "Blue Flag", TaskStatus.FlagColor.BLUE);
-        createFlagItem(markWithMenu, "Clear Flag", null);
+        createFlagItem(markWithMenu, TaskStatus.FlagColor.RED);
+        createFlagItem(markWithMenu, TaskStatus.FlagColor.BLUE);
+        createFlagItem(markWithMenu, TaskStatus.FlagColor.GREEN);
+
+        new MenuItem(markWithMenu, SWT.SEPARATOR);
+
+        createFlagItem(markWithMenu, null);
 
         if (!isActivity) {
             createWaitMenu();
@@ -456,10 +459,12 @@ public class SWTProjectTreePopup implements WorkspaceListener {
         }
     }
 
-    private MenuItem createFlagItem(Menu markWithMenu, String text, final TaskStatus.FlagColor flagColor) {
+    private MenuItem createFlagItem(Menu markWithMenu, final TaskStatus.FlagColor flagColor) {
         MenuItem flagItem = new MenuItem(markWithMenu, SWT.CASCADE);
-        flagItem.setText(text);
         if (flagColor != null) {
+            final String tag = flagColor.toString().toLowerCase() + "Flag";
+            flagItem.setImage(getIcon(tag));
+            flagItem.setText(ResourceHelper.getString("menu.markWith." + tag));
             flagItem.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
                     if (_selection != null && _selection instanceof Task) {
@@ -470,6 +475,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
                 }
             });
         } else {
+            flagItem.setText(ResourceHelper.getString("menu.markWith.clearFlag"));
             flagItem.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
                     if (_selection != null && _selection instanceof Task) {
@@ -482,5 +488,9 @@ public class SWTProjectTreePopup implements WorkspaceListener {
             });
         }
         return flagItem;
+    }
+
+    public Menu getMenu() {
+        return _popup;
     }
 }

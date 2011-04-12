@@ -201,3 +201,9 @@ find.item=Найдено:
 find.title=Поиск
 menu.search=Поиск
 menu.search.find=Найти..
+
+menu.markWith=Пометить
+menu.markWith.redFlag=Красным флажком
+menu.markWith.greenFlag=Зеленым флажком
+menu.markWith.blueFlag=Синим флажком
+menu.markWith.clearFlag=Очистить
