@@ -37,8 +37,10 @@ public class TaskStatus {
 
     public enum FlagColor {
         RED,
+        ORANGE,
         GREEN,
-        BLUE
+        BLUE,
+        MAGENTA
     }
 
     private int _id = NOT_STARTED;

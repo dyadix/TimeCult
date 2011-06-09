@@ -160,8 +160,10 @@ public class SWTProjectTreePopup implements WorkspaceListener {
         _markWithItem.setText(ResourceHelper.getString("menu.markWith"));
 
         createFlagItem(markWithMenu, TaskStatus.FlagColor.RED);
+        createFlagItem(markWithMenu, TaskStatus.FlagColor.ORANGE);
         createFlagItem(markWithMenu, TaskStatus.FlagColor.BLUE);
         createFlagItem(markWithMenu, TaskStatus.FlagColor.GREEN);
+        createFlagItem(markWithMenu, TaskStatus.FlagColor.MAGENTA);
 
         new MenuItem(markWithMenu, SWT.SEPARATOR);
 

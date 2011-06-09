@@ -206,4 +206,6 @@ menu.markWith=Пометить
 menu.markWith.redFlag=Красным флажком
 menu.markWith.greenFlag=Зеленым флажком
 menu.markWith.blueFlag=Синим флажком
+menu.markWith.orangeFlag=Оранжевым флажком
+menu.markWith.magentaFlag=Фиолетовым флажком
 menu.markWith.clearFlag=Очистить
