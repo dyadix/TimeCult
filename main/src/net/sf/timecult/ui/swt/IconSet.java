@@ -55,6 +55,8 @@ public class IconSet {
         imageMap.put("redFlag.enabled", createImage(display, "flag_red.png"));
         imageMap.put("greenFlag.enabled", createImage(display, "flag_green.png"));
         imageMap.put("blueFlag.enabled", createImage(display, "flag_blue.png"));
+        imageMap.put("orangeFlag.enabled", createImage(display, "flag_orange.png"));
+        imageMap.put("magentaFlag.enabled", createImage(display, "flag_magenta.png"));
 
         imageMap.put("open.enabled",createImage(display, "fileopen.png"));
         imageMap.put("open.disabled", createImage(display, "fileopen.png"));

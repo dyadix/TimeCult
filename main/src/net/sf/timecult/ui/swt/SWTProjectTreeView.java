@@ -119,8 +119,8 @@ public class SWTProjectTreeView implements AppPreferencesListener {
         _redFlagImage = iconSet.getIcon("redFlag", true);
         _greenFlagImage = iconSet.getIcon("greenFlag", true);
         _blueFlagImage = iconSet.getIcon("blueFlag", true);
-        _orangeFlagImage = iconSet.getIcon("blueFlag", true);
-        _magentaFlagImage = iconSet.getIcon("blueFlag", true);
+        _orangeFlagImage = iconSet.getIcon("orangeFlag", true);
+        _magentaFlagImage = iconSet.getIcon("magentaFlag", true);
 
         _idleImage = iconSet.getIcon("idle", true);
         _waitingImage = iconSet.getIcon("waiting", true);
@@ -135,7 +135,7 @@ public class SWTProjectTreeView implements AppPreferencesListener {
         this.greenFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 0, 127, 0);
         this.blueFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 0, 0, 255);
         this.orangeFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 255, 127, 0);
-        this.magentaFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 255, 0, 127);
+        this.magentaFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 200, 0, 100);
         
         AppPreferences.getInstance().addListener(this);
         
