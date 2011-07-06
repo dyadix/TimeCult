@@ -202,6 +202,12 @@ find.title=Поиск
 menu.search=Поиск
 menu.search.find=Найти..
 
+button.redFlag.tooltip=Помечены красным флажком
+button.greenFlag.tooltip=Помечены зеленым флажком
+button.blueFlag.tooltip=Помечены синим флажком
+button.orangeFlag.tooltip=Помечены оранжевым флажком
+button.magentaFlag.tooltip=Помечены сиреневым флажком
+
 menu.markWith=Пометить
 menu.markWith.redFlag=Красным флажком
 menu.markWith.greenFlag=Зеленым флажком
