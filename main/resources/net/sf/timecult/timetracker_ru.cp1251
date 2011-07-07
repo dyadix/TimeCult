@@ -202,16 +202,16 @@ find.title=Поиск
 menu.search=Поиск
 menu.search.find=Найти..
 
-button.redFlag.tooltip=Помечены красным флажком
-button.greenFlag.tooltip=Помечены зеленым флажком
-button.blueFlag.tooltip=Помечены синим флажком
-button.orangeFlag.tooltip=Помечены оранжевым флажком
-button.magentaFlag.tooltip=Помечены сиреневым флажком
+button.redFlag.tooltip=Срочные
+button.greenFlag.tooltip=Запланированные
+button.blueFlag.tooltip=На очереди
+button.orangeFlag.tooltip=Текущие
+button.magentaFlag.tooltip=Отложенные
 
-menu.markWith=Пометить
-menu.markWith.redFlag=Красным флажком
-menu.markWith.greenFlag=Зеленым флажком
-menu.markWith.blueFlag=Синим флажком
-menu.markWith.orangeFlag=Оранжевым флажком
-menu.markWith.magentaFlag=Фиолетовым флажком
+menu.markWith=Пометить как
+menu.markWith.redFlag=Срочное
+menu.markWith.greenFlag=Запланированное
+menu.markWith.blueFlag=На очереди
+menu.markWith.orangeFlag=Текущее
+menu.markWith.magentaFlag=Отложенное
 menu.markWith.clearFlag=Очистить
