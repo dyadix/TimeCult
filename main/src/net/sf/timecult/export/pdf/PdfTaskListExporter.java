@@ -34,8 +34,7 @@ import com.itextpdf.text.pdf.*;
 
 
 public class PdfTaskListExporter {
-    
-    private static BaseFont baseFont;
+
     private static Font titleFont;
     private static Font sectionFont;
     private static Font textFont;
@@ -43,10 +42,10 @@ public class PdfTaskListExporter {
     
     static {
         try {
-            baseFont = BaseFont.createFont(
-                "/net/sf/timecult/fonts/LiberationSans-Regular.ttf",
-                BaseFont.IDENTITY_H,
-                BaseFont.NOT_EMBEDDED);
+            BaseFont baseFont = BaseFont.createFont(
+                    "/net/sf/timecult/fonts/LiberationSans-Regular.ttf",
+                    BaseFont.IDENTITY_H,
+                    BaseFont.NOT_EMBEDDED);
             titleFont = new Font(baseFont, 14, Font.BOLD);
             sectionFont = new Font(baseFont, 12, Font.BOLD);
             textFont = new Font(baseFont, 10, Font.NORMAL);
@@ -65,7 +64,11 @@ public class PdfTaskListExporter {
             Paragraph title = new Paragraph(ResourceHelper.getString("tasklist.title"), titleFont);
             title.setSpacingAfter(10);
             document.add(title);                        
-            createTaskList(document, new TaskStatus(TaskStatus.FLAGGED), Task.class);
+            createTaskList(document, new TaskStatus(TaskStatus.FlagColor.RED), Task.class);
+            createTaskList(document, new TaskStatus(TaskStatus.FlagColor.ORANGE), Task.class);
+            createTaskList(document, new TaskStatus(TaskStatus.FlagColor.BLUE), Task.class);
+            createTaskList(document, new TaskStatus(TaskStatus.FlagColor.GREEN), Task.class);
+            createTaskList(document, new TaskStatus(TaskStatus.FlagColor.MAGENTA), Task.class);
             createTaskList(document, new TaskStatus(TaskStatus.NOT_STARTED), Task.class);
             createTaskList(document, new TaskStatus(TaskStatus.IN_PROGRESS), Task.class);
             createTaskList(document, new TaskStatus(TaskStatus.WAITING), Task.class);
@@ -77,8 +80,11 @@ public class PdfTaskListExporter {
     }      
     
     private static void createTaskList(Document doc, TaskStatus taskStatus, Class<Task> taskSubtype) throws DocumentException, IOException {
-        String tag = taskStatus.toString();
-        String titleText = ResourceHelper.getString("button.tasklist." + tag + ".tooltip");
+        String tag = "tasklist." + taskStatus.toString();
+        if (taskStatus.getId() == TaskStatus.FLAGGED) {
+            tag = taskStatus.getFlagColor().toString().toLowerCase() + "Flag";
+        }
+        String titleText = ResourceHelper.getString("button." + tag + ".tooltip");
         Paragraph subTitle = new Paragraph(titleText, sectionFont);
         subTitle.setSpacingAfter(10);
         subTitle.setSpacingBefore(10);
