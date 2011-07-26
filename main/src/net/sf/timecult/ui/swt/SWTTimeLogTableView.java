@@ -352,35 +352,36 @@ public class SWTTimeLogTableView {
             editDialog.open();
         }
     }
-    
-    
+
+
     private void setData(TableItem item, TimeRecord timeRec) {
         TimeRecordFilter filter = TimeTracker.getInstance().getFilter();
         TimeRecord filteredRec = TimeUtil.getFilteredTimeRec(filter, timeRec);
         if (timeRec.getTask().getItemType() == ItemType.IDLE_TASK) {
             item.setImage(this.idleImage);
-        }
-        else {
+        } else {
             if (filteredRec != timeRec) {
                 item.setImage(this.partialRecImage);
-            }
-            else {
+            } else {
                 item.setImage(this.normalRecImage);
             }
         }
-	Project proj = filteredRec.getTask().getProject();
-	String projectPath = proj.getName();
-	while(proj.getParent() != null) {
-		proj = proj.getParent();
-		projectPath = proj.getName() + " -> " + projectPath;
-	}
+        Project proj = filteredRec.getTask().getProject();
+        String projectPath = "N/A";
+        if (proj != null) {
+            projectPath = proj.getName();
+            while (proj.getParent() != null) {
+                proj = proj.getParent();
+                projectPath = proj.getName() + " -> " + projectPath;
+            }
+        }
 
         item.setText(1, projectPath);
-	item.setText(2, filteredRec.getTask().toString());
+        item.setText(2, filteredRec.getTask().toString());
         item.setText(3, Formatter.toDateString(filteredRec.getStart()));
         item.setText(4, Formatter.toTimeString(filteredRec.getStart()));
         item.setText(5, filteredRec.getDuration().toString());
-        String notes = timeRec.getNotes();        
+        String notes = timeRec.getNotes();
         if (notes == null)
             notes = "";
         item.setText(6, notes);
