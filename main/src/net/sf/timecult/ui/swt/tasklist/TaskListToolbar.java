@@ -57,13 +57,13 @@ public class TaskListToolbar extends ToolBarBase {
         switch (toolBarNumber) {
             case 0:
                 this.items = new LinkedList<ToolItem>();
+                items.add(createStatusButton(new TaskStatus(TaskStatus.IN_PROGRESS), Task.class));
                 items.add(createStatusButton(new TaskStatus(TaskStatus.FlagColor.RED), Task.class));
                 items.add(createStatusButton(new TaskStatus(TaskStatus.FlagColor.ORANGE), Task.class));
                 items.add(createStatusButton(new TaskStatus(TaskStatus.FlagColor.BLUE), Task.class));
                 items.add(createStatusButton(new TaskStatus(TaskStatus.FlagColor.GREEN), Task.class));
                 items.add(createStatusButton(new TaskStatus(TaskStatus.FlagColor.MAGENTA), Task.class));
                 items.add(createStatusButton(new TaskStatus(TaskStatus.NOT_STARTED), Task.class));
-                items.add(createStatusButton(new TaskStatus(TaskStatus.IN_PROGRESS), Task.class));
                 items.add(createStatusButton(new TaskStatus(TaskStatus.IN_PROGRESS), Activity.class));
                 items.add(createStatusButton(new TaskStatus(TaskStatus.WAITING), Task.class));
                 this.items.get(0).setSelection(true);

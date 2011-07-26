@@ -290,14 +290,14 @@ public class SWTMainWindow {
     }    
     
     
-    public Menu createFlaggedItemsStartMenu(MenuItem parentItem,
+    public Menu createInProgressStartMenu(MenuItem parentItem,
         SelectionListener l) {
         Menu startMenu = new Menu(parentItem);
-        Task flaggedTasks[] = TimeTracker.getInstance().getWorkspace()
-            .getTasksByStatus(new TaskStatus(TaskStatus.FlagColor.RED));
+        Task inProgressTasks[] = TimeTracker.getInstance().getWorkspace()
+            .getTasksByStatus(new TaskStatus(TaskStatus.IN_PROGRESS));
         TreeMap<String, Task> sortedItems = new TreeMap<String, Task>();
-        for (int i = 0; i < flaggedTasks.length; i++) {
-            sortedItems.put(flaggedTasks[i].getName(), flaggedTasks[i]);
+        for (Task inProgressTask : inProgressTasks) {
+            sortedItems.put(inProgressTask.getName(), inProgressTask);
         }
         Collection<Task> tasks = sortedItems.values();
         for (Task task : tasks) {
@@ -305,7 +305,7 @@ public class SWTMainWindow {
             taskMenuItem.setData(task);
             taskMenuItem.setText(task.toString());
             taskMenuItem.addSelectionListener(l);
-            taskMenuItem.setImage(getIconSet().getIcon("flagged", true));
+            taskMenuItem.setImage(getIconSet().getIcon("inProgress", true));
         }
         return startMenu;
     }

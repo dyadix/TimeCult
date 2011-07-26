@@ -63,14 +63,14 @@ public class PdfTaskListExporter {
             document.open();
             Paragraph title = new Paragraph(ResourceHelper.getString("tasklist.title"), titleFont);
             title.setSpacingAfter(10);
-            document.add(title);                        
+            document.add(title);
+            createTaskList(document, new TaskStatus(TaskStatus.IN_PROGRESS), Task.class);
             createTaskList(document, new TaskStatus(TaskStatus.FlagColor.RED), Task.class);
             createTaskList(document, new TaskStatus(TaskStatus.FlagColor.ORANGE), Task.class);
             createTaskList(document, new TaskStatus(TaskStatus.FlagColor.BLUE), Task.class);
             createTaskList(document, new TaskStatus(TaskStatus.FlagColor.GREEN), Task.class);
             createTaskList(document, new TaskStatus(TaskStatus.FlagColor.MAGENTA), Task.class);
             createTaskList(document, new TaskStatus(TaskStatus.NOT_STARTED), Task.class);
-            createTaskList(document, new TaskStatus(TaskStatus.IN_PROGRESS), Task.class);
             createTaskList(document, new TaskStatus(TaskStatus.WAITING), Task.class);
         }
         catch (DocumentException e) {

@@ -87,7 +87,7 @@ public class TrayMenu {
         });
         MenuItem startItem = new MenuItem(popup, SWT.CASCADE);
         startItem.setText(ResourceHelper.getString("traymenu.start"));
-        startItem.setMenu(this.mainWindow.createFlaggedItemsStartMenu(
+        startItem.setMenu(this.mainWindow.createInProgressStartMenu(
             startItem,
             new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {                    
