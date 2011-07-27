@@ -55,7 +55,7 @@ public class TaskListView extends SWTDialog {
     private static final int[]    align     = { SWT.LEFT };
     private SWTMainWindow         mainWindow;
     private Table                 taskListTable;
-    private TaskStatus            taskStatus = new TaskStatus(TaskStatus.FlagColor.RED);
+    private TaskStatus            taskStatus = new TaskStatus(TaskStatus.IN_PROGRESS);
     private Class                 taskSubtype;
     private TaskListToolbar       toolbar;
     private Label                 infoText;
