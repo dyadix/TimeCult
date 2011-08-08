@@ -38,7 +38,6 @@ import net.sf.timecult.ui.swt.help.HelpProvider;
 import net.sf.timecult.ui.swt.help.SWTAboutDialog;
 import net.sf.timecult.ui.swt.prefs.PreferencesDialog;
 import net.sf.timecult.ui.swt.tasklist.TaskListView;
-import net.sf.timecult.util.LinkHelper;
 
 /**
  * Main TimeTracker menu.
@@ -349,14 +348,14 @@ public class SWTMainMenu {
         toolsItem.setMenu(toolsMenu);
 
         _startTimerItem = new MenuItem(toolsMenu, SWT.CASCADE);
-        _startTimerItem.setText(ResourceHelper.getString("button.start.tooltip") + "\tCtrl+S");
+        _startTimerItem.setText(ResourceHelper.getString("button.start.tooltip") + "\tCtrl+R");
         _startTimerItem.setImage(_mainWindow.getIconSet().getIcon("start", true));
-        _startTimerItem.setAccelerator(SWT.CTRL | 'S');
         _startTimerItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 TimeTracker.getInstance().startTimer();
             }
         });
+        _startTimerItem.setAccelerator(SWT.CTRL + 'R');
         
         MenuItem optionsItem = new MenuItem(toolsMenu, SWT.CASCADE);
         optionsItem.setText(ResourceHelper.getString("menu.options"));
