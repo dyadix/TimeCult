@@ -27,6 +27,7 @@ import net.sf.timecult.AppInfo;
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.conf.AppPreferences;
+import net.sf.timecult.model.Activity;
 import net.sf.timecult.model.Task;
 import net.sf.timecult.model.TaskStatus;
 import net.sf.timecult.model.Workspace;
@@ -54,6 +55,8 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tray;
 import org.eclipse.swt.widgets.TrayItem;
+
+import javax.swing.*;
 
 public class SWTMainWindow {
 
@@ -301,11 +304,12 @@ public class SWTMainWindow {
         }
         Collection<Task> tasks = sortedItems.values();
         for (Task task : tasks) {
+            String iconName = task instanceof Activity ? "activity" : "inProgress";
             MenuItem taskMenuItem = new MenuItem(startMenu, SWT.CASCADE);
             taskMenuItem.setData(task);
             taskMenuItem.setText(task.toString());
             taskMenuItem.addSelectionListener(l);
-            taskMenuItem.setImage(getIconSet().getIcon("inProgress", true));
+            taskMenuItem.setImage(getIconSet().getIcon(iconName, true));
         }
         return startMenu;
     }
