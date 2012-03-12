@@ -19,6 +19,7 @@
  */
 package net.sf.timecult.ui.swt;
 
+import net.sf.timecult.PlatformUtil;
 import net.sf.timecult.ResourceHelper;
 
 import org.eclipse.swt.SWT;
@@ -128,7 +129,12 @@ public abstract class SWTDialog extends Dialog {
 	public void open () {
 		Shell parent = getParent();
 		if (_shell == null) {
-			_shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+            if (PlatformUtil.isWindows) {
+			    _shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+            }
+            else {
+                _shell = new Shell(parent, SWT.DIALOG_TRIM);
+            }
 			_shell.setText(getText());
 			setup(_shell);
 			initFields();

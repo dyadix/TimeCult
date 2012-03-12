@@ -19,6 +19,7 @@
  */
 package net.sf.timecult.ui.swt.timer;
 
+import net.sf.timecult.PlatformUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -136,8 +137,13 @@ public class SWTTimerWindow implements StopwatchListener {
     public void launchTimer() {
         Shell parent = _parent.getShell();
         if (_shell == null) {
-            _shell = new Shell(parent.getDisplay(), SWT.ON_TOP | SWT.TITLE
-                | SWT.SINGLE);
+            if (PlatformUtil.isWindows) {
+                _shell = new Shell(parent.getDisplay(), SWT.ON_TOP | SWT.TITLE
+                    | SWT.SINGLE);
+            }
+            else {
+                _shell = new Shell(parent.getDisplay(), SWT.CLOSE | SWT.TITLE);
+            }
             if (_task.getName().length() > MAX_TITLE_CHARS) {
                 _shell.setText(_task.getName().substring(0, MAX_TITLE_CHARS)
                     + "...");
