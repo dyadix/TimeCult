@@ -39,6 +39,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -334,6 +335,14 @@ public class SWTMainWindow {
         shell.setLocation(
             (primaryArea.width - shellArea.width) / 2,
             (primaryArea.height - shellArea.height) / 2);
+    }
+    
+    public static void centerShellRelatively(Shell parent, Shell shell) {
+        Rectangle parentArea = parent.getBounds();
+        Rectangle shellArea = shell.getBounds();
+        Point parentCenter = new Point(parentArea.x + parentArea.width / 2, parentArea.y + parentArea.height / 2);
+        Point shellOrigin = new Point(parentCenter.x - shellArea.width / 2, parentCenter.y - shellArea.height / 2);
+        shell.setLocation(shellOrigin);
     }
     
     

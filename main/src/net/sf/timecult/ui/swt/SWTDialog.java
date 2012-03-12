@@ -70,8 +70,12 @@ public abstract class SWTDialog extends Dialog {
 
         shell.setText(getTitle());
         shell.pack();
-        
-        SWTMainWindow.centerShell(shell);
+
+        if (PlatformUtil.isWindows)
+            SWTMainWindow.centerShell(shell);
+        else
+        // TODO: Why not doing a similar thing on Windows? Check.
+            SWTMainWindow.centerShellRelatively(getParent(), shell);
     }
 	
 	
