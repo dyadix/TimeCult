@@ -399,7 +399,7 @@ public class SWTProjectTreeView implements AppPreferencesListener {
     /*
     public void workspaceChanged(WorkspaceEvent we) {
         if (we.getId() == WorkspaceEvent.FILTER_CHANGED) {
-            this.update();
+            this.dispose();
         }        
     } 
     */   

@@ -114,7 +114,7 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
 		updateTimeLog(null);
 		updateTotals();
         _mainWindow.updateTitle();
-        TrayMenu.update();
+        TrayMenu.dispose();
         //_mainWindow.getMainMenu().updateFlagged();
         TimeRecordFilter filter = TimeTracker.getInstance().getWorkspace().getFilter();
         _mainWindow.getFilterView().updateFilterList();

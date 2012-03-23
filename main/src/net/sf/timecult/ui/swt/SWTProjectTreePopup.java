@@ -22,6 +22,7 @@ package net.sf.timecult.ui.swt;
 
 import java.util.Calendar;
 
+import net.sf.timecult.PlatformUtil;
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.model.IdleTask;
@@ -63,6 +64,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
 	}
 	
 	private void setup(Tree tree) {
+        TrayMenu.dispose();
 		_popup = new Menu(tree);
 		tree.setMenu(_popup);
         
@@ -290,12 +292,11 @@ public class SWTProjectTreePopup implements WorkspaceListener {
                         Project p = (Project) _selection;
                         if (p.hasOpenItems()) {
                             TimeTracker
-                                .getInstance()
-                                .getUIManager()
-                                .showError(
-                                    "Can't close the project: there are open items under it."); // TODO: Localize
-                        }
-                        else {
+                                    .getInstance()
+                                    .getUIManager()
+                                    .showError(
+                                            "Can't close the project: there are open items under it."); // TODO: Localize
+                        } else {
                             p.setCloseDateTime(Calendar.getInstance().getTime());
                             notifyProjectStateChange(p);
                         }
@@ -379,7 +380,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
                         new WorkspaceEvent(
                                 WorkspaceEvent.TASK_STATUS_CHANGED, task));
         _treeView.updateTreeItemStyle(_selection);
-        TrayMenu.update();
+        TrayMenu.dispose();
         //_treeView.getParent().getMainMenu().updateFlagged();
         _treeView.getParent().getStatusLine().setSelection(task);
     }

@@ -52,7 +52,7 @@ public class TrayMenu {
     }
     
     
-    public static void update() {
+    public static void dispose() {
         if (instance != null) {
             instance.disposeShell();
             instance = null;
