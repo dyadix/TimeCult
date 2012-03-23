@@ -29,14 +29,18 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TimerTrayMenu {
 
-    private SWTTimerWindow       timerWindow;
-    private Shell                trayShell;
-    private Menu            popup;
+    private SWTTimerWindow timerWindow;
+    private Shell          trayShell;
+    private Menu           popup;
+    private final static Map<SWTTimerWindow, TimerTrayMenu> currentMenus = new HashMap<SWTTimerWindow, TimerTrayMenu>();
 
 
-    public TimerTrayMenu(SWTTimerWindow timerWindow) {
+    private TimerTrayMenu(SWTTimerWindow timerWindow) {
         this.timerWindow = timerWindow;
     }
     
@@ -48,7 +52,7 @@ public class TimerTrayMenu {
             setup(trayShell);
         }
         this.popup.setVisible(true);
-        while (!trayShell.isDisposed()) {
+        while (trayShell != null && !trayShell.isDisposed()) {
             if (!d.readAndDispatch())
                 d.sleep();
         }
@@ -77,6 +81,27 @@ public class TimerTrayMenu {
     
     public boolean isDisposed() {
         return this.trayShell.isDisposed();
+    }
+
+    public void dispose() {
+        if (trayShell != null && !trayShell.isDisposed()) {
+            trayShell.dispose();
+            trayShell = null;
+        }
+    }
+
+    public static TimerTrayMenu getInstance(SWTTimerWindow timerWindow) {
+        if (currentMenus.containsKey(timerWindow)) return currentMenus.get(timerWindow);
+        TimerTrayMenu newMenu = new TimerTrayMenu(timerWindow);
+        currentMenus.put(timerWindow, newMenu);
+        return newMenu;
+    }
+
+    public static void disposeAll() {
+        for (TimerTrayMenu trayMenu : currentMenus.values()) {
+            trayMenu.dispose();
+        }
+        currentMenus.clear();
     }
 
 }

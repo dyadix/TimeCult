@@ -71,11 +71,11 @@ public abstract class SWTDialog extends Dialog {
         shell.setText(getTitle());
         shell.pack();
 
-        if (PlatformUtil.isWindows)
-            SWTMainWindow.centerShell(shell);
-        else
-        // TODO: Why not doing a similar thing on Windows? Check.
+        if (PlatformUtil.isGtk)
+            // TODO: Why not doing a similar thing on Windows? Check.
             SWTMainWindow.centerShellRelatively(getParent(), shell);
+        else
+            SWTMainWindow.centerShell(shell);
     }
 	
 	
@@ -133,11 +133,11 @@ public abstract class SWTDialog extends Dialog {
 	public void open () {
 		Shell parent = getParent();
 		if (_shell == null) {
-            if (PlatformUtil.isWindows) {
-			    _shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+            if (PlatformUtil.isGtk) {
+                _shell = new Shell(parent, SWT.DIALOG_TRIM);
             }
             else {
-                _shell = new Shell(parent, SWT.DIALOG_TRIM);
+                _shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
             }
 			_shell.setText(getText());
 			setup(_shell);

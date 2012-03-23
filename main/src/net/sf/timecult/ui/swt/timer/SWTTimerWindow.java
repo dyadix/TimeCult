@@ -137,12 +137,10 @@ public class SWTTimerWindow implements StopwatchListener {
     public void launchTimer() {
         Shell parent = _parent.getShell();
         if (_shell == null) {
-            if (PlatformUtil.isWindows) {
-                _shell = new Shell(parent.getDisplay(), SWT.ON_TOP | SWT.TITLE
-                    | SWT.SINGLE);
-            }
-            else {
+            if (PlatformUtil.isGtk) {
                 _shell = new Shell(parent.getDisplay(), SWT.CLOSE | SWT.TITLE);
+            } else {
+                _shell = new Shell(parent.getDisplay(), SWT.ON_TOP | SWT.TITLE | SWT.SINGLE);
             }
             if (_task.getName().length() > MAX_TITLE_CHARS) {
                 _shell.setText(_task.getName().substring(0, MAX_TITLE_CHARS)
@@ -359,9 +357,7 @@ public class SWTTimerWindow implements StopwatchListener {
         });
         _trayItem.addListener(SWT.MenuDetect, new Listener() {
             public void handleEvent(Event evt) {
-                if (_trayMenu == null || _trayMenu.isDisposed()) {
-                    _trayMenu = new TimerTrayMenu(SWTTimerWindow.this);
-                }
+                _trayMenu = TimerTrayMenu.getInstance(SWTTimerWindow.this);
                 _trayMenu.open();
             }
         });

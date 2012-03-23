@@ -20,9 +20,11 @@
 
 package net.sf.timecult;
 
+import org.eclipse.swt.SWT;
+
 /**
  * Utility methods for platform detection
  */
 public class PlatformUtil {
-    public static boolean isWindows = System.getProperty("os.name").toLowerCase().contains("win");
+    public final static boolean isGtk = SWT.getPlatform().contains("gtk");
 }
