@@ -21,7 +21,10 @@ package net.sf.timecult.ui.swt.timer;
 
 import net.sf.timecult.ResourceHelper;
 
+import net.sf.timecult.ui.swt.SWTUIManager;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MenuAdapter;
+import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Display;
@@ -37,10 +40,9 @@ public class TimerTrayMenu {
     private SWTTimerWindow timerWindow;
     private Shell          trayShell;
     private Menu           popup;
-    private final static Map<SWTTimerWindow, TimerTrayMenu> currentMenus = new HashMap<SWTTimerWindow, TimerTrayMenu>();
 
 
-    private TimerTrayMenu(SWTTimerWindow timerWindow) {
+    public TimerTrayMenu(SWTTimerWindow timerWindow) {
         this.timerWindow = timerWindow;
     }
     
@@ -76,6 +78,12 @@ public class TimerTrayMenu {
         });
         shell.setMenu(popup);
         shell.pack();
+        popup.addMenuListener(new MenuAdapter() {
+            @Override
+            public void menuHidden(MenuEvent e) {
+                dispose();
+            }
+        });
     }
            
     
@@ -90,18 +98,5 @@ public class TimerTrayMenu {
         }
     }
 
-    public static TimerTrayMenu getInstance(SWTTimerWindow timerWindow) {
-        if (currentMenus.containsKey(timerWindow)) return currentMenus.get(timerWindow);
-        TimerTrayMenu newMenu = new TimerTrayMenu(timerWindow);
-        currentMenus.put(timerWindow, newMenu);
-        return newMenu;
-    }
-
-    public static void disposeAll() {
-        for (TimerTrayMenu trayMenu : currentMenus.values()) {
-            trayMenu.dispose();
-        }
-        currentMenus.clear();
-    }
 
 }

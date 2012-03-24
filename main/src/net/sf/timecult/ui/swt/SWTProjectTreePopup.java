@@ -22,7 +22,6 @@ package net.sf.timecult.ui.swt;
 
 import java.util.Calendar;
 
-import net.sf.timecult.PlatformUtil;
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.model.IdleTask;
@@ -35,7 +34,6 @@ import net.sf.timecult.model.Workspace;
 import net.sf.timecult.model.WorkspaceEvent;
 import net.sf.timecult.model.WorkspaceListener;
 
-import net.sf.timecult.ui.swt.timer.TimerTrayMenu;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -65,8 +63,6 @@ public class SWTProjectTreePopup implements WorkspaceListener {
 	}
 	
 	private void setup(Tree tree) {
-        TrayMenu.dispose();
-        TimerTrayMenu.disposeAll();
 		_popup = new Menu(tree);
 		tree.setMenu(_popup);
         

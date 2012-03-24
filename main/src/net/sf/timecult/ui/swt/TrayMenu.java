@@ -24,6 +24,8 @@ import net.sf.timecult.TimeTracker;
 import net.sf.timecult.model.Task;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MenuAdapter;
+import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Display;
@@ -114,6 +116,12 @@ public class TrayMenu {
         });
         shell.setMenu(popup);
         shell.pack();
+        popup.addMenuListener(new MenuAdapter() {
+            @Override
+            public void menuHidden(MenuEvent e) {
+                dispose();
+            }
+        });
     }
            
 

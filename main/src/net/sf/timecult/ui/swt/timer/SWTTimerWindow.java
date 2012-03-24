@@ -357,7 +357,7 @@ public class SWTTimerWindow implements StopwatchListener {
         });
         _trayItem.addListener(SWT.MenuDetect, new Listener() {
             public void handleEvent(Event evt) {
-                _trayMenu = TimerTrayMenu.getInstance(SWTTimerWindow.this);
+                _trayMenu = new TimerTrayMenu(SWTTimerWindow.this);
                 _trayMenu.open();
             }
         });
