@@ -52,7 +52,7 @@ public class FilterSetupDialog extends SWTDialog implements ICalendarDialogListe
     private Text endDateField;
     
     public FilterSetupDialog(AdvancedTimeFilterView filterView) {
-        super(filterView.getMainWindow().getShell());
+        super(filterView.getMainWindow().getShell(), false);
         this.filterView = filterView;
         this.mainWindow = this.filterView.getMainWindow();
     }

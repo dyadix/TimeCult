@@ -54,7 +54,7 @@ public class FindDialog extends SWTDialog {
     private String currSearchKey;
 
     public FindDialog(SWTMainWindow mainWindow, Workspace workspace) {
-        super(mainWindow.getShell());
+        super(mainWindow.getShell(), true);
         this.workspace = workspace;
         this.mainWindow = mainWindow;
         this.projectTreeView = mainWindow.getProjectTreeView();

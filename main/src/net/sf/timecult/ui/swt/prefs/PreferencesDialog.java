@@ -39,7 +39,7 @@ public class PreferencesDialog extends SWTDialog {
     private NotificationPrefsPanel notificationPrefsPanel;
 
     public PreferencesDialog(Shell parent) {
-        super(parent);
+        super(parent, false);
     }
 
 

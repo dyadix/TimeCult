@@ -36,7 +36,7 @@ public class ReasonDialog extends SWTDialog {
     private SWTProjectTreePopup popup;
     
     public ReasonDialog(SWTProjectTreePopup popup) {        
-        super(popup.getShell());
+        super(popup.getShell(), false);
         this.popup = popup;
     }
 

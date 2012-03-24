@@ -51,7 +51,7 @@ public class TimeSheetDialog extends SWTDialog {
     private Shell shell;
 
     public TimeSheetDialog(Shell parent, String title, Date endDate) {
-        super(parent);
+        super(parent, false);
         //Date endDate = Calendar.getInstance().getTime();
         this.timeSheet = new TimeSheet(TimeTracker.getInstance().getWorkspace()
             .getTimeLog(), endDate, 7);

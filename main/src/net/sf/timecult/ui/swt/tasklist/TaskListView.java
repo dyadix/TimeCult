@@ -63,7 +63,7 @@ public class TaskListView extends SWTDialog {
 
 
     public TaskListView(SWTMainWindow mainWindow) {
-        super(mainWindow.getShell());
+        super(mainWindow.getShell(), false);
         this.mainWindow = mainWindow;
         this.taskSubtype = Task.class;
     }

@@ -47,9 +47,12 @@ import org.eclipse.swt.widgets.Text;
  */
 public abstract class SWTDialog extends Dialog {
 
-	public SWTDialog(Shell parent) {
+    private boolean forcedModal;
+
+	public SWTDialog(Shell parent, boolean forcedModal) {
 		super(parent);
         _defaultKeyListener = new DialogKeyListener();
+        this.forcedModal = forcedModal;
 	}
 	
 	private void setup(Shell shell) {
@@ -133,7 +136,7 @@ public abstract class SWTDialog extends Dialog {
 	public void open () {
 		Shell parent = getParent();
 		if (_shell == null) {
-            if (PlatformUtil.isGtk) {
+            if (PlatformUtil.isGtk && !forcedModal) {
                 _shell = new Shell(parent, SWT.DIALOG_TRIM);
             }
             else {

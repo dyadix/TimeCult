@@ -21,7 +21,7 @@ public class CalendarDialog extends SWTDialog {
     private Text dateField;
 
     public CalendarDialog(Shell parent, Text dateField) {
-        super(parent);
+        super(parent, true);
         this.dateField = dateField;
     }
     

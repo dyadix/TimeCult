@@ -47,7 +47,7 @@ public class SWTAboutDialog extends SWTDialog{
     private StackLayout infoPanelLayout;    
     
 	public SWTAboutDialog(Shell shell) {
-		super(shell);
+		super(shell, false);
 	}
 		
 
