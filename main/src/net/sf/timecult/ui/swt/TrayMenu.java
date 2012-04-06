@@ -63,6 +63,7 @@ public class TrayMenu {
     
     private void disposeShell() {
         this.trayShell.dispose();
+        this.trayShell = null;
     }
     
     public void open() {
@@ -72,7 +73,7 @@ public class TrayMenu {
             setup(trayShell);
         }
         this.popup.setVisible(true);
-        while (!trayShell.isDisposed()) {
+        while (trayShell != null && !trayShell.isDisposed()) {
             if (!d.readAndDispatch())
                 d.sleep();
         }
@@ -93,7 +94,7 @@ public class TrayMenu {
             startItem,
             new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {                    
-                    if (evt.getSource() instanceof MenuItem) {                        
+                    if (evt.getSource() instanceof MenuItem) {
                         MenuItem item = (MenuItem) evt.getSource();
                         Object data = item.getData();
                         if (data instanceof Task) {
@@ -119,7 +120,12 @@ public class TrayMenu {
         popup.addMenuListener(new MenuAdapter() {
             @Override
             public void menuHidden(MenuEvent e) {
-                dispose();
+                trayShell.getDisplay().timerExec(100, new Runnable() {
+                    @Override
+                    public void run() {
+                        dispose();
+                    }
+                });
             }
         });
     }

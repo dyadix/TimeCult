@@ -27,10 +27,7 @@ import org.eclipse.swt.events.MenuAdapter;
 import org.eclipse.swt.events.MenuEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,7 +70,7 @@ public class TimerTrayMenu {
         stopItem.setText(ResourceHelper.getString("button.stop.tooltip"));
         stopItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                TimerTrayMenu.this.timerWindow.terminate();             
+                TimerTrayMenu.this.timerWindow.terminate();
             }
         });
         shell.setMenu(popup);
@@ -81,7 +78,12 @@ public class TimerTrayMenu {
         popup.addMenuListener(new MenuAdapter() {
             @Override
             public void menuHidden(MenuEvent e) {
-                dispose();
+                trayShell.getDisplay().timerExec(500, new Runnable(){
+                    @Override
+                    public void run() {
+                        dispose();
+                    }
+                });
             }
         });
     }

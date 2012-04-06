@@ -261,6 +261,7 @@ public class SWTMainWindow {
             _shell.setVisible(true);
             _shell.setMaximized(true);
         }
+        _shell.setActive();
     }
     
     
