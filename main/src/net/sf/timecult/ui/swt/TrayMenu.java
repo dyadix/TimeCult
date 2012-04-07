@@ -100,11 +100,17 @@ public class TrayMenu {
                         MenuItem item = (MenuItem) evt.getSource();
                         Object data = item.getData();
                         if (data instanceof Task) {
-                            Task task = (Task) data;
-                            TimeTracker.getInstance().getUIManager()
-                                .startTimer(
-                                    TimeTracker.getInstance().getWorkspace(),
-                                    task);
+                            final Task task = (Task) data;
+                            mainWindow.getShell().getDisplay().timerExec(500, new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    TimeTracker.getInstance().getUIManager()
+                                            .startTimer(
+                                                    TimeTracker.getInstance().getWorkspace(),
+                                                    task);
+                                }
+                            });
                         }
                     }
                 }
