@@ -62,8 +62,10 @@ public class TrayMenu {
     }
     
     private void disposeShell() {
-        this.trayShell.dispose();
-        this.trayShell = null;
+        if (trayShell != null && !trayShell.isDisposed()) {
+            this.trayShell.dispose();
+            this.trayShell = null;
+        }
     }
     
     public void open() {
@@ -123,7 +125,7 @@ public class TrayMenu {
                 trayShell.getDisplay().timerExec(100, new Runnable() {
                     @Override
                     public void run() {
-                        dispose();
+                        disposeShell();
                     }
                 });
             }

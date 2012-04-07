@@ -378,7 +378,6 @@ public class SWTProjectTreePopup implements WorkspaceListener {
                         new WorkspaceEvent(
                                 WorkspaceEvent.TASK_STATUS_CHANGED, task));
         _treeView.updateTreeItemStyle(_selection);
-        TrayMenu.dispose();
         //_treeView.getParent().getMainMenu().updateFlagged();
         _treeView.getParent().getStatusLine().setSelection(task);
     }
