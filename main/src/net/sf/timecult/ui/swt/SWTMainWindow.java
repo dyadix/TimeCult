@@ -254,14 +254,12 @@ public class SWTMainWindow {
         }
         return _iconSet;
     }
-    
-    
+
+
     public void restoreWindow() {
-        if (!_shell.isVisible()) {
-            _shell.setVisible(true);
-            _shell.setMaximized(true);
-        }
-        _shell.setActive();
+        _shell.setVisible(true);
+        _shell.setMinimized(false);
+        _shell.forceActive();
     }
     
     
