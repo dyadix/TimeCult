@@ -1,7 +1,7 @@
 <!--
     TimeCult Build File
     
-    Copyright (c) R.Vishnyakov, 2005-2011 <dyadix@gmail.com>
+    Copyright (c) R.Vishnyakov, 2005-2012 <dyadix@gmail.com>
 
      BUILD TARGETS:
 
@@ -188,12 +188,21 @@
     </target>
 
     <!-- Create a distributable package -->
-    <target name="dist" depends="launcher">
-        <zip destfile="./${build-stamp}-win32-portable.zip">
+    <target name="dist" depends="linux-dist,win-dist">
+
+    </target>
+
+    <target name="linux-dist" if="isOsLinux" depends="package">
+        <tar destfile="./${build-stamp}-linux-${os.arch}.tar.gz" compression="gzip">
+            <tarfileset dir="${dist}"/>
+        </tar>
+    </target>
+
+    <target name="win-dist" if="isOsWindows" depends="launcher">
+        <zip destfile="./${build-stamp}-win-${os.arch}-portable.zip">
             <zipfileset dir="${dist}" prefix="${build-stamp}"/>
         </zip>
     </target>
-
 
     <target name="launcher" depends="package" if="isOsWindows">
         <copy file="${winrun4j.dir}/bin/WinRun4J.exe" tofile="${dist}/timecult.exe"/>
@@ -250,7 +259,7 @@
                 use="true"
                 package="true"
                 windowtitle="TimeCult"
-                bottom="Copyright (c) R.Vishnyakov, 2005-2010">
+                bottom="Copyright (c) R.Vishnyakov, 2005-2012">
         </javadoc>
     </target>
 
