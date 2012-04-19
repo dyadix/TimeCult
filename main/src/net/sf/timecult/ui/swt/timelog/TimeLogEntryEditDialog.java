@@ -65,14 +65,14 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
     
     
     public TimeLogEntryEditDialog(SWTMainWindow mainWindow, Task task) {
-        super(mainWindow.getShell(), false);
+        super(mainWindow.getShell(), true);
         this.mainWindow = mainWindow;
         this.timeRec = new TimeRecord(task, getDefaultStartTime(), 0, "");
         this.timeRec = workspace.createRecord(task, getDefaultStartTime(), 0, "", true);
     }
 
     public TimeLogEntryEditDialog(SWTMainWindow mainWindow, TimeRecord timeRec, boolean isNew) {        
-        super(mainWindow.getShell(), false);
+        super(mainWindow.getShell(), true);
         this.mainWindow = mainWindow;
         this.timeRec = timeRec;
         this.isNew = isNew;

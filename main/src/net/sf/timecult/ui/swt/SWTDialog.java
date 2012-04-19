@@ -49,7 +49,7 @@ public abstract class SWTDialog extends Dialog {
 
     private boolean forcedModal;
 
-	public SWTDialog(Shell parent, boolean forcedModal) {
+	protected SWTDialog(Shell parent, boolean forcedModal) {
 		super(parent);
         _defaultKeyListener = new DialogKeyListener();
         this.forcedModal = forcedModal;
@@ -134,6 +134,7 @@ public abstract class SWTDialog extends Dialog {
     }
 	
 	public void open () {
+        if (_shell != null && _shell.isVisible()) return;
 		Shell parent = getParent();
 		if (_shell == null) {
             if (PlatformUtil.isGtk && !forcedModal) {

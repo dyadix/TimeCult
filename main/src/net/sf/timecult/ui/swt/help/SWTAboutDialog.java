@@ -44,11 +44,19 @@ public class SWTAboutDialog extends SWTDialog{
     private Button creditsButton;
     private Composite creditsPanel;
     private Composite infoPanel;
-    private StackLayout infoPanelLayout;    
+    private StackLayout infoPanelLayout;
+    private static SWTAboutDialog instance;
     
-	public SWTAboutDialog(Shell shell) {
+	private SWTAboutDialog(Shell shell) {
 		super(shell, false);
 	}
+
+    public static SWTAboutDialog getInstance(Shell parent) {
+        if (instance == null) {
+            instance = new SWTAboutDialog(parent);
+        }
+        return instance;
+    }
 		
 
     @Override

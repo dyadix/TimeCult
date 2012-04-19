@@ -59,7 +59,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
      * @param itemType      The item type as specified in <code>ProjectTreeItem</code>.
      */
     public ProjectItemEditDialog(SWTMainWindow mainWindow, ProjectTreeItem.ItemType itemType) {
-        super(mainWindow.getShell(), false);
+        super(mainWindow.getShell(), true);
         this.mainWindow = mainWindow;
         this.item = null;
         this.itemType = itemType;
@@ -73,7 +73,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
      * @param item          The item to be edited (must not be null!)
      */
     public ProjectItemEditDialog(SWTMainWindow mainWindow, ProjectTreeItem item) {
-        super(mainWindow.getShell(), false);
+        super(mainWindow.getShell(), true);
         this.mainWindow = mainWindow;
         this.item = item;
         this.itemType = item.getItemType();

@@ -44,7 +44,7 @@ public class TimeFilterToolbar extends ToolBarBase {
                 ToolItem customFilter = createButton("filter.add", SWT.PUSH);
                 customFilter.addSelectionListener(new SelectionAdapter() {
                     public void widgetSelected(SelectionEvent evt) {
-                        FilterSetupDialog addDialog = new FilterSetupDialog(filterView);
+                        FilterSetupDialog addDialog = FilterSetupDialog.getInstance(filterView);
                         addDialog.open();
                     }
                 });

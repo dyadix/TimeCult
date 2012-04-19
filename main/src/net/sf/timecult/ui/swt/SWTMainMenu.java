@@ -314,7 +314,7 @@ public class SWTMainMenu {
         aboutItem.setImage(_mainWindow.getIconSet().getIcon("about", true));
         aboutItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                SWTAboutDialog aboutDialog = new SWTAboutDialog(_parent);
+                SWTAboutDialog aboutDialog = SWTAboutDialog.getInstance(_parent);
                 aboutDialog.open();
             }
         });
@@ -362,7 +362,7 @@ public class SWTMainMenu {
         optionsItem.setImage(_mainWindow.getIconSet().getIcon("options", true));
         optionsItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                PreferencesDialog prefsDialog =  new PreferencesDialog(_parent);
+                PreferencesDialog prefsDialog =  PreferencesDialog.getInstance(_parent) ;
                 prefsDialog.open();
             }
         });

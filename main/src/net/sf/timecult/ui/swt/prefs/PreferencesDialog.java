@@ -37,9 +37,17 @@ public class PreferencesDialog extends SWTDialog {
     private GeneralPrefsPanel generalPrefs;
     private TimeRecPrefsPanel timeRecPrefs;
     private NotificationPrefsPanel notificationPrefsPanel;
+    private static PreferencesDialog instance;
 
-    public PreferencesDialog(Shell parent) {
+    private PreferencesDialog(Shell parent) {
         super(parent, false);
+    }
+
+    public static PreferencesDialog getInstance(Shell parent) {
+        if (instance == null) {
+            instance = new PreferencesDialog(parent);
+        }
+        return instance;
     }
 
 

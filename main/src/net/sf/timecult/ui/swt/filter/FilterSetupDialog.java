@@ -50,8 +50,9 @@ public class FilterSetupDialog extends SWTDialog implements ICalendarDialogListe
     private SWTMainWindow mainWindow;
     private Text startDateField;
     private Text endDateField;
+    private static FilterSetupDialog instance;
     
-    public FilterSetupDialog(AdvancedTimeFilterView filterView) {
+    private FilterSetupDialog(AdvancedTimeFilterView filterView) {
         super(filterView.getMainWindow().getShell(), false);
         this.filterView = filterView;
         this.mainWindow = this.filterView.getMainWindow();
@@ -84,6 +85,13 @@ public class FilterSetupDialog extends SWTDialog implements ICalendarDialogListe
     @Override
     protected String getTitle() {
         return ResourceHelper.getString("filter.dialog.title");
+    }
+
+    public static FilterSetupDialog getInstance(AdvancedTimeFilterView filterView) {
+        if (instance == null) {
+            instance = new FilterSetupDialog(filterView);
+        }
+        return instance;
     }
 
 
