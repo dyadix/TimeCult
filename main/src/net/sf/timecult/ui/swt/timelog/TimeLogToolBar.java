@@ -43,8 +43,7 @@ public class TimeLogToolBar extends ToolBarBase implements SelectionListener {
 
 
     public TimeLogToolBar(SWTTimeLogTableView timeLogTable) {
-        super(timeLogTable.getContentArea(), timeLogTable.getMainWindow().getIconSet(), 1,
-                new Color(timeLogTable.getContentArea().getDisplay(), 255, 255, 255));
+        super(timeLogTable.getContentArea(), timeLogTable.getMainWindow().getIconSet(), 1);
         this.timeLogTable = timeLogTable;
     }
 

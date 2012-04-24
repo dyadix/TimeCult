@@ -49,14 +49,14 @@ public abstract class ToolBarBase {
         this(composite, iconSet, nToolBars, null);
     }
 
-    public ToolBarBase(Composite composite, IconSet iconSet, int nToolBars, Color background) {
+    private ToolBarBase(Composite composite, IconSet iconSet, int nToolBars, Color background) {
         coolBar = new CoolBar(composite, SWT.FLAT);
         coolBar.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         coolBar.setBackground(background);
         this.iconSet = iconSet;
 
         for (int i = 0; i < nToolBars; i ++) {
-            currToolBar = new ToolBar(this.coolBar, SWT.BORDER_DOT);
+            currToolBar = new ToolBar(this.coolBar, SWT.FLAT);
             setup(i);
             currToolBar.pack();
 
