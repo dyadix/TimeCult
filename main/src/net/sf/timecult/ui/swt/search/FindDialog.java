@@ -154,6 +154,7 @@ public class FindDialog extends SWTDialog {
                         if (!switchToNext()) {
                             doFind();
                         }
+                        FindDialog.this.textToFind.setFocus();
                         break;
                     case SWT.ESC:
                         close();
