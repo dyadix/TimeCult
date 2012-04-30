@@ -47,6 +47,7 @@
     <property name="docmc.jar" location="tools/docmc.jar"/>
     <!-- DocMC compiler -->
     <property name="doc.base" location="doc"/>
+    <property name="linux-scripts" location="linux"/>
 
     <condition property="isOsWindows">
         <os family="windows"/>
@@ -195,6 +196,7 @@
     <target name="linux-dist" if="isOsLinux" depends="package">
         <tar destfile="./${build-stamp}-linux-${os.arch}.tar.gz" compression="gzip">
             <tarfileset dir="${dist}"/>
+            <tarfileset file="${linux-scripts}/timecult" filemode="555"/>
         </tar>
     </target>
 
