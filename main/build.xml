@@ -195,7 +195,9 @@
 
     <target name="linux-dist" if="isOsLinux" depends="package">
         <tar destfile="./${build-stamp}-linux-${os.arch}.tar.gz" compression="gzip">
-            <tarfileset dir="${dist}"/>
+            <tarfileset dir="${dist}">
+                <type type="file"/>
+            </tarfileset>
             <tarfileset file="${linux-scripts}/timecult" filemode="555"/>
         </tar>
     </target>
