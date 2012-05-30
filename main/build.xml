@@ -198,7 +198,7 @@
             <tarfileset dir="${dist}">
                 <type type="file"/>
             </tarfileset>
-            <tarfileset file="${linux-scripts}/timecult" filemode="555"/>
+            <tarfileset file="${linux-scripts}/timecult.sh" filemode="555"/>
         </tar>
     </target>
 

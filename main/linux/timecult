@@ -1,4 +1,0 @@
-#!/bin/bash
-JAR_FILE=$0.jar
-echo $JAR_FILE
-java -jar $JAR_FILE
