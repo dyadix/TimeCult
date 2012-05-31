@@ -195,11 +195,14 @@
 
     <target name="linux-dist" if="isOsLinux" depends="package">
         <tar destfile="./${build-stamp}-linux.tar.gz" compression="gzip">
-            <tarfileset dir="${dist}">
+            <tarfileset dir="${dist}" prefix="TimeCult-${major}.${minor}">
                 <type type="file"/>
                 <exclude name="**/swt.jar"/>
             </tarfileset>
-            <tarfileset file="${linux-scripts}/timecult.sh" filemode="555"/>
+            <tarfileset
+                    file="${linux-scripts}/timecult.sh"
+                    filemode="555"
+                    prefix="TimeCult-${major}.${minor}"/>
         </tar>
     </target>
 
