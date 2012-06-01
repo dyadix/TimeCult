@@ -125,7 +125,7 @@ public class SWTAboutDialog extends SWTDialog{
         infoLabel.setText("\n" + ResourceHelper.getString("message.about.build")
             + " " + AppInfo.getBuild() + ", "
             + AppInfo.getBuildDate()
-            + "\nCopyright \u00a9 TimeCult Project Team 2005-2010\n\n\n");
+            + "\nCopyright \u00a9 TimeCult Project Team 2005-2012\n\n\n");
         
         
         return aboutPanel;        
