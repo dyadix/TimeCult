@@ -20,8 +20,6 @@
 package net.sf.timecult.ui.swt;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.TreeMap;
 
 import net.sf.timecult.AppInfo;
 import net.sf.timecult.ResourceHelper;
@@ -291,27 +289,8 @@ public class SWTMainWindow {
     public Menu createInProgressStartMenu(MenuItem parentItem,
         SelectionListener l) {
         Menu startMenu = new Menu(parentItem);
-        Task inProgressTasks[] = TimeTracker.getInstance().getWorkspace()
-            .getTasksByStatus(new TaskStatus(TaskStatus.IN_PROGRESS));
-        TreeMap<String, Task> sortedItems = new TreeMap<String, Task>();
-        for (Task inProgressTask : inProgressTasks) {
-            if (!(inProgressTask instanceof IdleTask)) {
-                String sortKey = (inProgressTask instanceof Activity ? "2:" : "1:") + inProgressTask.getName();
-                sortedItems.put(sortKey, inProgressTask);
-            }
-        }
-        Collection<Task> tasks = sortedItems.values();
-        boolean isInTaskGroup = false;
+        Task[] tasks = TimeTracker.getInstance().getRecentTasks(7);
         for (Task task : tasks) {
-            if (task instanceof Activity) {
-                if (isInTaskGroup) {
-                    new MenuItem(startMenu, SWT.SEPARATOR);
-                    isInTaskGroup = false;
-                }
-            }
-            else {
-                isInTaskGroup = true;
-            }
             addTaskItem(startMenu, task, l);
         }
         return startMenu;

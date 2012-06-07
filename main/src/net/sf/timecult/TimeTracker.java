@@ -20,8 +20,7 @@
 package net.sf.timecult;
 
 import java.io.File;
-import java.util.Calendar;
-import java.util.Vector;
+import java.util.*;
 
 import net.sf.timecult.conf.AppPreferences;
 import net.sf.timecult.conf.ConfigurationManager;
@@ -30,15 +29,7 @@ import net.sf.timecult.io.AutosaveManager;
 import net.sf.timecult.io.FileLockManager;
 import net.sf.timecult.io.WorkspaceReader;
 import net.sf.timecult.io.WorkspaceXMLWriter;
-import net.sf.timecult.model.ContainerFactory;
-import net.sf.timecult.model.Project;
-import net.sf.timecult.model.ProjectTreeItem;
-import net.sf.timecult.model.Task;
-import net.sf.timecult.model.TimeLog;
-import net.sf.timecult.model.TimeRecordFilter;
-import net.sf.timecult.model.Workspace;
-import net.sf.timecult.model.WorkspaceEvent;
-import net.sf.timecult.model.WorkspaceListener;
+import net.sf.timecult.model.*;
 import net.sf.timecult.model.mem.LocalIdGenerator;
 import net.sf.timecult.model.mem.MemContainerFactory;
 import net.sf.timecult.model.mem.MemTimeLog;
@@ -510,7 +501,20 @@ public class TimeTracker implements WorkspaceListener {
     
     public AppPreferences getAppPreferences() {
         return AppPreferences.getInstance();
-    }   
+    }
+
+    public Task[] getRecentTasks(int maxNumber) {
+        List<Task> recentTasks = new ArrayList<Task>(maxNumber);
+        TimeRecord[] records = getTimeLog().getTimeRecords(null);
+        for (int i = records.length - 1; i >= 0; i--) {
+            Task recordedTask = records[i].getTask();
+            if (!recentTasks.contains(recordedTask)) {
+                recentTasks.add(recordedTask);
+                if (recentTasks.size() >= maxNumber) break;
+            }
+        }
+        return recentTasks.toArray(new Task[recentTasks.size()]);
+    }
     
     
     // Private attributes
