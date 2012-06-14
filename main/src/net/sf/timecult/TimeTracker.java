@@ -508,7 +508,7 @@ public class TimeTracker implements WorkspaceListener {
         TimeRecord[] records = getTimeLog().getTimeRecords(null);
         for (int i = records.length - 1; i >= 0; i--) {
             Task recordedTask = records[i].getTask();
-            if (!recentTasks.contains(recordedTask)) {
+            if (!recentTasks.contains(recordedTask) && !recordedTask.isClosed() && !recordedTask.isWaiting()) {
                 recentTasks.add(recordedTask);
                 if (recentTasks.size() >= maxNumber) break;
             }

@@ -301,7 +301,9 @@ public class SWTMainWindow {
         String iconName = task instanceof Activity ? "activity" : "inProgress";
         MenuItem taskMenuItem = new MenuItem(startMenu, SWT.CASCADE);
         taskMenuItem.setData(task);
-        taskMenuItem.setText(task.toString());
+        String menuText = task.toString();
+        if (menuText.length() > 80) menuText = menuText.substring(0,80) + "...";
+        taskMenuItem.setText(menuText);
         taskMenuItem.addSelectionListener(l);
         taskMenuItem.setImage(getIconSet().getIcon(iconName, true));
     }

@@ -131,6 +131,10 @@ public class Task extends ProjectTreeItem implements Totals, DescriptionHolder {
             return false;
         }
     }
+
+    public boolean isWaiting() {
+        return _status.getId() == TaskStatus.WAITING;
+    }
     
     public boolean isFlagged() {
         return _status.getId() == TaskStatus.FLAGGED;
