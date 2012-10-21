@@ -23,6 +23,8 @@ import net.sf.timecult.PlatformUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
@@ -122,7 +124,12 @@ public class SWTTimerWindow implements StopwatchListener {
         if (timerPos != null && AppPreferences.getInstance().isKeepTimerPos()) {
             shell.setLocation(timerPos.x, timerPos.y);
         }
-
+        shell.addShellListener(new ShellAdapter() {
+            @Override
+            public void shellClosed(ShellEvent e) {
+                terminate();
+            }
+        });
         shell.pack();
     }
 
