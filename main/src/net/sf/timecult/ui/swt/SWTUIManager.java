@@ -23,6 +23,7 @@ import java.awt.Rectangle;
 import java.io.File;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
@@ -39,6 +40,7 @@ import net.sf.timecult.model.TimeRecordFilter;
 import net.sf.timecult.model.Workspace;
 import net.sf.timecult.ui.GenericUIManager;
 import net.sf.timecult.ui.swt.timer.SWTTimerWindow;
+import org.eclipse.swt.widgets.Shell;
 
 public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
 
@@ -327,6 +329,12 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
 
     public void showNotification(String message) {        
         _mainWindow.showPopupMessage(message);
+    }
+
+    public static void setTimeCultWindowIcons(Shell shell) {
+        Image iconImage_16x16 = new Image(shell.getDisplay(), ResourceHelper.openStream("images/timecult_icon.png"));
+        Image iconImage_32x32 = new Image(shell.getDisplay(), ResourceHelper.openStream("images/timecult_icon_32x32.png"));
+        shell.setImages(new Image[] { iconImage_16x16, iconImage_32x32 });
     }
     
     

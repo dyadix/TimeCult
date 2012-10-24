@@ -20,15 +20,14 @@
 package net.sf.timecult.ui.swt.timer;
 
 import net.sf.timecult.PlatformUtil;
+import net.sf.timecult.ResourceHelper;
+import net.sf.timecult.ui.swt.SWTUIManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.ShellAdapter;
 import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.graphics.*;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Display;
@@ -103,6 +102,7 @@ public class SWTTimerWindow implements StopwatchListener {
         FillLayout layout = new FillLayout();
         layout.type = SWT.VERTICAL;
         shell.setLayout(layout);
+        SWTUIManager.setTimeCultWindowIcons(shell);
 
         _timeLabel = new Label(shell, SWT.BORDER);
         _timeLabel.setFont(new Font(_parent.getShell().getDisplay(), "Tahoma",

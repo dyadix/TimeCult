@@ -103,11 +103,7 @@ public class SWTMainWindow {
 
     private void setup() {
         this.updateTitle();
-        Image iconImage_16x16 = new Image(_shell.getDisplay(), ResourceHelper
-            .openStream("images/timecult_icon.png"));
-        Image iconImage_32x32 = new Image(_shell.getDisplay(), ResourceHelper
-            .openStream("images/timecult_icon_32x32.png"));
-        _shell.setImages(new Image[] { iconImage_16x16, iconImage_32x32 });
+        SWTUIManager.setTimeCultWindowIcons(_shell);
 
         _mainMenu = new SWTMainMenu(this);
         _mainToolBar = new SWTMainToolBar(this);
