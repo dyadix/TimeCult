@@ -11,6 +11,25 @@
 #	sudo apt-get install libswt-gtk-3-jni libswt-gtk-3-java
 #
 #
+DESKTOP_FILE=~/.local/share/applications/timecult.desktop
+if ! [ -a ${DESKTOP_FILE} ]
+then
+    echo Creating TimeCult desktop entry...
+    mkdir -p ~/.local/share/applications
+    pushd `dirname $0` > /dev/null
+    SCRIPT_PATH=`pwd`
+    popd > /dev/null
+    echo [Desktop Entry] > ${DESKTOP_FILE}
+    echo Version=0.13 >>  ${DESKTOP_FILE}
+    echo Type=Application >> ${DESKTOP_FILE}
+    echo Terminal=false >> ${DESKTOP_FILE}
+    echo Exec=${SCRIPT_PATH}/timecult.sh >> ${DESKTOP_FILE}
+    echo Icon=${SCRIPT_PATH}/timecult.ico >> ${DESKTOP_FILE}
+    echo Name=Timecult >>  ${DESKTOP_FILE}
+    echo Comment=Track time and manage your tasks >> ${DESKTOP_FILE}
+    echo Categories=Office\;Productivity\; >> ${DESKTOP_FILE}
+    echo Done
+fi
 . /usr/lib/java-wrappers/java-wrappers.sh
 find_java_runtime java6
 find_jars ${0%.*}.jar /usr/lib/java/swt-gtk-*.jar
