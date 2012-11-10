@@ -200,6 +200,9 @@
                 <exclude name="**/swt.jar"/>
             </tarfileset>
             <tarfileset
+                file="./timecult.ico"
+                prefix="TimeCult-${major}.${minor}"/>
+            <tarfileset
                     file="${linux-scripts}/timecult.sh"
                     filemode="555"
                     prefix="TimeCult-${major}.${minor}"/>
