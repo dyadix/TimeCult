@@ -216,10 +216,10 @@
     </target>
 
     <target name="launcher" depends="package" if="isOsWindows">
-        <copy file="${winrun4j.dir}/bin/WinRun4J.exe" tofile="${dist}/timecult.exe"/>
+        <copy file="${winrun4j.dir}/bin/WinRun4J64.exe" tofile="${dist}/timecult.exe"/>
         <copy file="${basedir}/timecult.ini" todir="${dist}"/>
         <copy file="${basedir}/splash.gif" todir="${dist}"/>
-        <exec executable="${winrun4j.dir}/bin/RCEDIT.EXE">
+        <exec executable="${winrun4j.dir}/bin/RCEDIT64.EXE">
             <arg value="/I"/>
             <arg value="${dist}/timecult.exe"/>
             <arg value="${basedir}/timecult.ico"/>
@@ -231,7 +231,7 @@
         <property name="build-stamp" value="${appname}-${major}.${minor}-${build.number}"/>
         <exec executable="${innosetup.dir}/ISCC" failonerror="true">
             <arg value="/O${basedir}"/>
-            <arg value="/F${build-stamp}-win32-setup"/>
+            <arg value="/F${build-stamp}-win-x64-setup"/>
             <arg value="timecult-win32.iss"/>
         </exec>
     </target>
