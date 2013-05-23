@@ -39,7 +39,7 @@
     <property name="appfile" value="${appname}.jar"/>
     <property name="version-file" location="version.number"/>
     <property name="appinfo-file" value="${classes}/net/sf/timecult/appinfo.properties"/>
-    <property file="build.properties"/>
+    <property file="local.build.properties"/>
     <property file="${version-file}"/>
     <property name="temp.dir" location="build/temp"/>
     <property name="doc.temp" location="${temp.dir}/doc"/>
@@ -71,8 +71,8 @@
     <target name="init" depends="update-build-number">
         <tstamp>
             <format property="TODAY" pattern="MMMM d, yyyy" locale="en"/>
+            <format property="build.number" pattern="yyMMdd"/>
         </tstamp>
-        <property file="build.number"/>
         <property name="build-stamp" value="${appname}-${major}.${minor}-${build.number}"/>
     </target>
 
@@ -91,7 +91,7 @@
     <!-- Compile all the application -->
     <target name="compile" depends="init">
         <mkdir dir="${classes}"/>
-        <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" debug="on" target="1.6">
+        <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" source="1.6" debug="on" target="1.6">
             <classpath refid="classpath.id"/>
         </javac>
     </target>
