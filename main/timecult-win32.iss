@@ -1,6 +1,6 @@
 ;
-; TimeCult InnoSetup configuration file for Win32
-; Copyright (c) Rustam Vishnyakov, 2007-2010
+; TimeCult InnoSetup configuration file for Win64
+; Copyright (c) Rustam Vishnyakov, 2007-2013
 ;
 #include "build\temp\version.iss"
 
@@ -10,6 +10,8 @@ AppPublisher=TimeCult Project Team
 AppPublisherURL=http://timecult.sf.net
 AppSupportURL=http://timecult.sf.net
 AppUpdatesURL=http://timecult.sf.net
+ArchitecturesAllowed=x64
+ArchitecturesInstallIn64BitMode=x64
 DefaultDirName={pf}\TimeCult
 DefaultGroupName=TimeCult
 LicenseFile=gpl.txt
