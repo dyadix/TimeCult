@@ -68,7 +68,7 @@
         </fileset>
     </path>
 
-    <target name="init" depends="update-build-number">
+    <target name="init">
         <tstamp>
             <format property="TODAY" pattern="MMMM d, yyyy" locale="en"/>
             <format property="build.number" pattern="yyMMdd"/>
@@ -253,13 +253,6 @@
         </zip>
     </target>
 
-    <target name="update-build-number">
-        <propertyfile file="build.number" comment="Generated automatically. Don&apos;t change!">
-            <entry key="build.number" type="int" default="000" operation="+" pattern="000"/>
-        </propertyfile>
-    </target>
-
-
     <!-- Generate Java documentation -->
     <target name="javadoc" description="Generate java documentation">
         <mkdir dir="${javadoc}"/>
@@ -278,8 +271,8 @@
         <mkdir dir="${temp.dir}"/>
         <echo file="${temp.dir}/version.iss">
             [Setup]
-            AppVerName=TimeCult ${major}.${minor}.${build.number}
-            VersionInfoVersion=${major}.${minor}.${build.number}
+            AppVerName=TimeCult ${major}.${minor}
+            VersionInfoVersion=${major}.${minor}
         </echo>
     </target>
 
