@@ -153,6 +153,16 @@ public class SWTProjectTreeView implements AppPreferencesListener {
                             break;
                     }
                 }
+                else if (e.stateMask == SWT.NONE) {
+                    switch (e.keyCode) {
+                        case SWT.CR:
+                            TreeItem[] selection = _tree.getSelection();
+                            if (selection.length > 0) {
+                                selection[0].setExpanded(!selection[0].getExpanded());
+                            }
+                            break;
+                    }
+                }
             }
 
 
