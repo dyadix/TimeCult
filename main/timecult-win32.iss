@@ -31,6 +31,7 @@ Name: "desktopicon"; Description: "Create a &desktop icon"; GroupDescription: "A
 [Files]
 Source:  "dist\*.*"; DestDir: "{app}"; Flags: ignoreversion
 Source:  "dist\lib\*.*"; DestDir: "{app}\lib"; Flags: ignoreversion
+Source:  "dist\jre\*.*"; DestDir: "{app}\jre"; Flags: ignoreversion recursesubdirs
 
 [Icons]
 Name: "{group}\TimeCult"; Filename: "{app}\timecult.exe" ; WorkingDir: "{app}\"

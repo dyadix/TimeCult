@@ -215,7 +215,7 @@
         </zip>
     </target>
 
-    <target name="launcher" depends="package" if="isOsWindows">
+    <target name="launcher" depends="package,copy-jre" if="isOsWindows">
         <taskdef name="launch4j"
                  classname="net.sf.launch4j.ant.Launch4jTask"
                  classpath="${launch4j.dir}/launch4j.jar:${launch4j.dir}/lib/xstream.jar" />
@@ -289,6 +289,13 @@
             <param name="doc.out" value="${build}/doc"/>
             <param name="help.file" value="timecult_en.chm"/>
         </antcall>
+    </target>
+
+    <target name="copy-jre" if="isOsWindows">
+        <mkdir dir="${dist}"/>
+        <copy todir="${dist}/jre">
+            <fileset dir="${jre.dir}"/>
+        </copy>
     </target>
 
     <!-- Assamble help file from .dm files -->

@@ -14,7 +14,8 @@
   <manifest></manifest>
   <icon>timecult.ico</icon>
   <jre>
-    <path></path>
+    <path>%EXEDIR%/jre</path>
+    <bundledJre64Bit>true</bundledJre64Bit>
     <minVersion>1.6.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
