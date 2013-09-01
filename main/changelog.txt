@@ -2,3 +2,4 @@
 
 * Versioning scheme changed 0.14->1.4
 * [Enter] expands/collapses project tree branch.
+* launch4j is used for Win launcher, bundled JRE.
