@@ -161,6 +161,24 @@ public class SWTProjectTreeView implements AppPreferencesListener {
                                 selection[0].setExpanded(!selection[0].getExpanded());
                             }
                             break;
+                        case '0':
+                            setFlag(null);
+                            break;
+                        case '1':
+                            setFlag(TaskStatus.FlagColor.RED);
+                            break;
+                        case '2':
+                            setFlag(TaskStatus.FlagColor.ORANGE);
+                            break;
+                        case '3':
+                            setFlag(TaskStatus.FlagColor.BLUE);
+                            break;
+                        case '4':
+                            setFlag(TaskStatus.FlagColor.GREEN);
+                            break;
+                        case '5':
+                            setFlag(TaskStatus.FlagColor.MAGENTA);
+                            break;
                     }
                 }
             }
@@ -170,6 +188,23 @@ public class SWTProjectTreeView implements AppPreferencesListener {
                 // Do nothing
             }
         });
+    }
+
+    private void setFlag(TaskStatus.FlagColor flagColor) {
+        if (_tree.getSelectionCount() != 0) {
+            Object currSelection = _tree.getSelection()[0].getData();
+            if (currSelection != null && currSelection instanceof Task) {
+                Task currTask = (Task)currSelection;
+                if (flagColor == null) {
+                    currTask.setStatus(TaskStatus.IN_PROGRESS);
+                }
+                else {
+                    currTask.setStatus(TaskStatus.FLAGGED);
+                    currTask.setFlagColor(flagColor);
+                }
+                update();
+            }
+        }
     }
 	
 	public void update() {

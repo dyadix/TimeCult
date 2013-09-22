@@ -159,15 +159,15 @@ public class SWTProjectTreePopup implements WorkspaceListener {
         _markWithItem.setMenu(markWithMenu);
         _markWithItem.setText(ResourceHelper.getString("menu.markWith"));
 
-        createFlagItem(markWithMenu, TaskStatus.FlagColor.RED);
-        createFlagItem(markWithMenu, TaskStatus.FlagColor.ORANGE);
-        createFlagItem(markWithMenu, TaskStatus.FlagColor.BLUE);
-        createFlagItem(markWithMenu, TaskStatus.FlagColor.GREEN);
-        createFlagItem(markWithMenu, TaskStatus.FlagColor.MAGENTA);
+        createFlagItem(markWithMenu, TaskStatus.FlagColor.RED, '1');
+        createFlagItem(markWithMenu, TaskStatus.FlagColor.ORANGE, '2');
+        createFlagItem(markWithMenu, TaskStatus.FlagColor.BLUE, '3');
+        createFlagItem(markWithMenu, TaskStatus.FlagColor.GREEN, '4');
+        createFlagItem(markWithMenu, TaskStatus.FlagColor.MAGENTA, '5');
 
         new MenuItem(markWithMenu, SWT.SEPARATOR);
 
-        createFlagItem(markWithMenu, null);
+        createFlagItem(markWithMenu, null, '0');
 
         if (!isActivity) {
             createWaitMenu();
@@ -459,12 +459,12 @@ public class SWTProjectTreePopup implements WorkspaceListener {
         }
     }
 
-    private MenuItem createFlagItem(Menu markWithMenu, final TaskStatus.FlagColor flagColor) {
+    private MenuItem createFlagItem(Menu markWithMenu, final TaskStatus.FlagColor flagColor, char accelerator) {
         MenuItem flagItem = new MenuItem(markWithMenu, SWT.CASCADE);
         if (flagColor != null) {
             final String tag = flagColor.toString().toLowerCase() + "Flag";
             flagItem.setImage(getIcon(tag));
-            flagItem.setText(ResourceHelper.getString("menu.markWith." + tag));
+            flagItem.setText(ResourceHelper.getString("menu.markWith." + tag) + '\t' + accelerator);
             flagItem.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
                     if (_selection != null && _selection instanceof Task) {
@@ -475,7 +475,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
                 }
             });
         } else {
-            flagItem.setText(ResourceHelper.getString("menu.markWith.clearFlag"));
+            flagItem.setText(ResourceHelper.getString("menu.markWith.clearFlag") + '\t' + accelerator);
             flagItem.addSelectionListener(new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
                     if (_selection != null && _selection instanceof Task) {
@@ -487,6 +487,7 @@ public class SWTProjectTreePopup implements WorkspaceListener {
                 }
             });
         }
+        flagItem.setAccelerator(accelerator);
         return flagItem;
     }
 
