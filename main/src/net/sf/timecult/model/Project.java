@@ -222,8 +222,13 @@ public class Project extends ProjectTreeItem implements Totals, DescriptionHolde
     public boolean isComposite() {
         return true;
     }
-    
-    
+
+    @Override
+    public boolean mayHaveDeadline() {
+        return true;
+    }
+
+
     @Override
     public boolean isDeletable() {
         return true;

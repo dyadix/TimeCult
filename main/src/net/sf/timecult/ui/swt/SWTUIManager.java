@@ -21,12 +21,18 @@ package net.sf.timecult.ui.swt;
 
 import java.awt.Rectangle;
 import java.io.File;
+import java.util.Calendar;
 
+import net.sf.timecult.ui.swt.calendar.CalendarDialog;
+import net.sf.timecult.ui.swt.calendar.ICalendarDialogListener;
+import net.sf.timecult.util.Formatter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.*;
 
 import net.sf.timecult.AppInfo;
 import net.sf.timecult.ResourceHelper;
@@ -40,7 +46,8 @@ import net.sf.timecult.model.TimeRecordFilter;
 import net.sf.timecult.model.Workspace;
 import net.sf.timecult.ui.GenericUIManager;
 import net.sf.timecult.ui.swt.timer.SWTTimerWindow;
-import org.eclipse.swt.widgets.Shell;
+
+import javax.swing.*;
 
 public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
 
@@ -335,6 +342,45 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
         Image iconImage_16x16 = new Image(shell.getDisplay(), ResourceHelper.openStream("images/timecult_icon.png"));
         Image iconImage_32x32 = new Image(shell.getDisplay(), ResourceHelper.openStream("images/timecult_icon_32x32.png"));
         shell.setImages(new Image[] { iconImage_16x16, iconImage_32x32 });
+    }
+
+    public static Text addDateField(final SWTDialog dialog, Composite contentPanel) {
+        IconSet iconSet = ((SWTUIManager)TimeTracker.getInstance().getUIManager()).getIconSet();
+        //
+        // Create date entry panel
+        //
+        Composite dateEntryPanel = new Composite(contentPanel, SWT.None);
+        GridLayout gl = new GridLayout();
+        dateEntryPanel.setLayout(gl);
+        gl.numColumns = 2;
+        gl.marginWidth = 0;
+        //
+        // Add date entry field (text)
+        //
+        GridData gd = new GridData();
+        gd.widthHint = 100;
+        final Text dateField = new Text(dateEntryPanel, SWT.BORDER);
+        dateField.setLayoutData(gd);
+        dateField.setText("");
+        //
+        // Add date picker button
+        //
+        Button datePickerButton = new Button(dateEntryPanel, SWT.None);
+        datePickerButton.setImage(iconSet.getIcon("calendar", true));
+        datePickerButton.addSelectionListener(new SelectionAdapter() {
+
+            public void widgetSelected(SelectionEvent evt) {
+                CalendarDialog calDialog = new CalendarDialog(dialog.getShell(), dateField);
+                calDialog.setListener(new ICalendarDialogListener() {
+                    @Override
+                    public void dateSelected(Calendar data, Text dateField) {
+                        dateField.setText(Formatter.toDateString(data.getTime()));
+                    }
+                });
+                calDialog.open();
+            }
+        });
+        return dateField;
     }
     
     

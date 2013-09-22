@@ -38,6 +38,7 @@ public abstract class ProjectTreeItem {
     private boolean expanded = false;
     private Date creationDateTime;
     private Date closeDateTime;
+    private Date deadline;
     private String hyperlink;
     
     public ProjectTreeItem(String id, String name, Project parent) {
@@ -166,4 +167,13 @@ public abstract class ProjectTreeItem {
        return this.parent.belongsTo(project);
     }
 
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
+    }
+
+    public abstract boolean mayHaveDeadline();
 }

@@ -166,7 +166,12 @@ public class Task extends ProjectTreeItem implements Totals, DescriptionHolder {
         return false;
     }
 
-    
+    @Override
+    public boolean mayHaveDeadline() {
+        return true;
+    }
+
+
     private TaskStatus _status = new TaskStatus();
     private String _description = "";
     private WaitReason _waitReason;    

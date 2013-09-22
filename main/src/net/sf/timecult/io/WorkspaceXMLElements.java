@@ -68,6 +68,7 @@ public interface WorkspaceXMLElements {
     public final static String HYPERLINK_ATTR = "url";
     public final static String DEFAULT_NOTE_ATTR = "defaultNote";
     public final static String FLAG_COLOR_ATTR = "flagColor";
+    public final static String DEADLINE = "deadline";
 
     /*
      * Settings (properties)

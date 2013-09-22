@@ -21,7 +21,9 @@ package net.sf.timecult.ui.swt;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
@@ -47,6 +49,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
     private Text idText;
     private Text createdText;
     private Text closedText;
+    private Text deadlineText;
     private SWTMainWindow mainWindow;
     private ProjectTreeItem item;
     private ProjectTreeItem.ItemType itemType;
@@ -84,13 +87,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
     public String getName() {
         return this.nameText.getText();
     }
-    
-    
-    public String getHyperlink() {
-        return this.hyperlinkText.getText();
-    }
-    
-    
+
     public SWTMainWindow getMainWindow() {
         return this.mainWindow;
     }
@@ -149,6 +146,9 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
                 this.closedText.addKeyListener(getDefaultKeyListener());
             }
         }
+        Label deadlineLabel = new Label(textPanel, SWT.None);
+        deadlineLabel.setText("Deadline:"); //TODO: LOCALIZE!
+        this.deadlineText = SWTUIManager.addDateField(this, textPanel);
         return textPanel;
     }
     
@@ -166,6 +166,9 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
             }
             if (item.getCloseDateTime() != null) {
                 this.closedText.setText(Formatter.toDateTimeString(item.getCloseDateTime(),true));
+            }
+            if (item.getDeadline() != null) {
+                deadlineText.setText(Formatter.toDateString(item.getDeadline()));
             }
         }
         else {
@@ -195,19 +198,38 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
                 }
             }
         }
+        Date deadline;
+        try {
+            String deadlineStr = deadlineText.getText();
+            if (deadlineStr == null || deadlineStr.trim().isEmpty()) {
+                deadline = null;
+            } else {
+                deadline = Formatter.parseDateString(deadlineText.getText());
+            }
+        } catch (ParseException e) {
+            errorMessage("Invalid date format!"); //TODO: LOCALIZE
+            return false;
+        }
         if (item == null) {
-            item = createItemAtSelection();           
+            item = createItemAtSelection();
+            setItemData(item, hyperlink, deadline);
         }
         else {            
             item.setName(this.nameText.getText());
-            item.setHyperlink(hyperlink);
+            setItemData(item, hyperlink, deadline);
             boolean extendedResult = afterUpdate();
             appInstance.getUIManager().setCurrentSelection(item);
             return extendedResult;
             
         }
         return true;
-    }   
+    }
+
+
+    private void setItemData(ProjectTreeItem item, String hyperlink, Date deadline) {
+        item.setDeadline(deadline);
+        item.setHyperlink(hyperlink);
+    }
     
     
     protected boolean afterUpdate() {
@@ -226,7 +248,6 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
         ProjectTreeItem selectedItem = this.appInstance.getWorkspace().getSelection();
         if (selectedItem != null && selectedItem instanceof Project) {
             treeItem = this.appInstance.getWorkspace().createItem((Project)selectedItem, this.itemType, id, name);
-            treeItem.setHyperlink(getHyperlink());
             if (treeItem != null) {
                 TimeTracker.getInstance().getUIManager().updateProjectTree();
                 treeItem.setCreationDateTime(Calendar.getInstance().getTime());

@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.Date;
 
 import org.znerd.xmlenc.XMLOutputter;
 
@@ -183,6 +184,12 @@ public class WorkspaceXMLWriter implements WorkspaceXMLElements {
         String url = item.getHyperlink();
         if (url != null && !url.trim().isEmpty()) {
             this.output.attribute(HYPERLINK_ATTR, url);
+        }
+        if (item.mayHaveDeadline()) {
+            Date deadline = item.getDeadline();
+            if (deadline != null) {
+                this.output.attribute(DEADLINE, Long.toString(deadline.getTime()));
+            }
         }
     }
     

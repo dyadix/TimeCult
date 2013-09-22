@@ -23,6 +23,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 
+import net.sf.timecult.ui.swt.SWTUIManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -72,11 +73,11 @@ public class FilterSetupDialog extends SWTDialog implements ICalendarDialogListe
         
         Label startDateLabel = new Label(contentPanel, SWT.None);
         startDateLabel.setText(ResourceHelper.getString("filter.startDate"));
-        this.startDateField = addDateField(contentPanel);
+        this.startDateField = SWTUIManager.addDateField(this, contentPanel);
         
         Label endDateLabel = new Label(contentPanel, SWT.None);
         endDateLabel.setText(ResourceHelper.getString("filter.endDate"));
-        this.endDateField = addDateField(contentPanel);
+        this.endDateField = SWTUIManager.addDateField(this, contentPanel);
         
         return contentPanel;
     }
@@ -122,38 +123,7 @@ public class FilterSetupDialog extends SWTDialog implements ICalendarDialogListe
         return true;
     }
 
-    private Text addDateField(Composite contentPanel) {
-        //
-        // Create date entry panel
-        //
-        Composite dateEntryPanel = new Composite(contentPanel, SWT.None);
-        GridLayout gl = new GridLayout();
-        dateEntryPanel.setLayout(gl);
-        gl.numColumns = 2;
-        gl.marginWidth = 0;
-        //
-        // Add date entry field (text)
-        //
-        GridData gd = new GridData();
-        gd.widthHint = 80;        
-        final Text dateField = new Text(dateEntryPanel, SWT.BORDER);
-        dateField.setText("");        
-        //
-        // Add date picker button
-        //
-        Button datePickerButton = new Button(dateEntryPanel, SWT.None);
-        datePickerButton.setImage(this.mainWindow.getIconSet().getIcon("calendar", true));
-        datePickerButton.addSelectionListener(new SelectionAdapter() {
 
-            public void widgetSelected(SelectionEvent evt) {
-                CalendarDialog calDialog = new CalendarDialog(
-                    FilterSetupDialog.this.getShell(), dateField);
-                calDialog.setListener(FilterSetupDialog.this);
-                calDialog.open();
-            }
-        });
-        return dateField;
-    }
 
 
     public void dateSelected(Calendar data, Text dateField) {

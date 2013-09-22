@@ -361,6 +361,11 @@ public class WorkspaceReader extends DefaultHandler implements
         if (url != null) {
             item.setHyperlink(url);
         }
+        String deadlineStr = attributes.getValue(DEADLINE);
+        if (deadlineStr != null) {
+            long deadlineTimeMs = Long.parseLong(deadlineStr);
+            item.setDeadline(new Date(deadlineTimeMs));
+        }
     }
     
     
