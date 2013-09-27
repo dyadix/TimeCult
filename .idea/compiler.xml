@@ -15,6 +15,7 @@
       <entry name="?*.tld" />
       <entry name="?*.ftl" />
       <entry name="?*.ttf" />
+      <entry name="?*.ico" />
     </wildcardResourcePatterns>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="false">
