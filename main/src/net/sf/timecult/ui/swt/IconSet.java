@@ -19,6 +19,7 @@
  */
 package net.sf.timecult.ui.swt;
 
+import java.io.InputStream;
 import java.util.HashMap;
 
 import net.sf.timecult.ResourceHelper;
@@ -70,7 +71,7 @@ public class IconSet {
         imageMap.put("book.enabled", createImage(display, "book.png"));
         imageMap.put("book-open.enabled", createImage(display, "book_open.png"));
         imageMap.put("page.enabled", createImage(display, "doc.png"));
-        imageMap.put("timecult.enabled", createImage(display, "timecult_icon.png"));
+        imageMap.put("timecult.enabled", createImage(display, "timecult.ico"));
         imageMap.put("edit.enabled", createImage(display, "edit.png"));
         imageMap.put("add.enabled", createImage(display, "add.png"));
         imageMap.put("timesheet.enabled", createImage(display, "timesheet.png"));
@@ -117,8 +118,8 @@ public class IconSet {
     }    
     
     private Image createImage(Display display, String imgFile) {
-        return new Image(display,
-                ResourceHelper.openStream("images/" + imgFile));
+        InputStream inputStream = ResourceHelper.openStream("images/" + imgFile);
+        return new Image(display, inputStream);
     }
         
     public Image getIcon (String tag, boolean enabled) {
