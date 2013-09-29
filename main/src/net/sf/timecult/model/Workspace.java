@@ -422,8 +422,13 @@ public class Workspace extends Project {
     public ItemType getItemType() {
         return ItemType.WORKSPACE;
     }
-    
-    
+
+    @Override
+    public boolean mayHaveDeadline() {
+        return false;
+    }
+
+
     public CustomFilterList getCustomFilters() {
         return this._customFilters;
     }

@@ -55,7 +55,12 @@ public class IdleTask extends Task {
     public ItemType getItemType() {    
         return ItemType.IDLE_TASK;
     }
-    
+
+    @Override
+    public boolean mayHaveDeadline() {
+        return false;
+    }
+
 
     public String getDefaultNote() {
         return _defaultNote;

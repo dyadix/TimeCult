@@ -64,6 +64,7 @@ public class SWTProjectTreeView implements AppPreferencesListener {
     private final Color blueFlagTextColor;
     private final Color orangeFlagTextColor;
     private final Color magentaFlagTextColor;
+    private final Color dueHighlihgtColor;
     private HashMap<Integer,Font> fontMap = new HashMap<Integer,Font>();
     private SortCriteria sortCriteria = SortCriteria.BY_NAME;
 
@@ -86,6 +87,7 @@ public class SWTProjectTreeView implements AppPreferencesListener {
     final private Image _waitingImage;
     final private Image _activityImage;
     final private Image _closedProjectImage;
+    final private Image pastDeadlineImage;
 
 	public SWTProjectTreeView(SWTMainWindow mainWindow) {
         _mainWindow = mainWindow;
@@ -126,6 +128,7 @@ public class SWTProjectTreeView implements AppPreferencesListener {
         _waitingImage = iconSet.getIcon("waiting", true);
         _activityImage = iconSet.getIcon("activity", true);
         _closedProjectImage = iconSet.getIcon("project-closed", true);
+        pastDeadlineImage = iconSet.getIcon("past.due", true);
         
         this.disabledTextColor = new Color(_mainWindow.getShell().getDisplay(),
             128, 128, 192);
@@ -136,6 +139,10 @@ public class SWTProjectTreeView implements AppPreferencesListener {
         this.blueFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 0, 0, 255);
         this.orangeFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 255, 127, 0);
         this.magentaFlagTextColor = new Color(_mainWindow.getShell().getDisplay(), 200, 0, 100);
+        Color treeColor = this.getTree().getBackground();
+        dueHighlihgtColor = new Color(
+                _mainWindow.getShell().getDisplay(),
+                treeColor.getRed(), treeColor.getGreen() * 3/4, treeColor.getBlue() *3/4);
         
         AppPreferences.getInstance().addListener(this);
         
@@ -357,6 +364,10 @@ public class SWTProjectTreeView implements AppPreferencesListener {
         }
         if (modelItem.getHyperlink() != null) {
             item.setText(item.getText() + " \u00b7\u00b7\u00b7");
+        }
+        if (modelItem.isPastDeadline()) {
+            item.setImage(pastDeadlineImage);
+            item.setBackground(dueHighlihgtColor);
         }
     }
 	

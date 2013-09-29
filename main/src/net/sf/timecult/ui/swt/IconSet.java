@@ -115,6 +115,7 @@ public class IconSet {
         imageMap.put("joinRecords.enabled", createImage(display, "arrow_join.png"));
 
         imageMap.put("find.enabled", createImage(display, "find.png"));
+        imageMap.put("past.due.enabled", createImage(display, "past_due.png"));
     }    
     
     private Image createImage(Display display, String imgFile) {

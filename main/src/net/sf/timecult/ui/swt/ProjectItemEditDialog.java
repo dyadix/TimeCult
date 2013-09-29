@@ -145,10 +145,12 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
                 this.closedText.setEditable(false);
                 this.closedText.addKeyListener(getDefaultKeyListener());
             }
+            if (item.mayHaveDeadline()) {
+                Label deadlineLabel = new Label(textPanel, SWT.None);
+                deadlineLabel.setText("Deadline:"); //TODO: LOCALIZE!
+                this.deadlineText = SWTUIManager.addDateField(this, textPanel);
+            }
         }
-        Label deadlineLabel = new Label(textPanel, SWT.None);
-        deadlineLabel.setText("Deadline:"); //TODO: LOCALIZE!
-        this.deadlineText = SWTUIManager.addDateField(this, textPanel);
         return textPanel;
     }
     
@@ -167,7 +169,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
             if (item.getCloseDateTime() != null) {
                 this.closedText.setText(Formatter.toDateTimeString(item.getCloseDateTime(),true));
             }
-            if (item.getDeadline() != null) {
+            if (item.mayHaveDeadline() && item.getDeadline() != null) {
                 deadlineText.setText(Formatter.toDateString(item.getDeadline()));
             }
         }
@@ -198,17 +200,19 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
                 }
             }
         }
-        Date deadline;
-        try {
-            String deadlineStr = deadlineText.getText();
-            if (deadlineStr == null || deadlineStr.trim().isEmpty()) {
-                deadline = null;
-            } else {
-                deadline = Formatter.parseDateString(deadlineText.getText());
+        Date deadline = null;
+        if (deadlineText != null) {
+            try {
+                String deadlineStr = deadlineText.getText();
+                if (deadlineStr == null || deadlineStr.trim().isEmpty()) {
+                    deadline = null;
+                } else {
+                    deadline = Formatter.parseDateString(deadlineText.getText());
+                }
+            } catch (ParseException e) {
+                errorMessage("Invalid date format!"); //TODO: LOCALIZE
+                return false;
             }
-        } catch (ParseException e) {
-            errorMessage("Invalid date format!"); //TODO: LOCALIZE
-            return false;
         }
         if (item == null) {
             item = createItemAtSelection();

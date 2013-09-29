@@ -19,6 +19,7 @@
  */
 package net.sf.timecult.model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -176,4 +177,8 @@ public abstract class ProjectTreeItem {
     }
 
     public abstract boolean mayHaveDeadline();
+
+    public boolean isPastDeadline() {
+        return !isClosed() && deadline != null && deadline.compareTo(Calendar.getInstance().getTime()) < 0;
+    }
 }
