@@ -28,7 +28,7 @@ public interface WorkspaceXMLElements {
     /*
      * The current file version. File versions are not backwards compatible.
      */
-    public final static int FILE_VERSION = 11;
+    public final static int FILE_VERSION = 12;
 
     /*
      * Tag and attribute names
