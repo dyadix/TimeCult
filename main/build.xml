@@ -105,6 +105,7 @@
                 <include name="**/*.properties"/>
                 <include name="**/*.html"/>
                 <include name="**/*.ttf"/>
+                <include name="**/*.ico"/>
             </fileset>
         </copy>
     </target>
@@ -122,6 +123,7 @@
                 <include name="**/*.properties"/>
                 <include name="**/*.html"/>
                 <include name="**/*.ttf"/>
+                <include name="**/*.ico"/>
             </fileset>
         </jar>
         <!-- Copy libraries -->
