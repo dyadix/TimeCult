@@ -213,6 +213,13 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
                 errorMessage("Invalid date format!"); //TODO: LOCALIZE
                 return false;
             }
+            if (deadline != null) {
+                Date current = Calendar.getInstance().getTime();
+                if (deadline.compareTo(current) < 0) {
+                    errorMessage("Deadline must be in the future!"); //TODO: LOCALIZE
+                    return false;
+                }
+            }
         }
         if (item == null) {
             item = createItemAtSelection();
