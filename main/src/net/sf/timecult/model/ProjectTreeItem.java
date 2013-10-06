@@ -178,7 +178,18 @@ public abstract class ProjectTreeItem {
 
     public abstract boolean mayHaveDeadline();
 
+    public Date getInheritedDeadline() {
+        Project project = getParent();
+        if (project == null) return null;
+        Date projectDeadline = project.getDeadline();
+        return projectDeadline == null ? projectDeadline : project.getInheritedDeadline();
+    }
+
     public boolean isPastDeadline() {
+        Date deadline = getDeadline();
+        if (deadline == null) {
+            deadline = getInheritedDeadline();
+        }
         return !isClosed() && deadline != null && deadline.compareTo(Calendar.getInstance().getTime()) < 0;
     }
 }
