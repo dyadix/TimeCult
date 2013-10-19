@@ -182,7 +182,7 @@ public abstract class ProjectTreeItem {
         Project project = getParent();
         if (project == null) return null;
         Date projectDeadline = project.getDeadline();
-        return projectDeadline == null ? projectDeadline : project.getInheritedDeadline();
+        return projectDeadline != null ? projectDeadline : project.getInheritedDeadline();
     }
 
     public boolean isPastDeadline() {
