@@ -145,7 +145,7 @@ public class AppPreferences {
     
     
     public void setTotalsColWidth(int col, int width) {
-        this.totalsColWidths[col] = width;
+        if (col < this.totalsColWidths.length) this.totalsColWidths[col] = width;
     }
     
     
