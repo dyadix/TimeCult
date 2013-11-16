@@ -40,7 +40,7 @@ public class NotificationPrefsPanel {
     
     private void setup() {
         TabItem notificationPrefsTab = new TabItem(this.prefsDialog.getTabFolder(), SWT.BORDER);
-        notificationPrefsTab.setText("Notifications"); // TODO: LOCALIZE
+        notificationPrefsTab.setText(ResourceHelper.getString("settings.notifications"));
         this.contentArea = new Composite(this.prefsDialog.getTabFolder(), SWT.NONE);
         GridLayout areaLayout = new GridLayout();
         areaLayout.numColumns = 2;        
@@ -56,14 +56,14 @@ public class NotificationPrefsPanel {
         this.runningTimerNotificationButton = new Button(this.contentArea, SWT.CHECK);
         this.runningTimerNotificationButton.setSelection(prefsDialog.getAppPreferences().isRunningTimerNotification());
         Label l = new Label(this.contentArea, SWT.None);
-        l.setText("Running timer(s)"); // TODO: LOCALIZE
+        l.setText(ResourceHelper.getString("settings.notifications.runningTimers"));
     }
     
     private void addIdleTimeNotificationSetting() {        
         this.idleTimeNotificationButton = new Button(this.contentArea, SWT.CHECK);
         this.idleTimeNotificationButton.setSelection(prefsDialog.getAppPreferences().isIdleTimeNotification());
         Label l = new Label(this.contentArea, SWT.None);
-        l.setText("Idle time"); // TODO: LOCALIZE
+        l.setText(ResourceHelper.getString("settings.notifications.idleTime"));
     }
     
     

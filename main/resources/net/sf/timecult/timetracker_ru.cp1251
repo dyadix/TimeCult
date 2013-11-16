@@ -215,3 +215,11 @@ menu.markWith.blueFlag=На очереди
 menu.markWith.orangeFlag=Текущее
 menu.markWith.magentaFlag=Отложенное
 menu.markWith.clearFlag=Очистить
+
+button.tasklist.pdf.tooltip=Вывести в PDF
+button.filter.add.tooltip=Добавить фильтр
+button.filter.delete.tooltip=Удалить фильтр
+
+settings.notifications=Уведомления
+settings.notifications.runningTimers=Запущенные таймеры
+settings.notifications.idleTime=Время простоя
