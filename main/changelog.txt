@@ -1,3 +1,7 @@
+1.5
+
+* Workspace locking correctly works on Linux (utilizes /run/lock).
+
 1.4
 
 * Versioning scheme changed 0.14->1.4

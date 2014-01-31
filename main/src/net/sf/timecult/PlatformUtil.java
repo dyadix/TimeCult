@@ -27,4 +27,13 @@ import org.eclipse.swt.SWT;
  */
 public class PlatformUtil {
     public final static boolean isGtk = SWT.getPlatform().contains("gtk");
+    private final static String OS_NAME = System.getProperty("os.name");
+
+    public static boolean isOSWindows() {
+        return OS_NAME.contains("Win");
+    }
+
+    public static boolean isOSLinux() {
+        return OS_NAME.contains("Linux");
+    }
 }

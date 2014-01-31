@@ -19,6 +19,8 @@
  */
 package net.sf.timecult.io;
 
+import net.sf.timecult.PlatformUtil;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -31,7 +33,9 @@ import java.util.HashMap;
  * multiple times. 
  */
 public class FileLockManager {
-    
+
+    private final static String LINUX_LOCK_DIR = "/run/lock";
+    private final static String APP_LOCK_DIR = "timecult";
     private static HashMap<String,LockEntry> lockMap = new HashMap<String,LockEntry>();
         
     public static synchronized boolean lock(String filePath) {
@@ -71,38 +75,43 @@ public class FileLockManager {
     
     
     public static boolean isLocked(String filePath) {
-        boolean locked = false;
         File lockFile = getLockFile(filePath);
         if (lockFile.exists()) {
+            if (PlatformUtil.isOSLinux()) return true;
             FileReader fr = null;
             try {
                 fr = new FileReader(lockFile);
                 fr.read();
             }
             catch (Exception e) {
-                locked = true;
+                return true;
             }
             finally {
                 try {
-                    fr.close();
+                    if (fr != null) fr.close();
                 }
                 catch (IOException e) {
                     // Surpress
                 }
             }
         }
-        return locked;
+        return false;
     }
     
     
     private static File getLockFile(String dataFilePath) {
-        StringBuffer buf = new StringBuffer();
-        int dotPos = dataFilePath.lastIndexOf(".");
-        if (dotPos >= 0) {
-            buf.append(dataFilePath.substring(0, dotPos));
-        }
-        else {
-            buf.append(dataFilePath);
+        StringBuilder buf = new StringBuilder();
+        if (PlatformUtil.isOSWindows()) {
+            int dotPos = dataFilePath.lastIndexOf(".");
+            if (dotPos >= 0) {
+                buf.append(dataFilePath.substring(0, dotPos));
+            } else {
+                buf.append(dataFilePath);
+            }
+        } else if (PlatformUtil.isOSLinux()) {
+            int lastDirSeparator = dataFilePath.lastIndexOf(File.separator);
+            String name = lastDirSeparator >= 0 ? dataFilePath.substring(lastDirSeparator) : dataFilePath;
+            buf.append(LINUX_LOCK_DIR).append(File.separator).append(APP_LOCK_DIR).append(File.separator).append(name);
         }
         buf.append(".lock");
         return new File(buf.toString());
@@ -118,14 +127,6 @@ public class FileLockManager {
         {
             this.lockFile = FileLockManager.getLockFile(filePath);
             this.filePath = filePath;
-        }
-        
-        public File getLockFile() {
-            return this.lockFile;
-        }
-        
-        public FileLock getLock() {
-            return this.lock;
         }
         
         public boolean lock() {
@@ -148,6 +149,7 @@ public class FileLockManager {
                 this.lock.channel().close();
                 this.stream.close();
                 if (this.lockFile.exists()) {
+                    //noinspection ResultOfMethodCallIgnored
                     this.lockFile.delete();
                 }
                 return true;
