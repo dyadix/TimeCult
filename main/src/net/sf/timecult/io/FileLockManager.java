@@ -111,7 +111,14 @@ public class FileLockManager {
         } else if (PlatformUtil.isOSLinux()) {
             int lastDirSeparator = dataFilePath.lastIndexOf(File.separator);
             String name = lastDirSeparator >= 0 ? dataFilePath.substring(lastDirSeparator) : dataFilePath;
-            buf.append(LINUX_LOCK_DIR).append(File.separator).append(APP_LOCK_DIR).append(File.separator).append(name);
+            buf.append(LINUX_LOCK_DIR);
+            int linuxDirLen = buf.length();
+            buf.append(File.separator).append(APP_LOCK_DIR);
+            File appLockRoot = new File(buf.toString());
+            if (!(appLockRoot.exists() || appLockRoot.mkdirs())) {
+                buf.delete(linuxDirLen, buf.length());
+            }
+            buf.append(File.separator).append(name);
         }
         buf.append(".lock");
         return new File(buf.toString());
