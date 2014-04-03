@@ -24,7 +24,7 @@ package net.sf.timecult.model;
  * Task is a unit for which a spent time can be measured.
  * @author rvishnyakov (rvishnyakov@yahoo.com)
  */
-public class Task extends ProjectTreeItem implements Totals, DescriptionHolder {
+public class Task extends ProjectTreeItem implements TotalsCalculator, DescriptionHolder {
 
     public Task(Project parent, String id, String name) {
         super(id, name, parent);
@@ -48,8 +48,9 @@ public class Task extends ProjectTreeItem implements Totals, DescriptionHolder {
     /**
      * @return Total duration for the task.
      */
-    public Duration getTotalDuration(TimeLog timeLog, TimeRecordFilter filter) {
-        long taskDuration = 0;
+    @Override
+    public Totals getTotals(TimeLog timeLog, TimeRecordFilter filter) {
+        Totals totals = new Totals();
         TimeRecordFilter localTaskFilter = new TimeRecordFilter();
         if (filter != null) {
             localTaskFilter = (TimeRecordFilter) filter.clone();
@@ -57,10 +58,9 @@ public class Task extends ProjectTreeItem implements Totals, DescriptionHolder {
         localTaskFilter.setTask(this);
         TimeRecord timeRecords[] = timeLog.getTimeRecords(localTaskFilter);
         for (int i = 0; i < timeRecords.length; i++) {
-            taskDuration += TimeUtil.getFilteredTimeRec(filter, timeRecords[i])
-                .getDuration().getValue();
+            totals.addDuration(TimeUtil.getFilteredTimeRec(filter, timeRecords[i]).getDuration());
         }
-        return new Duration(taskDuration);
+        return totals;
     }
 
     public Project getProject() {

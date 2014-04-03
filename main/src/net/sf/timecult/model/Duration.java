@@ -62,4 +62,12 @@ public class Duration {
         this.duration = newDuration;
     }
 
+    /**
+     * Increase duration by the given number of milliseconds.
+     * @param ms The number of milliseconds to increase the duration by.
+     */
+    public void inc(long ms) {
+        duration += ms;
+    }
+
 }

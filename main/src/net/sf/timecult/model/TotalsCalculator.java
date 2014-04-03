@@ -1,6 +1,9 @@
 /*
- * Copyright (c) TimeCult Project Team, 2005-2014 (dyadix@gmail.com)
+ * File: Totals.java
+ * Created: 10.06.2005
  *
+ * Copyright (c) Rustam Vishnyakov, 2005-2006 (rvishnyakov@yahoo.com)
+ * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -14,23 +17,18 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- *
- * $Id: $
  */
-
 package net.sf.timecult.model;
 
 /**
- * @author rvishnyakov
+ * Base interface for classes which may calculate totals.
+ * @author rvishnyakov (rvishnyakov@yahoo.com)
  */
-public class Totals {
-    private Duration duration = new Duration(0);
+public interface TotalsCalculator {
 
-    public Duration getDuration() {
-        return duration;
-    }
-
-    public void addDuration(Duration toAdd) {
-        duration.inc(toAdd.getValue());
-    }
+    /**
+     * @return Total duration in milliseconds.
+     * @param timeLog The time log to use.
+     */
+    public Totals getTotals(TimeLog timeLog, TimeRecordFilter filter);
 }

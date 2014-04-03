@@ -22,13 +22,8 @@ package net.sf.timecult.ui.swt;
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.conf.AppPreferences;
-import net.sf.timecult.model.Project;
-import net.sf.timecult.model.ProjectTreeItem;
-import net.sf.timecult.model.Task;
-import net.sf.timecult.model.TimeLog;
-import net.sf.timecult.model.TimeRecord;
-import net.sf.timecult.model.TimeRecordFilter;
-import net.sf.timecult.model.Totals;
+import net.sf.timecult.model.*;
+import net.sf.timecult.model.TotalsCalculator;
 import net.sf.timecult.util.Formatter;
 
 import org.eclipse.swt.SWT;
@@ -128,8 +123,8 @@ public class SWTTotalsTableView {
                 }
                 */
 				if (selectedItem.getData() != null
-						&& selectedItem.getData() instanceof Totals) {
-					addTableItem((Totals) selectedItem.getData(), true);
+						&& selectedItem.getData() instanceof TotalsCalculator) {
+					addTableItem((TotalsCalculator) selectedItem.getData(), true);
 				}
 			}
 		}
@@ -164,8 +159,8 @@ public class SWTTotalsTableView {
         for (int i = 0; i < nChildren; i++) {
             TreeItem child = selectedItem.getItem(i);
             Object data = child.getData();
-            if (data != null && data instanceof Totals) {
-                addTableItem((Totals)data, false);
+            if (data != null && data instanceof TotalsCalculator) {
+                addTableItem((TotalsCalculator)data, false);
             }
         }
     }
@@ -174,7 +169,7 @@ public class SWTTotalsTableView {
 		updateTable();
 	}
 	
-	private void addTableItem(Totals data, boolean highlight) {
+	private void addTableItem(TotalsCalculator data, boolean highlight) {
 		StringBuffer buf = new StringBuffer();
 		TableItem item = new TableItem(_table, SWT.NONE);
 		if (highlight) {
@@ -185,7 +180,7 @@ public class SWTTotalsTableView {
 			buf.append(")");
 		}
 		item.setText(1, buf.toString());
-		item.setText(2, data.getTotalDuration(_timeLog, TimeTracker.getInstance().getFilter()).toString());
+		item.setText(2, data.getTotals(_timeLog, TimeTracker.getInstance().getFilter()).getDuration().toString());
 		if (highlight) {
 			FontData[] f = item.getFont().getFontData();
             for(int i = 0; i < f.length; i ++) {
@@ -205,15 +200,15 @@ public class SWTTotalsTableView {
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < items.length; i++) {
             Object dataObject = items[i].getData();
-            if (dataObject instanceof Totals && dataObject instanceof ProjectTreeItem) {
+            if (dataObject instanceof TotalsCalculator && dataObject instanceof ProjectTreeItem) {
                 ProjectTreeItem pti = (ProjectTreeItem) dataObject;
                 buf.append(pti.getId());
                 buf.append("\t");
                 buf.append(pti.getName());
                 buf.append("\t");
-                Totals totals = (Totals) dataObject;
-                buf.append(totals.getTotalDuration(_timeLog,
-                        TimeTracker.getInstance().getFilter()).toString());
+                TotalsCalculator totalsCalculator = (TotalsCalculator) dataObject;
+                buf.append(totalsCalculator.getTotals(_timeLog,
+                        TimeTracker.getInstance().getFilter()).getDuration().toString());
                 if (i < items.length - 1) {
                     buf.append("\n");
                 }

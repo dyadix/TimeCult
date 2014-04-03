@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 //import java.util.Calendar;
 import java.util.Date;
 
+import net.sf.timecult.model.TotalsCalculator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -41,7 +42,6 @@ import org.eclipse.swt.widgets.TableItem;
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.model.Duration;
-import net.sf.timecult.model.Totals;
 import net.sf.timecult.ui.swt.SWTDialog;
 
 public class TimeSheetDialog extends SWTDialog {
@@ -59,7 +59,7 @@ public class TimeSheetDialog extends SWTDialog {
         this.shell = parent.getShell();
     }
     
-    public void addItems(Totals[] items) {
+    public void addItems(TotalsCalculator[] items) {
         for (int i = 0; i < items.length; i++) {
             if (this.timeSheet.getTimeUsed(items[i]).getValue() != 0) {
                 this.timeSheet.addItem(items[i]);
@@ -116,7 +116,7 @@ public class TimeSheetDialog extends SWTDialog {
     }
     
     private void addTableData(Shell shell, Table table) {
-        Totals items[] = timeSheet.getItems();
+        TotalsCalculator items[] = timeSheet.getItems();
         Date dates[] = this.timeSheet.getDates();
         long totals[] = new long[dates.length];
         boolean odd = true;

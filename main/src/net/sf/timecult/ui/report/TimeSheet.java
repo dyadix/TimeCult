@@ -26,25 +26,25 @@ import java.util.Vector;
 import net.sf.timecult.model.Duration;
 import net.sf.timecult.model.TimeLog;
 import net.sf.timecult.model.TimeRecordFilter;
-import net.sf.timecult.model.Totals;
+import net.sf.timecult.model.TotalsCalculator;
 
 /**
  * Contains timesheet data.
  */
 public class TimeSheet {
-    
+
     private Calendar startDate;
     private Calendar endDate;
-    private Vector<Totals> items = new Vector<Totals>();
+    private Vector<TotalsCalculator> items = new Vector<TotalsCalculator>();
     private TimeLog timeLog;
-    
+
     /**
      * Creates a new empty timesheet for the given number of days
      * ending with end date.
      * @param endDate   The end date.
      * @param ndays     The number of days to be included.
      */
-    public TimeSheet(TimeLog timeLog, Date endDate, int ndays) {        
+    public TimeSheet(TimeLog timeLog, Date endDate, int ndays) {
         this.endDate = Calendar.getInstance();
         this.endDate.setTime(endDate);
         this.endDate.set(Calendar.HOUR_OF_DAY, 0);
@@ -56,23 +56,23 @@ public class TimeSheet {
         this.startDate.add(Calendar.DATE, -ndays);
         this.timeLog = timeLog;
     }
-    
+
     /**
      * Adds an item (project or task) to the timesheet.
      * @param item  The item to add.
      */
-    public void addItem(Totals item) {
+    public void addItem(TotalsCalculator item) {
         this.items.add(item);
     }
-    
+
     /**
      * Get all the items (projects and tasks) from the timesheet.
      * @return Project and tasks added to the timesheet.
      */
-    public Totals[] getItems() {
-        return items.toArray(new Totals[0]);
+    public TotalsCalculator[] getItems() {
+        return items.toArray(new TotalsCalculator[0]);
     }
-    
+
     /**
      * @return An array of dates from start date to end date.
      */
@@ -97,10 +97,9 @@ public class TimeSheet {
         endDate.setTime(date);
         endDate.add(Calendar.DATE, 1);
         filter.setToDate(endDate.getTime());
-        Duration timeUsed = items.get(itemIndex).getTotalDuration(
+        return items.get(itemIndex).getTotals(
             timeLog,
-            filter);
-        return timeUsed;
+            filter).getDuration();
     }
     
     
@@ -108,14 +107,13 @@ public class TimeSheet {
         return getTimeUsed(items.get(itemIndex));
     }
     
-    public Duration getTimeUsed(Totals item) {
+    public Duration getTimeUsed(TotalsCalculator item) {
         TimeRecordFilter filter = new TimeRecordFilter();
         filter.setSinceDate(startDate.getTime());
         filter.setToDate(endDate.getTime());
-        Duration timeUsed = item.getTotalDuration(
+        return item.getTotals(
             timeLog,
-            filter);
-        return timeUsed;
+            filter).getDuration();
     }
     
 

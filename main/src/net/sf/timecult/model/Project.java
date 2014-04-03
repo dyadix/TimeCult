@@ -26,7 +26,7 @@ import java.util.TreeMap;
  * used for it is calculated as a sum of times spent for each task.
  * @author rvishnyakov (dyadix@gmail.com)
  */
-public class Project extends ProjectTreeItem implements Totals, DescriptionHolder {
+public class Project extends ProjectTreeItem implements TotalsCalculator, DescriptionHolder {
     
     public enum SortCriteria { DEFAULT, BY_ID, BY_NAME };
 
@@ -153,19 +153,18 @@ public class Project extends ProjectTreeItem implements Totals, DescriptionHolde
     /**
      * @return Total time for the project.
      */
-    public Duration getTotalDuration(TimeLog timeLog, TimeRecordFilter filter) {
-        long projDuration = 0;
+    @Override
+    public Totals getTotals(TimeLog timeLog, TimeRecordFilter filter) {
+        Totals projTotals = new Totals();
         Task tasks[] = getTasks(SortCriteria.DEFAULT);
-        for (int i = 0; i < tasks.length; i++) {
-            projDuration += tasks[i].getTotalDuration(timeLog, filter)
-                    .getValue();
+        for (Task task : tasks) {
+            projTotals.addDuration(task.getTotals(timeLog, filter).getDuration());
         }
         Project subprojects[] = getSubprojects(SortCriteria.DEFAULT);
-        for (int i = 0; i < subprojects.length; i++) {
-            projDuration += subprojects[i].getTotalDuration(timeLog, filter)
-                    .getValue();
+        for (Project subproject : subprojects) {
+            projTotals.addDuration(subproject.getTotals(timeLog, filter).getDuration());
         }
-        return new Duration(projDuration);
+        return projTotals;
     }
 
     public String getDescription() {
