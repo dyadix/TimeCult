@@ -48,8 +48,8 @@ import org.eclipse.swt.widgets.TreeItem;
 
 public class SWTTotalsTableView {
     
-    private static final String[] titles = { "table.object", "table.object", "table.duration" };
-    private static final int[] align = { SWT.RIGHT, SWT.LEFT, SWT.RIGHT };
+    private static final String[] titles = { "table.object", "table.object", "table.duration", "table.closed" };
+    private static final int[] align = { SWT.RIGHT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT };
     
     private AppPreferences appPrefs;
 
@@ -172,6 +172,7 @@ public class SWTTotalsTableView {
 	private void addTableItem(TotalsCalculator data, boolean highlight) {
 		StringBuffer buf = new StringBuffer();
 		TableItem item = new TableItem(_table, SWT.NONE);
+        Totals totals = data.getTotals(_timeLog, TimeTracker.getInstance().getFilter());
 		if (highlight) {
             buf.append(ResourceHelper.getString("message.total") + " (");
         }
@@ -180,7 +181,8 @@ public class SWTTotalsTableView {
 			buf.append(")");
 		}
 		item.setText(1, buf.toString());
-		item.setText(2, data.getTotals(_timeLog, TimeTracker.getInstance().getFilter()).getDuration().toString());
+		item.setText(2, totals.getDuration().toString());
+        item.setText(3, totals.getClosedItems() > 0 ? Integer.toString(totals.getClosedItems()) : "");
 		if (highlight) {
 			FontData[] f = item.getFont().getFontData();
             for(int i = 0; i < f.length; i ++) {

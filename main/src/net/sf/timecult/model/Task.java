@@ -46,7 +46,7 @@ public class Task extends ProjectTreeItem implements TotalsCalculator, Descripti
     }
 
     /**
-     * @return Total duration for the task.
+     * @return Totals for the task.
      */
     @Override
     public Totals getTotals(TimeLog timeLog, TimeRecordFilter filter) {
@@ -57,8 +57,17 @@ public class Task extends ProjectTreeItem implements TotalsCalculator, Descripti
         }
         localTaskFilter.setTask(this);
         TimeRecord timeRecords[] = timeLog.getTimeRecords(localTaskFilter);
-        for (int i = 0; i < timeRecords.length; i++) {
-            totals.addDuration(TimeUtil.getFilteredTimeRec(filter, timeRecords[i]).getDuration());
+        for (TimeRecord timeRecord : timeRecords) {
+            totals.addDuration(TimeUtil.getFilteredTimeRec(filter, timeRecord).getDuration());
+        }
+        if (isClosed()
+                && getCloseDateTime() != null
+                && filter != null
+                && filter.getSinceDate() != null
+                && filter.getToDate() != null
+                && filter.getSinceDate().before(getCloseDateTime())
+                && filter.getToDate().after(getCloseDateTime())) {
+            totals.incClosedItems(1);
         }
         return totals;
     }

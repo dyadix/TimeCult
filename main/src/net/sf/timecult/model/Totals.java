@@ -25,6 +25,8 @@ package net.sf.timecult.model;
  */
 public class Totals {
     private Duration duration = new Duration(0);
+    private int newItems = 0;
+    private int closedItems = 0;
 
     public Duration getDuration() {
         return duration;
@@ -32,5 +34,21 @@ public class Totals {
 
     public void addDuration(Duration toAdd) {
         duration.inc(toAdd.getValue());
+    }
+
+    public int getNewItems() {
+        return newItems;
+    }
+
+    public int getClosedItems() {
+        return closedItems;
+    }
+
+    public void incNewItems(int increment) {
+        newItems += increment;
+    }
+
+    public void incClosedItems(int increment) {
+        closedItems += increment;
     }
 }
