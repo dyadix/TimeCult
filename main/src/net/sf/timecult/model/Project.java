@@ -161,12 +161,14 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
             Totals taskTotals = task.getTotals(timeLog, filter);
             projTotals.addDuration(taskTotals.getDuration());
             projTotals.incClosedItems(taskTotals.getClosedItems());
+            projTotals.incOpenItems(taskTotals.getOpenItems());
         }
         Project subprojects[] = getSubprojects(SortCriteria.DEFAULT);
         for (Project subproject : subprojects) {
             Totals subprojectTotals = subproject.getTotals(timeLog, filter);
             projTotals.addDuration(subprojectTotals.getDuration());
             projTotals.incClosedItems(subprojectTotals.getClosedItems());
+            projTotals.incOpenItems(subprojectTotals.getOpenItems());
         }
         return projTotals;
     }

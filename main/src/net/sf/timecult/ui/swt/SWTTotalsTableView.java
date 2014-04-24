@@ -48,8 +48,8 @@ import org.eclipse.swt.widgets.TreeItem;
 
 public class SWTTotalsTableView {
     
-    private static final String[] titles = { "table.object", "table.object", "table.duration", "table.closed" };
-    private static final int[] align = { SWT.RIGHT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT };
+    private static final String[] titles = { "table.object", "table.object", "table.duration", "table.closed", "table.open"};
+    private static final int[] align = { SWT.RIGHT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT };
     
     private AppPreferences appPrefs;
 
@@ -183,6 +183,7 @@ public class SWTTotalsTableView {
 		item.setText(1, buf.toString());
 		item.setText(2, totals.getDuration().toString());
         item.setText(3, totals.getClosedItems() > 0 ? Integer.toString(totals.getClosedItems()) : "");
+        item.setText(4, totals.getOpenItems() > 0 ? Integer.toString(totals.getOpenItems()) : "");
 		if (highlight) {
 			FontData[] f = item.getFont().getFontData();
             for(int i = 0; i < f.length; i ++) {

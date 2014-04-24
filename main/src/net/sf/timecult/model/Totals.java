@@ -27,6 +27,7 @@ public class Totals {
     private Duration duration = new Duration(0);
     private int newItems = 0;
     private int closedItems = 0;
+    private int openItems = 0;
 
     public Duration getDuration() {
         return duration;
@@ -50,5 +51,13 @@ public class Totals {
 
     public void incClosedItems(int increment) {
         closedItems += increment;
+    }
+
+    public int getOpenItems() {
+        return openItems;
+    }
+
+    public void incOpenItems(int increment) {
+        openItems += increment;
     }
 }
