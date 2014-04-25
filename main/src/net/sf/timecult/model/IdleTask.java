@@ -26,7 +26,8 @@ import net.sf.timecult.ResourceHelper;
  */
 public class IdleTask extends Task {
 
-    public final static String ID = "idle";
+    public final static String ID           = "idle";
+    private final       Totals EMPTY_TOTALS = new Totals();
 
     public IdleTask(Workspace workspace) {
         super(workspace, ID, ResourceHelper.getString("workspace.idle"));
@@ -49,10 +50,10 @@ public class IdleTask extends Task {
         _isEnabled = enabled;
         _workspace.fireWorkspaceChanged(new WorkspaceEvent(
                 WorkspaceEvent.TASK_STATUS_CHANGED, this));
-    }        
+    }
 
     @Override
-    public ItemType getItemType() {    
+    public ItemType getItemType() {
         return ItemType.IDLE_TASK;
     }
 
@@ -70,6 +71,10 @@ public class IdleTask extends Task {
         _defaultNote = defaultNote;
     }
 
+    @Override
+    public Totals getTotals(TimeLog timeLog, TimeRecordFilter filter) {
+        return EMPTY_TOTALS;
+    }
 
     private boolean _isEnabled = false;
     private Workspace _workspace = null;
