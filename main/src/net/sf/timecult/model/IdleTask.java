@@ -29,9 +29,13 @@ public class IdleTask extends Task {
     public final static String ID           = "idle";
     private final       Totals EMPTY_TOTALS = new Totals();
 
+    private boolean   isEnabled = false;
+    private Workspace workspace = null;
+    private String    defaultNote;
+
     public IdleTask(Workspace workspace) {
         super(workspace, ID, ResourceHelper.getString("workspace.idle"));
-        _workspace = workspace;
+        this.workspace = workspace;
     }
 
     public boolean isStandaloneTimerEnabled() {
@@ -43,12 +47,12 @@ public class IdleTask extends Task {
     }
 
     public boolean isEnabled() {
-        return _isEnabled;
+        return isEnabled;
     }
 
     public void setEnabled(boolean enabled) {
-        _isEnabled = enabled;
-        _workspace.fireWorkspaceChanged(new WorkspaceEvent(
+        isEnabled = enabled;
+        workspace.fireWorkspaceChanged(new WorkspaceEvent(
                 WorkspaceEvent.TASK_STATUS_CHANGED, this));
     }
 
@@ -64,20 +68,16 @@ public class IdleTask extends Task {
 
 
     public String getDefaultNote() {
-        return _defaultNote;
+        return defaultNote;
     }
 
     public void setDefaultNote(String defaultNote) {
-        _defaultNote = defaultNote;
+        this.defaultNote = defaultNote;
     }
 
     @Override
     public Totals getTotals(TimeLog timeLog, TimeRecordFilter filter) {
         return EMPTY_TOTALS;
     }
-
-    private boolean _isEnabled = false;
-    private Workspace _workspace = null;
-    private String _defaultNote;
 
 }

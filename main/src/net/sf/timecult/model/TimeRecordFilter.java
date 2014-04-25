@@ -28,61 +28,70 @@ import java.util.Date;
  * @author rvishnyakov (rvishnyakov@yahoo.com)
  */
 public class TimeRecordFilter {
-    
+
+    private Date    sinceDate;
+    private Date    toDate;
+    private Task    task;
+    private Project project;
+
+    private String label;
+    private boolean groupByDate = false;
+    private boolean isCustom    = false;
+
     public TimeRecordFilter(String label) {
         this.label = label;
     }
-    
-    public TimeRecordFilter() {        
+
+    public TimeRecordFilter() {
     }
 
     /**
      * @return Returns the sinceDate.
      */
     public Date getSinceDate() {
-        return _sinceDate;
+        return sinceDate;
     }
 
     /**
      * @param sinceDate The sinceDate to set.
      */
     public void setSinceDate(Date sinceDate) {
-        _sinceDate = sinceDate;
+        this.sinceDate = sinceDate;
     }
 
     /**
      * @return Returns the task.
      */
     public Task getTask() {
-        return _task;
+        return task;
     }
 
     /**
      * @param task The task to set.
      */
     public void setTask(Task task) {
-        _task = task;
+        this.task = task;
     }
 
     /**
      * @return Returns the toDate.
      */
     public Date getToDate() {
-        return _toDate;
+        return toDate;
     }
 
     /**
      * @param toDate The toDate to set.
      */
     public void setToDate(Date toDate) {
-        _toDate = toDate;
+        this.toDate = toDate;
     }
 
     public Object clone() {
         TimeRecordFilter theClone = new TimeRecordFilter(this.label);
-        theClone.setSinceDate(_sinceDate);
-        theClone.setToDate(_toDate);
-        theClone.setTask(_task);
+        theClone.setSinceDate(sinceDate);
+        theClone.setToDate(toDate);
+        theClone.setTask(task);
         theClone.setGroupByDate(this.groupByDate);
         return theClone;
     }    
@@ -110,26 +119,17 @@ public class TimeRecordFilter {
     }
     
     public Project getProject() {
-        return _project;
+        return project;
     }
 
     public void setProject(Project project) {
-        _project = project;
+        this.project = project;
     }
 
     public boolean isWithinDateRange(Date dateTime) {
         return dateTime != null &&
-                (_sinceDate == null || _sinceDate.before(dateTime)) &&
-                (_toDate == null || _toDate.after(dateTime));
+                (sinceDate == null || sinceDate.before(dateTime)) &&
+                (toDate == null || toDate.after(dateTime));
     }
 
-    private Date _sinceDate;
-    private Date _toDate;
-    private Task _task;
-    private Project _project;
-
-
-    private String label;
-    private boolean groupByDate = false;
-    private boolean isCustom = false;
 }

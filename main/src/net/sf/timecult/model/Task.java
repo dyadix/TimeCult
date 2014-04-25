@@ -26,6 +26,10 @@ package net.sf.timecult.model;
  */
 public class Task extends ProjectTreeItem implements TotalsCalculator, DescriptionHolder {
 
+    private TaskStatus status      = new TaskStatus();
+    private String     description = "";
+    private WaitReason waitReason;
+
     public Task(Project parent, String id, String name) {
         super(id, name, parent);
     }
@@ -79,33 +83,33 @@ public class Task extends ProjectTreeItem implements TotalsCalculator, Descripti
     }
 
     public void setStatus(int statusId) {
-        _status.setId(statusId);
+        status.setId(statusId);
         updateCloseDateTime(statusId);
     }
 
     public void setFlagColor(TaskStatus.FlagColor flagColor) {
-        _status.setFlagColor(flagColor);
+        status.setFlagColor(flagColor);
     }
 
     public TaskStatus.FlagColor getFlagColor() {
-        return _status.getFlagColor();
+        return status.getFlagColor();
     }
 
     public void setStatusFromString(String str) {
-        _status.setFromString(str);
-        updateCloseDateTime(_status.getId());
+        status.setFromString(str);
+        updateCloseDateTime(status.getId());
     }
 
     public int getStatusId() {
-        return _status.getId();
+        return status.getId();
     }
 
     public TaskStatus getStatus() {
-        return _status;
+        return status;
     }
 
     public String getStatusAsString() {
-        return _status.toString();
+        return status.toString();
     }
 
     /**
@@ -121,11 +125,11 @@ public class Task extends ProjectTreeItem implements TotalsCalculator, Descripti
     }
 
     public String getDescription() {
-        return _description;
+        return description;
     }
 
     public void setDescription(String description) {
-        _description = description;
+        this.description = description;
     }
     
     /**
@@ -134,7 +138,7 @@ public class Task extends ProjectTreeItem implements TotalsCalculator, Descripti
      * 
      */
     public boolean isClosed() {
-        switch (_status.getId()) {
+        switch (status.getId()) {
         case TaskStatus.FINISHED:
         case TaskStatus.CANCELLED:
             return true;
@@ -144,20 +148,20 @@ public class Task extends ProjectTreeItem implements TotalsCalculator, Descripti
     }
 
     public boolean isWaiting() {
-        return _status.getId() == TaskStatus.WAITING;
+        return status.getId() == TaskStatus.WAITING;
     }
     
     public boolean isFlagged() {
-        return _status.getId() == TaskStatus.FLAGGED;
+        return status.getId() == TaskStatus.FLAGGED;
     }
     
     
     public void setWaitReason(WaitReason waitReason) {
-        this._waitReason = waitReason;
+        this.waitReason = waitReason;
     }
     
     public WaitReason getWaitReason() {
-        return this._waitReason;
+        return this.waitReason;
     }
     
     private void updateCloseDateTime(int statusId) {
@@ -181,10 +185,5 @@ public class Task extends ProjectTreeItem implements TotalsCalculator, Descripti
     public boolean mayHaveDeadline() {
         return true;
     }
-
-
-    private TaskStatus _status = new TaskStatus();
-    private String _description = "";
-    private WaitReason _waitReason;    
 
 }

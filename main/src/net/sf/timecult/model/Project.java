@@ -30,14 +30,19 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
     
     public enum SortCriteria { DEFAULT, BY_ID, BY_NAME };
 
+    private TaskContainer    taskContainer    = null;
+    private ProjectContainer projectContainer = null;
+    private String           description      = "";
+
+
     public Project(ContainerFactory containerFactory, Project parent,
-            String id, String name) {
+                   String id, String name) {
         super(id, name, parent);
-        _taskContainer = containerFactory.createTaskContainer();
-        _projectContainer = containerFactory.createProjectContainer();
+        taskContainer = containerFactory.createTaskContainer();
+        projectContainer = containerFactory.createProjectContainer();
     }
 
-    
+
     /**
      * Sorts the project tasks according to given criterea and returns an array
      * of sorted tasks. If DEFAULT is given, the tasks are returned in the same
@@ -46,21 +51,21 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
      * @return The array of sorted tasks.
      */
     public Task[] getTasks(SortCriteria sortCriteria) {
-        Task[] tasks = _taskContainer.getTasks();
+        Task[] tasks = taskContainer.getTasks();
         if (sortCriteria == SortCriteria.DEFAULT) {
             return tasks;
         }
         TreeMap<String, Task> sortedMap = new TreeMap<String, Task>();
         for (int i = 0; i < tasks.length; i++) {
             switch (sortCriteria) {
-            case BY_NAME:
-                // Make the name unique by adding a special character
-                // followed by task ID.
-                String nameId = tasks[i].getName() + "\u0001" + tasks[i].getId();
-                sortedMap.put(nameId, tasks[i]);
-                break;
-            case BY_ID:
-                sortedMap.put(tasks[i].getId(), tasks[i]);
+                case BY_NAME:
+                    // Make the name unique by adding a special character
+                    // followed by task ID.
+                    String nameId = tasks[i].getName() + "\u0001" + tasks[i].getId();
+                    sortedMap.put(nameId, tasks[i]);
+                    break;
+                case BY_ID:
+                    sortedMap.put(tasks[i].getId(), tasks[i]);
             }
         }
         return sortedMap.values().toArray(new Task[0]);
@@ -71,7 +76,7 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
      * @param task
      */
     public void addTask(Task task) {
-        _taskContainer.addTask(task);
+        taskContainer.addTask(task);
     }
 
     /**
@@ -79,7 +84,7 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
      * @param taskId	The id of the task to be removed.
      */
     public void removeTask(String taskId) {
-        _taskContainer.removeTask(taskId);
+        taskContainer.removeTask(taskId);
     }
 
     /**
@@ -87,7 +92,7 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
      * @return Array of child projects.
      */
     public Project[] getSubprojects(SortCriteria sortCriteria) {
-        Project[] subprojects = _projectContainer.getProjects();
+        Project[] subprojects = projectContainer.getProjects();
         if (sortCriteria == SortCriteria.DEFAULT) {
             return subprojects;
         }
@@ -109,7 +114,7 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
      * @param subproject The subproject to add.
      */
     public void addSubproject(Project subproject) {
-        _projectContainer.addProject(subproject);
+        projectContainer.addProject(subproject);
     }
 
     /**
@@ -119,25 +124,25 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
      * @param timeLog       The time log to remove time records from.
      */
     public void removeSubproject(String subprojectId, TimeLog timeLog) {
-        Project subproject = _projectContainer.getProjectById(subprojectId);
+        Project subproject = projectContainer.getProjectById(subprojectId);
         if (subproject != null) {
             subproject.removeAllTasks(timeLog);
             subproject.removeAllSubprojects(timeLog);
-            _projectContainer.removeProject(subprojectId);
+            projectContainer.removeProject(subprojectId);
         }
     }
 
     private void removeAllSubprojects(TimeLog timeLog) {
-        Project[] subprojects = _projectContainer.getProjects();
+        Project[] subprojects = projectContainer.getProjects();
         for (int i = 0; i < subprojects.length; i++) {
             subprojects[i].removeAllTasks(timeLog);
             subprojects[i].removeAllSubprojects(timeLog);
         }
-        _projectContainer.removeAll();
+        projectContainer.removeAll();
     }
 
     private void removeAllTasks(TimeLog timeLog) {
-        Task tasks[] = _taskContainer.getTasks();
+        Task tasks[] = taskContainer.getTasks();
         if (tasks.length == 0) {
             return;
         }
@@ -146,7 +151,7 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
             taskFilter.setTask(task);
             timeLog.removeRecords(taskFilter);
         }
-        _taskContainer.removeAll();
+        taskContainer.removeAll();
     }
 
 
@@ -168,11 +173,11 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
     }
 
     public String getDescription() {
-        return _description;
+        return description;
     }
 
     public void setDescription(String notes) {
-        _description = notes;
+        description = notes;
     }
     
     /**
@@ -182,10 +187,10 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
      */
     public void unlinkItem(ProjectTreeItem item) {
         if (item instanceof Task) {
-            _taskContainer.removeTask(item.getId());
+            taskContainer.removeTask(item.getId());
         }
         else if (item instanceof Project) {
-            _projectContainer.removeProject(item.getId());
+            projectContainer.removeProject(item.getId());
         }
         item.setParent(null);
     }
@@ -233,9 +238,4 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
         return true;
     }
     
-    
-    private TaskContainer _taskContainer = null;
-    private ProjectContainer _projectContainer = null;
-    private String _description = "";
-
 }
