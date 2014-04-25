@@ -61,17 +61,15 @@ public class Task extends ProjectTreeItem implements TotalsCalculator, Descripti
             totals.addDuration(TimeUtil.getFilteredTimeRec(filter, timeRecord).getDuration());
         }
         if (isClosed()) {
-            if (getCloseDateTime() != null
-                    && filter != null
-                    && filter.getSinceDate() != null
-                    && filter.getToDate() != null
-                    && filter.getSinceDate().before(getCloseDateTime())
-                    && filter.getToDate().after(getCloseDateTime())) {
+            if (filter == null || filter.isWithinDateRange(getCloseDateTime())) {
                 totals.incClosedItems(1);
             }
         }
         else {
             totals.incOpenItems(1);
+        }
+        if (filter == null || filter.isWithinDateRange(getCreationDateTime())) {
+            totals.incNewItems(1);
         }
         return totals;
     }

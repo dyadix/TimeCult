@@ -117,6 +117,12 @@ public class TimeRecordFilter {
         _project = project;
     }
 
+    public boolean isWithinDateRange(Date dateTime) {
+        return dateTime != null &&
+                (_sinceDate == null || _sinceDate.before(dateTime)) &&
+                (_toDate == null || _toDate.after(dateTime));
+    }
+
     private Date _sinceDate;
     private Date _toDate;
     private Task _task;

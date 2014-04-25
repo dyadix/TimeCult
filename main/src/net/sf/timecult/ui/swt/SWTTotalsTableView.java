@@ -47,34 +47,33 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.TreeItem;
 
 public class SWTTotalsTableView {
-    
-    private static final String[] titles = { "table.object", "table.object", "table.duration", "table.closed", "table.open"};
-    private static final int[] align = { SWT.RIGHT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT };
-    
+
+    private static final String[] titles = {"table.object", "table.object", "table.duration", "table.totals.new", "table.totals.closed", "table.totals.open"};
+    private static final int[]    align  = {SWT.RIGHT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT};
+
     private AppPreferences appPrefs;
 
-	public SWTTotalsTableView(SWTMainWindow mainWindow) {
-		_mainWindow = mainWindow;
+    public SWTTotalsTableView(SWTMainWindow mainWindow) {
+        _mainWindow = mainWindow;
         this.appPrefs = AppPreferences.getInstance();
-		setup();       
-	}
-	
-	private void setup() {
-		TabItem totalsTab = new TabItem(_mainWindow.getMainTabFolder()
-				.getTabs(), SWT.BORDER);
-		totalsTab.setText(ResourceHelper.getString("tab.summary"));
-		_table = new Table(_mainWindow.getMainTabFolder().getTabs(),
-				SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI);
-		totalsTab.setControl(_table);
-		_table.setLinesVisible(true);
-		_table.setHeaderVisible(true);
+        setup();
+    }
+
+    private void setup() {
+        TabItem totalsTab = new TabItem(_mainWindow.getMainTabFolder()
+                .getTabs(), SWT.BORDER);
+        totalsTab.setText(ResourceHelper.getString("tab.summary"));
+        _table = new Table(_mainWindow.getMainTabFolder().getTabs(),
+                SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI);
+        totalsTab.setControl(_table);
+        _table.setLinesVisible(true);
+        _table.setHeaderVisible(true);
         _table.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent evt) {
                 if (evt.stateMask == SWT.CTRL) {
                     if (evt.keyCode == SWT.INSERT || evt.keyCode == 'c' || evt.keyCode == 'C') {
                         copySelectionToClipboard();
-                    }
-                    else if (evt.keyCode == 'a' || evt.keyCode == 'A') {
+                    } else if (evt.keyCode == 'a' || evt.keyCode == 'A') {
                         _table.selectAll();
                     }
                 }
@@ -84,9 +83,9 @@ public class SWTTotalsTableView {
                 // TODO Auto-generated method stub
 
             }
-        }); 
+        });
         createPopupMenu();
-		for (int i = 0; i < titles.length; i++) {
+        for (int i = 0; i < titles.length; i++) {
             TableColumn column = new TableColumn(_table, SWT.NONE, i);
             column.setAlignment(align[i]);
             column.setText(ResourceHelper.getString(titles[i]));
@@ -95,16 +94,16 @@ public class SWTTotalsTableView {
                 public void controlResized(ControlEvent e) {
                     TableColumn col = (TableColumn) e.getSource();
                     appPrefs.setTotalsColWidth(
-                        col.getParent().indexOf(col),
-                        col.getWidth());
+                            col.getParent().indexOf(col),
+                            col.getWidth());
                 }
             });
         }
         _table.getColumn(0).setResizable(false);
-		updateTable();
-	}
-	
-	public void updateTable() {
+        updateTable();
+    }
+
+    public void updateTable() {
 		_table.removeAll();
 		if (_mainWindow.getProjectTreeView().getTree().getSelectionCount() > 0) {
 			TreeItem selectedItem = _mainWindow.getProjectTreeView().getTree()
@@ -180,10 +179,12 @@ public class SWTTotalsTableView {
 		if (highlight) {
 			buf.append(")");
 		}
-		item.setText(1, buf.toString());
-		item.setText(2, totals.getDuration().toString());
-        item.setText(3, totals.getClosedItems() > 0 ? Integer.toString(totals.getClosedItems()) : "");
-        item.setText(4, totals.getOpenItems() > 0 ? Integer.toString(totals.getOpenItems()) : "");
+        int col = 0;
+		item.setText(++col, buf.toString());
+		item.setText(++col, totals.getDuration().toString());
+        item.setText(++col, totals.getNewItems() > 0 ? Integer.toString(totals.getNewItems()) : "");
+        item.setText(++col, totals.getClosedItems() > 0 ? Integer.toString(totals.getClosedItems()) : "");
+        item.setText(++col, totals.getOpenItems() > 0 ? Integer.toString(totals.getOpenItems()) : "");
 		if (highlight) {
 			FontData[] f = item.getFont().getFontData();
             for(int i = 0; i < f.length; i ++) {

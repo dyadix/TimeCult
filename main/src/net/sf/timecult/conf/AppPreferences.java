@@ -39,7 +39,7 @@ public class AppPreferences {
     
     private final static int[] DEFAULT_TIME_LOG_COL_WIDTH = {250, 250, 100, 80, 100, 200 };
     private final static int[] DEFAULT_TREE_TAB_SASH_WEIGHTS = {1,1}; // Equal size
-    private final static int[] DEFAULT_TOTALS_COL_WIDTH = { 0, 300, 100, 100, 100 };
+    private final static int[] DEFAULT_TOTALS_COL_WIDTH = { 0, 300, 100, 50, 50, 50 };
 
     private boolean hideWhenMinimized;
     private boolean keepTimerPos;

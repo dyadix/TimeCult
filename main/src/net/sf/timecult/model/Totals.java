@@ -60,4 +60,12 @@ public class Totals {
     public void incOpenItems(int increment) {
         openItems += increment;
     }
+
+    public void addTotals(Totals toAdd) {
+        if (toAdd == null) return;
+        newItems += toAdd.getNewItems();
+        closedItems += toAdd.getClosedItems();
+        openItems += toAdd.getOpenItems();
+        duration.inc(toAdd.getDuration().getValue());
+    }
 }
