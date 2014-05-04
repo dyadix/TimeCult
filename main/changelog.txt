@@ -1,6 +1,8 @@
 1.5
 
 * Workspace locking correctly works on Linux (utilizes /run/lock).
+* "New", "Closed", "Open" columns in "Summary" table.
+* timecult.sh fixed to overwrite an old desktop entry upon version change.
 
 1.4
 
