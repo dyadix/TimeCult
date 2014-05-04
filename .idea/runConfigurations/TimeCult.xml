@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="TimeCult" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="net.sf.timecult.TimeTracker" />
-    <option name="VM_PARAMETERS" value="-Dlang=ru" />
+    <option name="VM_PARAMETERS" value="" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
