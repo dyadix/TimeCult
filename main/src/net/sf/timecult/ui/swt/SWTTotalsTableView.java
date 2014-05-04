@@ -48,7 +48,13 @@ import org.eclipse.swt.widgets.TreeItem;
 
 public class SWTTotalsTableView {
 
-    private static final String[] titles = {"table.object", "table.object", "table.duration", "table.totals.new", "table.totals.closed", "table.totals.open"};
+    private static final String[] titles = {
+            "table.object",
+            "table.object",
+            "table.totals.new",
+            "table.totals.closed",
+            "table.totals.open",
+            "table.duration"};
     private static final int[]    align  = {SWT.RIGHT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT};
 
     private AppPreferences appPrefs;
@@ -181,14 +187,14 @@ public class SWTTotalsTableView {
 		}
         int col = 0;
 		item.setText(++col, buf.toString());
-		item.setText(++col, totals.getDuration().toString());
         item.setText(++col, totals.getNewItems() > 0 ? Integer.toString(totals.getNewItems()) : "");
         item.setText(++col, totals.getClosedItems() > 0 ? Integer.toString(totals.getClosedItems()) : "");
         item.setText(++col, totals.getOpenItems() > 0 ? Integer.toString(totals.getOpenItems()) : "");
+        item.setText(++col, totals.getDuration().toString());
 		if (highlight) {
 			FontData[] f = item.getFont().getFontData();
-            for(int i = 0; i < f.length; i ++) {
-            	f[i].setStyle(SWT.BOLD);
+            for (FontData aF : f) {
+                aF.setStyle(SWT.BOLD);
             }
             Font fn = new Font(_mainWindow.getShell().getDisplay(), f);
             item.setFont(fn);
