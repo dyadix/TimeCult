@@ -12,7 +12,9 @@
 #
 #
 DESKTOP_FILE=~/.local/share/applications/timecult.desktop
-if ! [ -a ${DESKTOP_FILE} ]
+VERSION=1.5
+grep "Version=${VERSION}" ${DESKTOP_FILE} > /dev/null
+if [ $? -ne 0 ]
 then
     echo Creating TimeCult desktop entry...
     mkdir -p ~/.local/share/applications
@@ -20,7 +22,7 @@ then
     SCRIPT_PATH=`pwd`
     popd > /dev/null
     echo [Desktop Entry] > ${DESKTOP_FILE}
-    echo Version=0.13 >>  ${DESKTOP_FILE}
+    echo Version=${VERSION} >>  ${DESKTOP_FILE}
     echo Type=Application >> ${DESKTOP_FILE}
     echo Terminal=false >> ${DESKTOP_FILE}
     echo Exec=${SCRIPT_PATH}/timecult.sh >> ${DESKTOP_FILE}
