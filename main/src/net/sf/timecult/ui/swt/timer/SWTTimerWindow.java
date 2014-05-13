@@ -144,11 +144,8 @@ public class SWTTimerWindow implements StopwatchListener {
     public void launchTimer() {
         Shell parent = _parent.getShell();
         if (_shell == null) {
-            if (PlatformUtil.isGtk) {
-                _shell = new Shell(parent.getDisplay(), SWT.CLOSE | SWT.TITLE);
-            } else {
-                _shell = new Shell(parent.getDisplay(), SWT.ON_TOP | SWT.TITLE | SWT.SINGLE);
-            }
+            int style = (PlatformUtil.isGtk ? SWT.CLOSE : SWT.ON_TOP) | SWT.TITLE;
+            _shell = new Shell(parent.getDisplay(), style);
             if (_task.getName().length() > MAX_TITLE_CHARS) {
                 _shell.setText(_task.getName().substring(0, MAX_TITLE_CHARS)
                     + "...");
