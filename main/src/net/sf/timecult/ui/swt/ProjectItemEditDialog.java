@@ -187,7 +187,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
             hyperlink = this.hyperlinkText.getText();
             if (hyperlink != null && !hyperlink.isEmpty()) {
                 String hluc = hyperlink.toUpperCase();
-                if (!hluc.startsWith("HTTP:") && !hluc.startsWith("FTP:")) {
+                if (!hluc.startsWith("HTTP:") && !hluc.startsWith("FTP:") && !hluc.startsWith("HTTPS:")) {
                     errorMessage(ResourceHelper.getString("message.invalidHyperlink"));                
                     return false;
                 }
