@@ -318,11 +318,13 @@ public class SWTProjectTreeView implements AppPreferencesListener {
                 item.setImage(_finishedImage);
                 setFontStyle(item, SWT.NORMAL);
                 item.setForeground(this.disabledTextColor);
+                item.setBackground(null);
                 break;
             case TaskStatus.CANCELLED:
                 item.setImage(_cancelledImage);
                 setFontStyle(item, SWT.NORMAL);
                 item.setForeground(this.disabledTextColor);
+                item.setBackground(null);
                 break;
             case TaskStatus.FLAGGED:
                 setFontStyle(item, SWT.NORMAL);

@@ -4,6 +4,7 @@
 * "New", "Closed", "Open" columns in "Summary" table.
 * timecult.sh fixed to overwrite an old desktop entry upon version change.
 * Allow https: for hyperlinks
+* FIXED: Clear a background of due tasks when they are closed or cancelled
 
 1.4
 
