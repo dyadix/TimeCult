@@ -1,5 +1,3 @@
 <component name="CopyrightManager">
-  <settings default="TimeCult">
-    <module2copyright />
-  </settings>
+  <settings default="TimeCult" />
 </component>
