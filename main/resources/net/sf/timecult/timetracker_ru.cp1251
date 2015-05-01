@@ -223,3 +223,7 @@ button.filter.delete.tooltip=Удалить фильтр
 settings.notifications=Уведомления
 settings.notifications.runningTimers=Запущенные таймеры
 settings.notifications.idleTime=Время простоя
+
+table.totals.new=Новые
+table.totals.closed=Закрыто
+table.totals.open=Открытые
