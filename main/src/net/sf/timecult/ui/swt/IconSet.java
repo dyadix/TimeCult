@@ -42,7 +42,6 @@ public class IconSet {
         imageMap.put("save.enabled", createImage(display, "disk.png"));
         //imageMap.put("save.disabled", createImage(display, "disk_disabled.png"));
         imageMap.put("start.enabled", createImage(display, "time_go.png"));
-        //imageMap.put("start.disabled", createImage(display, "time_go_disabled.png"));
         imageMap.put("flaggedList.enabled", createImage(display, "todo.gif"));
         imageMap.put("tasklist.enabled", createImage(display, "todo.gif"));
         //imageMap.put("flaggedList.disabled", createImage(display, "todo.gif"));
@@ -68,7 +67,6 @@ public class IconSet {
         imageMap.put("cut.enabled", createImage(display, "edit-cut.png"));
         imageMap.put("paste.enabled", createImage(display, "edit-paste.png"));
         imageMap.put("help.enabled", createImage(display, "help-browser.png"));
-        imageMap.put("book.enabled", createImage(display, "book.png"));
         imageMap.put("book-open.enabled", createImage(display, "book_open.png"));
         imageMap.put("page.enabled", createImage(display, "doc.png"));
         imageMap.put("timecult.enabled", createImage(display, "timecult.ico"));
