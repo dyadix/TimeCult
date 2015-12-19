@@ -30,32 +30,32 @@ public interface TimeLog {
      * Adds a time record to the log.
      * @param timeRec The time record to add.
      */
-    public void addTimeRecord(TimeRecord timeRec);
+    void addTimeRecord(TimeRecord timeRec);
 
     /**
      * @param filter The filter to select time records. If the filter is null, all time 
      *               records will be returned.
      * @return Array of time records matching the given criteria specified by the filter.
      */
-    public TimeRecord[] getTimeRecords(TimeRecordFilter filter);
+    TimeRecord[] getTimeRecords(TimeRecordFilter filter);
 
-    public void joinRecords(TimeRecord timeRecs[]);
+    void joinRecords(TimeRecord timeRecs[]);
     /**
      * Removes all the time records specified by the given filter. If the filter
      * is null, all the records are removed (the time log is cleaned up).
      * @param filter	The filter to select time records.
      */
-    public void removeRecords(TimeRecordFilter filter);
+    void removeRecords(TimeRecordFilter filter);
     
     /**
      * Removes a given set of time records.
      * @param timeRecs The array of time records to be removed.
      */
-    public void removeRecords(TimeRecord timeRecs[]);
+    void removeRecords(TimeRecord timeRecs[]);
 
     /**
      * Removes all the time log records.
      */
-    public void clear();
+    void clear();
         
 }

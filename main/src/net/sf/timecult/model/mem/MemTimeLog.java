@@ -59,7 +59,7 @@ public class MemTimeLog implements TimeLog
                 }
             }
         }
-        return result.toArray(new TimeRecord[0]);
+        return result.toArray(new TimeRecord[result.size()]);
     }
     
     
@@ -142,6 +142,7 @@ public class MemTimeLog implements TimeLog
             return true;
         }
         boolean match = true;
+        //noinspection ConstantConditions
         if (match && filter.getTask() != null)
         {
             if (!filter.getTask().equals(timeRec.getTask()))
@@ -174,7 +175,7 @@ public class MemTimeLog implements TimeLog
         if (timeRecs != null) {
             //_timeLog.join(timeRecs[i]);
             long total = timeRecs[0].getDuration().getValue();
-            StringBuffer sb = new StringBuffer(timeRecs[0].getNotes());
+            StringBuilder sb = new StringBuilder(timeRecs[0].getNotes());
             for (int i = 1; i < timeRecs.length; i++) {
                 if(timeRecs[i].getNotes().length() > 0) {
                     sb.append("|");
@@ -197,8 +198,8 @@ public class MemTimeLog implements TimeLog
      */
     public void removeRecords(TimeRecord[] timeRecs) {
         if (timeRecs != null) {
-            for (int i = 0; i < timeRecs.length; i++) {
-                _timeLog.remove(timeRecs[i]);
+            for (TimeRecord timeRec : timeRecs) {
+                _timeLog.remove(timeRec);
             }
         }
     }

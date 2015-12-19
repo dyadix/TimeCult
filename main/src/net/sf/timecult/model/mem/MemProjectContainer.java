@@ -19,7 +19,6 @@
  */
 package net.sf.timecult.model.mem;
 
-import java.util.Iterator;
 import java.util.TreeMap;
 import net.sf.timecult.model.*;
 
@@ -38,10 +37,9 @@ public class MemProjectContainer implements ProjectContainer
     {
         Project subprojArray[] = new Project[_projects.size()];
         int i = 0;
-        for(Iterator iter = _projects.values().iterator();iter.hasNext();)
-        {
-            subprojArray[i] = (Project)iter.next();
-            i ++;
+        for (Project project : _projects.values()) {
+            subprojArray[i] = project;
+            i++;
         }
         return subprojArray;
     }
@@ -76,7 +74,7 @@ public class MemProjectContainer implements ProjectContainer
     
     public Project getProjectById(String id)
     {
-        return (Project)_projects.get(id);
+        return _projects.get(id);
     }
     
     private TreeMap<String,Project> _projects = new TreeMap<String,Project>();

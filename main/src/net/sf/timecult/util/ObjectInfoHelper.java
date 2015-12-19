@@ -27,7 +27,7 @@ import net.sf.timecult.model.TaskStatus;
 public class ObjectInfoHelper {
     
     public static String getObjectInfo(Object o) {
-        StringBuffer infoBuf = new StringBuffer();
+        StringBuilder infoBuf = new StringBuilder();
         if (o instanceof ProjectTreeItem) {
             ProjectTreeItem item = (ProjectTreeItem) o;
             if (item instanceof Task) {
@@ -37,13 +37,11 @@ public class ObjectInfoHelper {
                 infoBuf.append(". ");
             }
             if (item.getCloseDateTime() != null) {
-                infoBuf
-                    .append(ResourceHelper.getString("status.closed") + ": ");
+                infoBuf.append(ResourceHelper.getString("status.closed")).append(": ");
                 infoBuf.append(item.getCloseDateTime().toString());
             }
             else if (item.getCreationDateTime().getTime() != 0) {
-                infoBuf.append(ResourceHelper.getString("status.created")
-                    + ": ");
+                infoBuf.append(ResourceHelper.getString("status.created")).append(": ");
                 infoBuf.append(Formatter.toDateTimeString(item.getCreationDateTime(), true));
             }
         }

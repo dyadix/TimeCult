@@ -59,7 +59,7 @@ public class QuoteTimeFormatter {
         final int SEC_PER_HOUR = SEC_PER_MIN * 60;
         //final int SEC_PER_WDAY = SEC_PER_HOUR * 8;
 
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         if (timeMs > 0) {
             int seconds = (int) (timeMs / 1000);
             /*
@@ -94,7 +94,7 @@ public class QuoteTimeFormatter {
     }
 
     private static String format(int value) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         if (value == 0) {
             buf.append("00");
         }

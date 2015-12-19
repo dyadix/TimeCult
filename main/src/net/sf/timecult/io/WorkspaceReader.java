@@ -78,7 +78,7 @@ public class WorkspaceReader extends DefaultHandler implements
         boolean hoEnd = false;
         if (PROJECT_TAG.equals(qName)) {
             if (!_projectStack.empty()) {
-                _currProject = (Project) _projectStack.pop();
+                _currProject = _projectStack.pop();
             }
             hoEnd = true;
         }
@@ -162,7 +162,7 @@ public class WorkspaceReader extends DefaultHandler implements
                 String taskStatus = attributes.getValue(STATUS_ATTR);
                 String flagColorStr = attributes.getValue(FLAG_COLOR_ATTR);
                 if (taskId != null && taskName != null) {
-                    Task task = null;
+                    Task task;
                     if (isActivity) {
                         task = _workspace.createActivity(
                             _currProject,

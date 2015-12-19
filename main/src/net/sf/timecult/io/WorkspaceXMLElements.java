@@ -28,59 +28,59 @@ public interface WorkspaceXMLElements {
     /*
      * The current file version. File versions are not backwards compatible.
      */
-    public final static int FILE_VERSION = 12;
+    int FILE_VERSION = 12;
 
     /*
      * Tag and attribute names
      */
-    public final static String ROOT_TAG = "timecult";
-    public final static String OLD_ROOT_TAG = "timetracker";
-    public final static String PROJECT_TAG = "project";
-    public final static String TASK_TAG = "task";
-    public final static String ID_ATTR = "id";
-    public final static String NAME_ATTR = "name";
-    public final static String LAST_ID_ATTR = "lastId";
-    public final static String TIME_REC_TAG = "timeRec";
-    public final static String TASK_ID_ATTR = "taskId";
-    public final static String START_TIME_ATTR = "startTime";
-    public final static String DURATION_ATTR = "duration";
-    public final static String TIME_LOG_TAG = "timeLog";
-    public final static String APP_VERSION_ATTR = "appVersion";
-    public final static String NOTES = "notes";
-    public final static String STATUS_ATTR = "status";
-    public final static String SETTINGS_TAG = "settings";
-    public final static String PROPERTY_TAG = "property";
-    public final static String VALUE_ATTR = "value";
-    public final static String NOTES_TAG = "notes";
-    public final static String FILE_VERSION_ATTR = "fileVersion";
-    public final static String FLAGS_ATTR = "flags";
-    public final static String CREATION_DATETIME_ATTR = "created";
-    public final static String CLOSE_DATETIME_ATTR = "closed";
-    public final static String WAIT_REASON_TAG="waitReason";
-    public final static String UUID_ATTR = "uuid";
-    public final static String PROJECT_TREE_TAG = "projectTree";
-    public final static String ACTIVITY_TAG = "activity";
-    public final static String FILTERS_TAG = "filters";
-    public final static String FILTER_TAG = "filter";
-    public final static String FILTER_NAME_ATTR = "name";
-    public final static String FILTER_START_TIME = "startTime";
-    public final static String FILTER_END_TIME = "endTime";
-    public final static String HYPERLINK_ATTR = "url";
-    public final static String DEFAULT_NOTE_ATTR = "defaultNote";
-    public final static String FLAG_COLOR_ATTR = "flagColor";
-    public final static String DEADLINE = "deadline";
+    String ROOT_TAG = "timecult";
+    String OLD_ROOT_TAG = "timetracker";
+    String PROJECT_TAG = "project";
+    String TASK_TAG = "task";
+    String ID_ATTR = "id";
+    String NAME_ATTR = "name";
+    String LAST_ID_ATTR = "lastId";
+    String TIME_REC_TAG = "timeRec";
+    String TASK_ID_ATTR = "taskId";
+    String START_TIME_ATTR = "startTime";
+    String DURATION_ATTR = "duration";
+    String TIME_LOG_TAG = "timeLog";
+    String APP_VERSION_ATTR = "appVersion";
+    String NOTES = "notes";
+    String STATUS_ATTR = "status";
+    String SETTINGS_TAG = "settings";
+    String PROPERTY_TAG = "property";
+    String VALUE_ATTR = "value";
+    String NOTES_TAG = "notes";
+    String FILE_VERSION_ATTR = "fileVersion";
+    String FLAGS_ATTR = "flags";
+    String CREATION_DATETIME_ATTR = "created";
+    String CLOSE_DATETIME_ATTR = "closed";
+    String WAIT_REASON_TAG="waitReason";
+    String UUID_ATTR = "uuid";
+    String PROJECT_TREE_TAG = "projectTree";
+    String ACTIVITY_TAG = "activity";
+    String FILTERS_TAG = "filters";
+    String FILTER_TAG = "filter";
+    String FILTER_NAME_ATTR = "name";
+    String FILTER_START_TIME = "startTime";
+    String FILTER_END_TIME = "endTime";
+    String HYPERLINK_ATTR = "url";
+    String DEFAULT_NOTE_ATTR = "defaultNote";
+    String FLAG_COLOR_ATTR = "flagColor";
+    String DEADLINE = "deadline";
 
     /*
      * Settings (properties)
      */
-    public final static String IDLE_TASK_ENABLED = "idleTaskEnabled";
-    public final static String LAST_ID_PROPERTY = "lastId";
-    public final static String TIME_FILTER_PROPERTY = "timeFilter";
-    public final static String ROUND_UP_INTERVAL = "roundUpInterval";
+    String IDLE_TASK_ENABLED = "idleTaskEnabled";
+    String LAST_ID_PROPERTY = "lastId";
+    String TIME_FILTER_PROPERTY = "timeFilter";
+    String ROUND_UP_INTERVAL = "roundUpInterval";
     
     /*
      * Flags
      */
-    public final static String EXPANDED_FLAG = "expanded";
-    public final static String SELECTED_FLAG = "selected";
+    String EXPANDED_FLAG = "expanded";
+    String SELECTED_FLAG = "selected";
 }

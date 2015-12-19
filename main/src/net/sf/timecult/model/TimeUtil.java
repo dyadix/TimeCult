@@ -60,9 +60,8 @@ public class TimeUtil {
         }
         if (isPartial) {
             long resultDuration = resultEndTime - resultStartTime;
-            TimeRecord filtered = new TimeRecord(timeRec.getTask(), new Date(
+            return new TimeRecord(timeRec.getTask(), new Date(
                 resultStartTime), resultDuration, timeRec.getNotes());
-            return filtered;
         }
         else {
             return timeRec;

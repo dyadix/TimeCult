@@ -27,9 +27,9 @@ package net.sf.timecult.model;
  */
 public interface ContainerFactory {
 
-    public ProjectContainer createProjectContainer();
+    ProjectContainer createProjectContainer();
 
-    public TaskContainer createTaskContainer();
+    TaskContainer createTaskContainer();
 
-    public TimeLog createTimeLog();
+    TimeLog createTimeLog();
 }

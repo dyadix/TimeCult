@@ -29,17 +29,17 @@ public interface ProjectContainer {
     /**
      * @return Array of projects in the container.
      */
-    public Project[] getProjects();
+    Project[] getProjects();
 
     /**
      * Adds a project to container.
      * @param project The project to add.
      */
-    public void addProject(Project project);
+    void addProject(Project project);
 
-    public void removeProject(String id);
+    void removeProject(String id);
 
-    public void removeAll();
+    void removeAll();
 
-    public Project getProjectById(String id);
+    Project getProjectById(String id);
 }

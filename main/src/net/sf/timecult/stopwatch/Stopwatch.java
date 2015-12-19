@@ -137,8 +137,8 @@ public class Stopwatch extends TimerTask {
 
 
     public void copyListenersTo(Stopwatch stopwatch) {
-        for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
-            stopwatch.addStopwatchListener((StopwatchListener) iter.next());
+        for (Object _listener : _listeners) {
+            stopwatch.addStopwatchListener((StopwatchListener) _listener);
         }
     }
 

@@ -26,5 +26,5 @@ package net.sf.timecult.model;
  */
 public interface WorkspaceListener {
 
-    public void workspaceChanged(WorkspaceEvent we);
+    void workspaceChanged(WorkspaceEvent we);
 }

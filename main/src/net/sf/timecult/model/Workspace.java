@@ -92,13 +92,12 @@ public class Workspace extends Project {
             long recEndTime = roundUpTime(start.getTime() + duration);
             recDuration = recEndTime - recStart.getTime();
         }
-        TimeRecord timeRec = new TimeRecord(task, recStart, recDuration, notes);
-        return timeRec;
+        return new TimeRecord(task, recStart, recDuration, notes);
     }
     
 	public synchronized void recordTimeEx(TimeRecord timeRec, boolean withEvent) {
 		_timeLog.addTimeRecord(timeRec);
-		if (withEvent == true) {
+		if (withEvent) {
 			recordTimeFinish(timeRec);
 		}
 	}
@@ -227,7 +226,7 @@ public class Workspace extends Project {
     }
 
     public Task findTask(String taskId) {
-        return (Task) _taskCache.get(taskId);
+        return _taskCache.get(taskId);
     }
 
     public void removeTask(Project parent, String taskId) {
@@ -320,7 +319,7 @@ public class Workspace extends Project {
     public Task[] getTasksByStatus(TaskStatus status) {
         Vector<Task> tasks = new Vector<Task>();
         addSubprojectTasksByStatus(tasks, this.getRoot(), status);
-        return tasks.toArray(new Task[0]);
+        return tasks.toArray(new Task[tasks.size()]);
     }
     
     private void addSubprojectTasksByStatus(Vector<Task> tasks, Project project, TaskStatus status) {
@@ -401,12 +400,7 @@ public class Workspace extends Project {
     }
     
     public boolean isSelected(ProjectTreeItem item) {
-        if (this._selection != null && this._selection == item) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return this._selection != null && this._selection == item;
     }
     
     public void setFilter(TimeRecordFilter filter) {

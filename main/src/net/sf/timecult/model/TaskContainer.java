@@ -29,15 +29,15 @@ public interface TaskContainer {
     /**
      * @return A list of project tasks.
      */
-    public Task[] getTasks();
+    Task[] getTasks();
 
     /**
      * Adds a task to the project.
-     * @param task
+     * @param task The task to add.
      */
-    public void addTask(Task task);
+    void addTask(Task task);
 
-    public void removeTask(String id);
+    void removeTask(String id);
 
-    public void removeAll();
+    void removeAll();
 }

@@ -113,13 +113,7 @@ public abstract class ProjectTreeItem {
     
     private static boolean checkClosedParent(ProjectTreeItem item) {
         ProjectTreeItem parentItem = item.getParent();
-        if (parentItem == null) {
-            return false;
-        }
-        if (parentItem.isClosed()) {
-            return true;
-        }
-        return checkClosedParent(parentItem);
+        return parentItem != null && (parentItem.isClosed() || checkClosedParent(parentItem));
     }
     
     public abstract ItemType getItemType();
@@ -163,9 +157,7 @@ public abstract class ProjectTreeItem {
      * @return True if the item belongs to the project. False otherwise.
      */
     public boolean belongsTo(Project project) {
-        if (this.parent == null) return false;
-       if (project == this.parent) return true;       
-       return this.parent.belongsTo(project);
+        return this.parent != null && (project == this.parent || this.parent.belongsTo(project));
     }
 
     public Date getDeadline() {

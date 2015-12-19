@@ -23,7 +23,7 @@ package net.sf.timecult.model;
  */
 public interface DescriptionHolder {
 
-    public String getDescription();
+    String getDescription();
 
-    public void setDescription(String notes);
+    void setDescription(String notes);
 }

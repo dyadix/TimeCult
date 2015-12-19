@@ -107,7 +107,7 @@ public class TimeRecord implements Comparable {
                 + o.getClass().getName());
         }
         
-        int result = 0;
+        int result;
 
         TimeRecord timeRec = (TimeRecord) o;
         if (timeRec.getStart().getTime() == this.start.getTime()) {

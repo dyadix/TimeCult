@@ -134,7 +134,7 @@ public class TimeRecordFilterFactory {
      * @param name      The filter name.
      * @param startDate The start date.
      * @param endDate   The end date.
-     * @return
+     * @return The custom filter.
      */
     public static TimeRecordFilter createCustomFilter(String name, Date startDate, Date endDate) {
         String label = createCustomFilterLabel(name, startDate, endDate);
@@ -150,7 +150,7 @@ public class TimeRecordFilterFactory {
     
     
     private static String createCustomFilterLabel(String name, Date startDate, Date endDate) {
-        StringBuffer filterLabel = new StringBuffer();
+        StringBuilder filterLabel = new StringBuilder();
         if (name != null && name.length() != 0) {
             filterLabel.append(name).append(' ');
         }

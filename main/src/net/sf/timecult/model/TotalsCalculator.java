@@ -30,5 +30,5 @@ public interface TotalsCalculator {
      * @return Total duration in milliseconds.
      * @param timeLog The time log to use.
      */
-    public Totals getTotals(TimeLog timeLog, TimeRecordFilter filter);
+    Totals getTotals(TimeLog timeLog, TimeRecordFilter filter);
 }

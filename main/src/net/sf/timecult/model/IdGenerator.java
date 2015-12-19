@@ -26,9 +26,9 @@ package net.sf.timecult.model;
  */
 public interface IdGenerator {
 
-    public String getNewId();
+    String getNewId();
 
-    public String getLastId();
+    String getLastId();
 
-    public boolean setCurrentId(String id);
+    boolean setCurrentId(String id);
 }

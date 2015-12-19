@@ -144,12 +144,11 @@ public class WorkspaceXMLWriter implements WorkspaceXMLElements {
     
     private void addSubprojects(Project parent) throws Exception {
         Project[] subprojects = parent.getSubprojects(SortCriteria.DEFAULT);
-        for (int i = 0; i < subprojects.length; i++) {
-            Project subproject = subprojects[i];
+        for (Project subproject : subprojects) {
             this.output.startTag(PROJECT_TAG);
             this.output.attribute(ID_ATTR, subproject.getId());
             this.output.attribute(NAME_ATTR, subproject.getName());
-            StringBuffer flagsBuf = new StringBuffer();
+            StringBuilder flagsBuf = new StringBuilder();
             if (subproject.isExpanded()) {
                 flagsBuf.append(EXPANDED_FLAG);
             }
@@ -250,14 +249,13 @@ public class WorkspaceXMLWriter implements WorkspaceXMLElements {
         TimeRecord[] timeRecords = this.workspace.getTimeLog().getTimeRecords(
             null);
         this.output.startTag(TIME_LOG_TAG);
-        for (int i = 0; i < timeRecords.length; i++) {
-            TimeRecord timeRecord = timeRecords[i];
+        for (TimeRecord timeRecord : timeRecords) {
             this.output.startTag(TIME_REC_TAG);
             this.output.attribute(TASK_ID_ATTR, timeRecord.getTask().getId());
             this.output.attribute(START_TIME_ATTR, Long.toString(timeRecord
-                .getStart().getTime()));
+                    .getStart().getTime()));
             this.output.attribute(DURATION_ATTR, Long.toString(timeRecord
-                .getDuration().getValue()));
+                    .getDuration().getValue()));
             if (timeRecord.getNotes() != null) {
                 this.output.attribute(NOTES, timeRecord.getNotes());
             }

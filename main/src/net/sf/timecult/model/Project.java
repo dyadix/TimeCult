@@ -56,16 +56,16 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
             return tasks;
         }
         TreeMap<String, Task> sortedMap = new TreeMap<String, Task>();
-        for (int i = 0; i < tasks.length; i++) {
+        for (Task task : tasks) {
             switch (sortCriteria) {
                 case BY_NAME:
                     // Make the name unique by adding a special character
                     // followed by task ID.
-                    String nameId = tasks[i].getName() + "\u0001" + tasks[i].getId();
-                    sortedMap.put(nameId, tasks[i]);
+                    String nameId = task.getName() + "\u0001" + task.getId();
+                    sortedMap.put(nameId, task);
                     break;
                 case BY_ID:
-                    sortedMap.put(tasks[i].getId(), tasks[i]);
+                    sortedMap.put(task.getId(), task);
             }
         }
         return sortedMap.values().toArray(new Task[0]);

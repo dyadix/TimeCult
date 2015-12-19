@@ -40,8 +40,7 @@ public class ResourceHelper {
      * @return Resource URL.
      */
     public static URL getUrl(String key) {
-        URL resourceUrl = ResourceHelper.class.getResource(key);
-        return resourceUrl;
+        return ResourceHelper.class.getResource(key);
     }
     
     /**

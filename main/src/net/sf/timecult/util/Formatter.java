@@ -44,13 +44,11 @@ public class Formatter {
     }
     
     public static Date parseDateString(String dateString) throws ParseException {
-        Date date = dateFormatter.parse(dateString);
-        return date;
+        return dateFormatter.parse(dateString);
     }
     
     public static Date parseTimeString(String timeString) throws ParseException {
-        Date time = timeFormatter.parse(timeString);
-        return time;
+        return timeFormatter.parse(timeString);
     }
     
     
@@ -69,9 +67,9 @@ public class Formatter {
         if (durationString == null || durationString.length() == 0) {
             return new Duration(0);
         }
-        int hours = 0;
-        int min = 0;
-        int sec = 0;
+        int hours;
+        int min;
+        int sec;
         String[] chunks = durationString.split(":");
         if (chunks.length < 2 || chunks.length > 3)
             throw new ParseException("Expecting hh:mm:ss or hh:mm", 0); // TODO: Localize
@@ -90,8 +88,7 @@ public class Formatter {
             throw new ParseException("Number expected", 0);
         }
         long durationMs = (((hours * 60) + min) * 60 + sec) * 1000;
-        Duration duration = new Duration(durationMs);
-        return duration;
+        return new Duration(durationMs);
     }
 
 
@@ -117,7 +114,7 @@ public class Formatter {
         final int SEC_PER_HOUR = SEC_PER_MIN * 60;
         //final int SEC_PER_WDAY = SEC_PER_HOUR * 8;
 
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         if (timeMs > 0 || showZeros) {
             int seconds = (int) (timeMs / 1000);
             int hours = seconds / SEC_PER_HOUR;
@@ -135,7 +132,7 @@ public class Formatter {
     }
 
     private static String format(int value) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         if (value == 0) {
             buf.append("00");
         }

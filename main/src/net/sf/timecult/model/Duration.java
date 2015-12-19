@@ -38,18 +38,17 @@ public class Duration {
     /**
      * Adjust the duration to a given interval in milliseconds upwards or
      * increase it by that interval if the duration is already adjusted.
-     * @param ms
+     * @param ms The interval in milliseconds.
      */
     public void incTo(long ms) {
-        long newDuration = (this.duration / ms + 1) * ms;
-        this.duration = newDuration;
+        this.duration = (this.duration / ms + 1) * ms;
     }
     
     /**
      * Adjust the duration to a given interval in milliseconds downwards or
      * decrease it by that interval if the duration is already adjusted. Sets
      * the duration to 0 if it has reached the 0 limit.
-     * @param ms
+     * @param ms The interval in milliseconds.
      */
     public void decTo(long ms) {
         long newDuration = (this.duration / ms) * ms;

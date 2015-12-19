@@ -19,6 +19,7 @@
  */
 package net.sf.timecult.model;
 
+import java.util.Collection;
 import java.util.TreeMap;
 
 /**
@@ -50,7 +51,8 @@ public class WaitReason {
     }
     
     public static WaitReason[] getAllReasons() {
-        return allReasons.values().toArray(new WaitReason[0]);
+        Collection<WaitReason> values = allReasons.values();
+        return values.toArray(new WaitReason[values.size()]);
     }
     
     
