@@ -21,31 +21,21 @@ package net.sf.timecult.ui.swt;
 
 import net.sf.timecult.PlatformUtil;
 import net.sf.timecult.ResourceHelper;
-
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Dialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
 
 
 /**
  * Abstract base class for all kind of dialogs.
  */
 public abstract class SWTDialog extends Dialog {
+
+    private Shell       shell;
+    private KeyListener defaultKeyListener;
 
     private final boolean forcedModal;
     private final boolean iconized;
@@ -57,13 +47,13 @@ public abstract class SWTDialog extends Dialog {
     protected SWTDialog(Shell parent, boolean forcedModal, boolean iconized) {
 		super(parent);
         this.iconized = iconized;
-        _defaultKeyListener = new DialogKeyListener();
+        defaultKeyListener = new DialogKeyListener();
         this.forcedModal = forcedModal;
 	}
 	
 	private void setup(Shell shell) {
         if (iconized) {
-            Image iconImage = new Image(_shell.getDisplay(), ResourceHelper
+            Image iconImage = new Image(this.shell.getDisplay(), ResourceHelper
                     .openStream("images/timecult_icon.png"));
             shell.setImage(iconImage);
         }
@@ -72,10 +62,10 @@ public abstract class SWTDialog extends Dialog {
         layout.numColumns = 1;
         shell.setLayout(layout);
         
-        GridData contentPanelLayout = new GridData(GridData.FILL_BOTH);        
-        _contentPanel = createContentPanel(shell);
-        _contentPanel.addKeyListener(_defaultKeyListener);
-        _contentPanel.setLayoutData(contentPanelLayout);
+        GridData contentPanelLayout = new GridData(GridData.FILL_BOTH);
+        Composite contentPanel = createContentPanel(shell);
+        contentPanel.addKeyListener(defaultKeyListener);
+        contentPanel.setLayoutData(contentPanelLayout);
         
         addButtonPanel(shell);
 
@@ -127,7 +117,7 @@ public abstract class SWTDialog extends Dialog {
         okButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 if (handleOk()) {
-                    _shell.setVisible(false);
+                    shell.setVisible(false);
                 }
             }
         });
@@ -136,38 +126,38 @@ public abstract class SWTDialog extends Dialog {
         cancelButton.setText(ResourceHelper.getString("button.cancel"));
         cancelButton.addSelectionListener(new SelectionAdapter(){
             public void widgetSelected(SelectionEvent evt) {
-                _shell.setVisible(false);
+                shell.setVisible(false);
             }
         });
     }
 	
 	public void open () {
-        if (_shell != null && _shell.isVisible()) return;
+        if (shell != null && shell.isVisible()) return;
 		Shell parent = getParent();
-		if (_shell == null) {
+		if (shell == null) {
             if (PlatformUtil.isGtk && !forcedModal) {
-                _shell = new Shell(parent, SWT.DIALOG_TRIM);
+                shell = new Shell(parent, SWT.DIALOG_TRIM);
             }
             else {
-                _shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
+                shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
             }
-			_shell.setText(getText());
-			setup(_shell);
+			shell.setText(getText());
+			setup(shell);
 			initFields();
-			_shell.open();
+			shell.open();
 		}
 		else {
-			_shell.setVisible(true);
+			shell.setVisible(true);
 		}
 		Display display = parent.getDisplay();
-		while (!_shell.isDisposed()) {
+		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) display.sleep();
 		}
 	}			
 
     public void close() {
-        if (_shell != null && !_shell.isDisposed()) {
-            _shell.setVisible(false);
+        if (shell != null && !shell.isDisposed()) {
+            shell.setVisible(false);
         }
     }
 	
@@ -177,7 +167,7 @@ public abstract class SWTDialog extends Dialog {
     
     
     public KeyListener getDefaultKeyListener() {
-        return _defaultKeyListener;
+        return defaultKeyListener;
     }
     
     
@@ -186,10 +176,10 @@ public abstract class SWTDialog extends Dialog {
             switch (evt.keyCode) {
             case SWT.CR:
                 handleOk();
-                _shell.setVisible(false);
+                shell.setVisible(false);
                 break;
             case SWT.ESC:
-                _shell.setVisible(false);
+                shell.setVisible(false);
                 break;
             }
         }
@@ -226,17 +216,13 @@ public abstract class SWTDialog extends Dialog {
     }
     
     protected void errorMessage(String message) {
-        MessageBox m = new MessageBox(_shell, SWT.ICON_ERROR | SWT.OK);
+        MessageBox m = new MessageBox(shell, SWT.ICON_ERROR | SWT.OK);
         m.setMessage(message);
         m.open();
     }
     
     public Shell getShell() {
-        return this._shell;
+        return this.shell;
     }
-    
-    	
-	private Shell       _shell;
-    private Composite   _contentPanel;
-    private KeyListener _defaultKeyListener;
+
 }
