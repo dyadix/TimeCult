@@ -48,7 +48,7 @@ public class SWTAboutDialog extends SWTDialog{
     private static SWTAboutDialog instance;
     
 	private SWTAboutDialog(Shell shell) {
-		super(shell, false);
+		super(shell, false, false);
 	}
 
     public static SWTAboutDialog getInstance(Shell parent) {

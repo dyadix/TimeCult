@@ -47,18 +47,26 @@ import org.eclipse.swt.widgets.Text;
  */
 public abstract class SWTDialog extends Dialog {
 
-    private boolean forcedModal;
+    private final boolean forcedModal;
+    private final boolean iconized;
 
-	protected SWTDialog(Shell parent, boolean forcedModal) {
+    public SWTDialog(Shell parent, boolean forcedModal) {
+        this(parent, forcedModal, true);
+    }
+
+    protected SWTDialog(Shell parent, boolean forcedModal, boolean iconized) {
 		super(parent);
+        this.iconized = iconized;
         _defaultKeyListener = new DialogKeyListener();
         this.forcedModal = forcedModal;
 	}
 	
 	private void setup(Shell shell) {
-        Image iconImage = new Image(_shell.getDisplay(), ResourceHelper
-            .openStream("images/timecult_icon.png"));
-        shell.setImage(iconImage);
+        if (iconized) {
+            Image iconImage = new Image(_shell.getDisplay(), ResourceHelper
+                    .openStream("images/timecult_icon.png"));
+            shell.setImage(iconImage);
+        }
         
         GridLayout layout = new GridLayout();
         layout.numColumns = 1;
