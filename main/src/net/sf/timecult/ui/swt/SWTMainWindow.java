@@ -19,38 +19,25 @@
  */
 package net.sf.timecult.ui.swt;
 
-import java.io.File;
-
 import net.sf.timecult.AppInfo;
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.conf.AppPreferences;
-import net.sf.timecult.model.*;
+import net.sf.timecult.model.Activity;
+import net.sf.timecult.model.Task;
+import net.sf.timecult.model.Workspace;
 import net.sf.timecult.ui.swt.filter.AdvancedTimeFilterView;
 import net.sf.timecult.ui.swt.notifications.NotificationManager;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tray;
-import org.eclipse.swt.widgets.TrayItem;
+import org.eclipse.swt.widgets.*;
+
+import java.io.File;
 
 public class SWTMainWindow {
 
