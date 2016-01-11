@@ -50,6 +50,15 @@ public class Formatter {
     public static Date parseTimeString(String timeString) throws ParseException {
         return timeFormatter.parse(timeString);
     }
+
+    public static Date parseTimeString(String timeString, Date defaultTime) {
+        try {
+            return parseTimeString(timeString);
+        }
+        catch (ParseException e) {
+            return defaultTime;
+        }
+    }
     
     
     /**

@@ -234,7 +234,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         incButton.setImage(this.mainWindow.getIconSet().getIcon("increase", true));
         incButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                changeDuration(+1);
+                incrementDecrementDuration(+1);
             }
         });       
         //
@@ -244,7 +244,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         decButton.setImage(this.mainWindow.getIconSet().getIcon("decrease", true));
         decButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                changeDuration(-1);
+                incrementDecrementDuration(-1);
             }
         });
     }
@@ -276,7 +276,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
             true));
         incButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                changeStartTime(+1);
+                incrementDecrementStartTime(+1);
             }
         });
         //
@@ -288,7 +288,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
             true));
         decButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                changeStartTime(-1);
+                incrementDecrementStartTime(-1);
             }
         });
     }
@@ -299,7 +299,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
     }
     
     
-    private void changeDuration(int n) {
+    private void incrementDecrementDuration(int n) {
         Duration duration;
         try {
             duration = Formatter.parseDurationString(durationField.getText());
@@ -307,6 +307,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         catch (ParseException e) {
             duration = new Duration(0);
         }
+        long oldDurationMs = duration.getValue();
         if (n > 0) {
             duration.incTo(TIME_PRECISION_MS * n);
         }
@@ -315,19 +316,13 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         }
         this.durationField.setText(Formatter.toDurationString(duration
             .getValue(), true));
+        changeStartTime(oldDurationMs - duration.getValue());
     }
     
         
-    private void changeStartTime(int n) {
-        long timeMs;
-        Date time;
-        try {
-            time = Formatter.parseTimeString(startTimeField.getText());
-        }
-        catch (ParseException e) {
-            time = Calendar.getInstance().getTime();
-        }
-        timeMs = time.getTime();
+    private void incrementDecrementStartTime(int n) {
+        Date time = Formatter.parseTimeString(startTimeField.getText(), Calendar.getInstance().getTime());
+        long timeMs = time.getTime();
         if (n > 0) {
             timeMs = (timeMs / TIME_PRECISION_MS + 1) * TIME_PRECISION_MS;
         }
@@ -339,6 +334,12 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
             timeMs = newTime;
         }
         this.startTimeField.setText(Formatter.toTimeString(new Date(timeMs)));
+    }
+
+    private void changeStartTime(long delta) {
+        Date startTime = Formatter.parseTimeString(startTimeField.getText(), Calendar.getInstance().getTime());
+        long newTime = startTime.getTime() + delta;
+        startTimeField.setText(Formatter.toTimeString(new Date(newTime)));
     }
 
     
