@@ -129,9 +129,9 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
 
     @Override
     protected boolean handleOk() {
-        Date date = null;
-        Date time = null;
-        Duration duration = null;
+        Date date;
+        Date time;
+        Duration duration;
         try {
             date = Formatter.parseDateString(startDateField.getText());
         }
@@ -300,7 +300,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
     
     
     private void changeDuration(int n) {
-        Duration duration = null;
+        Duration duration;
         try {
             duration = Formatter.parseDurationString(durationField.getText());
         }
@@ -319,8 +319,8 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
     
         
     private void changeStartTime(int n) {
-        long timeMs = 0;
-        Date time = null;
+        long timeMs;
+        Date time;
         try {
             time = Formatter.parseTimeString(startTimeField.getText());
         }
@@ -370,13 +370,8 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         c1.setTime(d1);
         Calendar c2 = Calendar.getInstance();
         c2.setTime(d2);
-        if (c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
-            && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
+            && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR);
     }
     
 
