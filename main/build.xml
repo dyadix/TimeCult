@@ -45,6 +45,7 @@
     <property name="doc.temp" location="${temp.dir}/doc"/>
     <property name="setup.ini" location="setup.ini"/>
     <property name="docmc.jar" location="tools/docmc.jar"/>
+    <property name="change-log-file" location="changelog.txt"/>
     <!-- DocMC compiler -->
     <property name="doc.base" location="doc"/>
     <property name="linux-scripts" location="linux"/>
@@ -71,8 +72,8 @@
     <target name="init">
         <tstamp>
             <format property="TODAY" pattern="MMMM d, yyyy" locale="en"/>
-            <format property="build.number" pattern="yyMMdd"/>
         </tstamp>
+        <length file="${change-log-file}" property="build.number"/>
         <property name="build-stamp" value="${appname}-${major}.${minor}-${build.number}"/>
     </target>
 
