@@ -12,7 +12,7 @@
 #
 #
 DESKTOP_FILE=~/.local/share/applications/timecult.desktop
-VERSION=1.5
+VERSION=1.6
 grep "Version=${VERSION}" ${DESKTOP_FILE} > /dev/null
 if [ $? -ne 0 ]
 then
