@@ -1,5 +1,7 @@
 1.6
 
+* Removed buttons' size hints (caused some button labels be truncated).
+
 1.5
 
 * Workspace locking correctly works on Linux (utilizes /run/lock).

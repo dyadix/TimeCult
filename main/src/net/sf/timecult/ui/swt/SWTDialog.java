@@ -110,7 +110,6 @@ public abstract class SWTDialog extends Dialog {
      */
     protected void createButtons(Composite buttonPanel) {
         GridData buttonLayout = new GridData(GridData.FILL);
-        buttonLayout.widthHint = 80;
         Button okButton = new Button(buttonPanel, SWT.FLAT );
         okButton.setLayoutData(buttonLayout);
         okButton.setText(ResourceHelper.getString("button.ok"));

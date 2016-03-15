@@ -143,8 +143,6 @@ public class TaskListView extends SWTDialog {
     @Override
     protected void createButtons(Composite buttonPanel) {
         GridData buttonData = new GridData();
-        buttonData.widthHint = 60;
-
         Button selectButton = new Button(buttonPanel, SWT.FLAT);
         selectButton.setLayoutData(buttonData);
 
