@@ -42,6 +42,19 @@ public class IconSet {
         imageMap.put("tasklist.enabled", createIcon(display, "tasklist"));
         imageMap.put("quickTimesheet.enabled", createIcon(display, "quick-report"));
         imageMap.put("options.enabled", createIcon(display, "settings"));
+        imageMap.put("about.enabled", createIcon(display, "about"));
+        imageMap.put("homepage.enabled", createIcon(display, "home-page"));
+        imageMap.put("help.enabled", createIcon(display, "wiki"));
+        imageMap.put("delete.enabled", createIcon(display, "delete"));
+        imageMap.put("filter.delete.enabled", createIcon(display, "delete"));
+        imageMap.put("add.enabled", createIcon(display, "add"));
+        imageMap.put("filter.add.enabled", createIcon(display, "add"));
+
+        imageMap.put("addRecord.enabled", createIcon(display, "add"));
+        imageMap.put("editRecord.enabled", createIcon(display, "edit"));
+        imageMap.put("deleteRecord.enabled", createIcon(display, "delete"));
+        imageMap.put("joinRecords.enabled", createIcon(display, "join"));
+        imageMap.put("edit.enabled", createIcon(display, "properties"));
 
         imageMap.put("project.enabled", createImage(display, "project1.png"));
         imageMap.put("newTask.enabled", createImage(display, "star.png"));
@@ -60,18 +73,14 @@ public class IconSet {
         imageMap.put("orangeFlag.enabled", createImage(display, "flag_orange.png"));
         imageMap.put("magentaFlag.enabled", createImage(display, "flag_magenta.png"));
 
-        imageMap.put("delete.enabled", createImage(display, "delete.png"));
         imageMap.put("web.enabled", createImage(display, "web.png"));
         imageMap.put("exit.enabled", createImage(display, "exit.png"));
         imageMap.put("copy.enabled", createImage(display, "edit-copy.png"));
         imageMap.put("cut.enabled", createImage(display, "edit-cut.png"));
         imageMap.put("paste.enabled", createImage(display, "edit-paste.png"));
-        imageMap.put("help.enabled", createImage(display, "help-browser.png"));
         imageMap.put("book-open.enabled", createImage(display, "book_open.png"));
         imageMap.put("page.enabled", createImage(display, "doc.png"));
         imageMap.put("timecult.enabled", createImage(display, "timecult.ico"));
-        imageMap.put("edit.enabled", createImage(display, "edit.png"));
-        imageMap.put("add.enabled", createImage(display, "add.png"));
         imageMap.put("timesheet.enabled", createImage(display, "timesheet.png"));
         imageMap.put("waiting.enabled", createImage(display, "waiting.png"));
         imageMap.put("timer.0.enabled", createImage(display, "timer/timer0.png"));
@@ -90,8 +99,6 @@ public class IconSet {
         imageMap.put("close-project.enabled", createImage(display, "close_project.png"));
         imageMap.put("link.enabled", createImage(display, "link.png"));
         imageMap.put("notes.enabled", createImage(display, "notes.gif"));
-        imageMap.put("about.enabled", createImage(display, "about.png"));
-        imageMap.put("homepage.enabled", createImage(display, "home.png"));
 
         imageMap.put("tasklist.inProgress.enabled", createImage(display, "pencil.png"));
         imageMap.put("tasklist.finished.enabled", createImage(display, "check.png"));
@@ -101,14 +108,6 @@ public class IconSet {
         imageMap.put("tasklist.activity.enabled", createImage(display, "activity.png"));
         imageMap.put("tasklist.waiting.enabled", createImage(display, "waiting.png"));
         imageMap.put("tasklist.pdf.enabled", createImage(display, "pdf.png"));
-
-        imageMap.put("filter.add.enabled", createImage(display, "add.png"));
-        imageMap.put("filter.delete.enabled", createImage(display, "delete.png"));
-
-        imageMap.put("addRecord.enabled", createImage(display, "add.png"));
-        imageMap.put("editRecord.enabled", createImage(display, "edit.png"));
-        imageMap.put("deleteRecord.enabled", createImage(display, "delete.png"));
-        imageMap.put("joinRecords.enabled", createImage(display, "arrow_join.png"));
 
         imageMap.put("past.due.enabled", createImage(display, "past_due.png"));
     }
