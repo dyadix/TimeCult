@@ -1,6 +1,7 @@
 1.6
 
 * Removed buttons' size hints (caused some button labels be truncated).
+* Resizable task list window.
 
 1.5
 
