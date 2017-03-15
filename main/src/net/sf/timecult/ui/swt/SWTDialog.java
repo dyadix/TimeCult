@@ -39,16 +39,22 @@ public abstract class SWTDialog extends Dialog {
 
     private final boolean forcedModal;
     private final boolean iconized;
+    private int additionalStyle;
 
     public SWTDialog(Shell parent, boolean forcedModal) {
-        this(parent, forcedModal, true);
+        this(parent, forcedModal, true, false);
     }
 
     protected SWTDialog(Shell parent, boolean forcedModal, boolean iconized) {
+        this(parent, forcedModal, iconized, false);
+    }
+
+    protected SWTDialog(Shell parent, boolean forcedModal, boolean iconized, boolean isResizable) {
 		super(parent);
         this.iconized = iconized;
         defaultKeyListener = new DialogKeyListener();
         this.forcedModal = forcedModal;
+        this.additionalStyle = isResizable ? SWT.MAX | SWT.MIN : 0;
 	}
 	
 	private void setup(Shell shell) {
@@ -133,13 +139,10 @@ public abstract class SWTDialog extends Dialog {
 	public void open () {
         if (shell != null && shell.isVisible()) return;
 		Shell parent = getParent();
+		int style = SWT.DIALOG_TRIM | additionalStyle;
+		style |= !PlatformUtil.isGtk || forcedModal ? SWT.APPLICATION_MODAL : 0;
 		if (shell == null) {
-            if (PlatformUtil.isGtk && !forcedModal) {
-                shell = new Shell(parent, SWT.DIALOG_TRIM);
-            }
-            else {
-                shell = new Shell(parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL);
-            }
+            shell = new Shell(parent, style);
 			shell.setText(getText());
 			setup(shell);
 			initFields();
@@ -165,7 +168,7 @@ public abstract class SWTDialog extends Dialog {
 	}
     
     
-    public KeyListener getDefaultKeyListener() {
+    KeyListener getDefaultKeyListener() {
         return defaultKeyListener;
     }
     
@@ -186,7 +189,7 @@ public abstract class SWTDialog extends Dialog {
     
     /**
      * Creates a text field with a given default value and width hint. Width
-     * hint is used only if a parent composite has grid lyout, otherwise it is
+     * hint is used only if a parent composite has grid layout, otherwise it is
      * ignored.
      * 
      * @param parent
