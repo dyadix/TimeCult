@@ -35,8 +35,8 @@ public class IconSet {
     private void loadImages(Display display) {
         imageMap.put("open.enabled",createIcon(display, "document-open"));
         imageMap.put("open.disabled", createIcon(display, "document-open"));
-        imageMap.put("newWorkspace.enabled", createIcon(display, "document-new"));
-        imageMap.put("save.enabled", createIcon(display, "document-save"));
+        imageMap.put("newWorkspace.enabled", createIcon(display, "workspace-new"));
+        imageMap.put("save.enabled", createIcon(display, "save"));
         imageMap.put("find.enabled", createIcon(display, "edit-find"));
         imageMap.put("start.enabled", createIcon(display, "timer-start"));
         imageMap.put("tasklist.enabled", createIcon(display, "tasklist"));
@@ -123,6 +123,9 @@ public class IconSet {
     private Image createIcon(Display display, String iconFile) {
         String resource = "images/icons/" + iconFile + "-24.png";
         InputStream inputStream = ResourceHelper.openStream(resource);
+        if (inputStream == null) {
+            throw new RuntimeException("Icon " + resource + " not found");
+        }
         return new Image(display, inputStream);
     }
         
