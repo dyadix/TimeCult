@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rustam Vishnyakov, 2005-2007 (dyadix@gmail.com)
+ * Copyright (c) Rustam Vishnyakov, 2005-2017 (dyadix@gmail.com)
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,8 +14,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
- * $Id: IconSet.java,v 1.32 2011/01/18 02:57:53 dragulceo Exp $
  */
 package net.sf.timecult.ui.swt;
 
@@ -35,16 +33,20 @@ public class IconSet {
     
     
     private void loadImages(Display display) {
+        imageMap.put("open.enabled",createIcon(display, "document-open"));
+        imageMap.put("open.disabled", createIcon(display, "document-open"));
+        imageMap.put("newWorkspace.enabled", createIcon(display, "document-new"));
+        imageMap.put("save.enabled", createIcon(display, "document-save"));
+        imageMap.put("find.enabled", createIcon(display, "edit-find"));
+        imageMap.put("start.enabled", createIcon(display, "timer-start"));
+        imageMap.put("tasklist.enabled", createIcon(display, "tasklist"));
+        imageMap.put("quickTimesheet.enabled", createIcon(display, "quick-report"));
+        imageMap.put("options.enabled", createIcon(display, "settings"));
+
         imageMap.put("project.enabled", createImage(display, "project1.png"));
         imageMap.put("newTask.enabled", createImage(display, "star.png"));
         imageMap.put("notStarted.enabled", createImage(display, "star.png"));
-        imageMap.put("newWorkspace.enabled", createImage(display, "filenew.png"));
-        imageMap.put("save.enabled", createImage(display, "disk.png"));
-        //imageMap.put("save.disabled", createImage(display, "disk_disabled.png"));
-        imageMap.put("start.enabled", createImage(display, "time_go.png"));
         imageMap.put("flaggedList.enabled", createImage(display, "todo.gif"));
-        imageMap.put("tasklist.enabled", createImage(display, "todo.gif"));
-        //imageMap.put("flaggedList.disabled", createImage(display, "todo.gif"));
         imageMap.put("inProgress.enabled", createImage(display, "pencil.png"));
         imageMap.put("finished.enabled", createImage(display, "check.png"));
         imageMap.put("idle.enabled", createImage(display, "bullet_blue.png"));
@@ -58,8 +60,6 @@ public class IconSet {
         imageMap.put("orangeFlag.enabled", createImage(display, "flag_orange.png"));
         imageMap.put("magentaFlag.enabled", createImage(display, "flag_magenta.png"));
 
-        imageMap.put("open.enabled",createImage(display, "fileopen.png"));
-        imageMap.put("open.disabled", createImage(display, "fileopen.png"));
         imageMap.put("delete.enabled", createImage(display, "delete.png"));
         imageMap.put("web.enabled", createImage(display, "web.png"));
         imageMap.put("exit.enabled", createImage(display, "exit.png"));
@@ -73,9 +73,7 @@ public class IconSet {
         imageMap.put("edit.enabled", createImage(display, "edit.png"));
         imageMap.put("add.enabled", createImage(display, "add.png"));
         imageMap.put("timesheet.enabled", createImage(display, "timesheet.png"));
-        imageMap.put("quickTimesheet.enabled", createImage(display, "qtimesheet.png"));
         imageMap.put("waiting.enabled", createImage(display, "waiting.png"));
-        imageMap.put("options.enabled", createImage(display, "options.png"));
         imageMap.put("timer.0.enabled", createImage(display, "timer/timer0.png"));
         imageMap.put("timer.1.enabled", createImage(display, "timer/timer1.png"));
         imageMap.put("timer.2.enabled", createImage(display, "timer/timer2.png"));
@@ -112,12 +110,20 @@ public class IconSet {
         imageMap.put("deleteRecord.enabled", createImage(display, "delete.png"));
         imageMap.put("joinRecords.enabled", createImage(display, "arrow_join.png"));
 
-        imageMap.put("find.enabled", createImage(display, "find.png"));
         imageMap.put("past.due.enabled", createImage(display, "past_due.png"));
-    }    
-    
+    }
+
+    /**
+     * @deprecated
+     */
     private Image createImage(Display display, String imgFile) {
         InputStream inputStream = ResourceHelper.openStream("images/" + imgFile);
+        return new Image(display, inputStream);
+    }
+
+    private Image createIcon(Display display, String iconFile) {
+        String resource = "images/icons/" + iconFile + "-24.png";
+        InputStream inputStream = ResourceHelper.openStream(resource);
         return new Image(display, inputStream);
     }
         
