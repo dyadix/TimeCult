@@ -55,34 +55,36 @@ public class IconSet {
         imageMap.put("deleteRecord.enabled", createIcon(display, "delete"));
         imageMap.put("joinRecords.enabled", createIcon(display, "join"));
         imageMap.put("edit.enabled", createIcon(display, "properties"));
+        imageMap.put("close-project.enabled", createIcon(display, "lock"));
+        imageMap.put("cut.enabled", createIcon(display, "cut"));
+        imageMap.put("paste.enabled", createIcon(display, "paste"));
+        imageMap.put("finished.enabled", createIcon(display, "done"));
+        imageMap.put("cancel.enabled", createIcon(display, "cancel"));
+        imageMap.put("cancelled.enabled", createIcon(display, "cancel"));
+        imageMap.put("waiting.enabled", createIcon(display, "wait"));
+
+        imageMap.put("redFlag.enabled", createIcon(display, "pin-red"));
+        imageMap.put("greenFlag.enabled", createIcon(display, "pin-green"));
+        imageMap.put("blueFlag.enabled", createIcon(display, "pin-blue"));
+        imageMap.put("orangeFlag.enabled", createIcon(display, "pin-orange"));
+        imageMap.put("magentaFlag.enabled", createIcon(display, "pin-magenta"));
+        imageMap.put("inProgress.enabled", createIcon(display, "task"));
 
         imageMap.put("project.enabled", createImage(display, "project1.png"));
         imageMap.put("newTask.enabled", createImage(display, "star.png"));
         imageMap.put("notStarted.enabled", createImage(display, "star.png"));
         imageMap.put("flaggedList.enabled", createImage(display, "todo.gif"));
-        imageMap.put("inProgress.enabled", createImage(display, "pencil.png"));
-        imageMap.put("finished.enabled", createImage(display, "check.png"));
         imageMap.put("idle.enabled", createImage(display, "bullet_blue.png"));
         imageMap.put("workspace.enabled", createImage(display, "cog.png"));
-        imageMap.put("cancel.enabled", createImage(display, "cancel.png"));
-        imageMap.put("cancelled.enabled", createImage(display, "cancelled.png"));
 
-        imageMap.put("redFlag.enabled", createImage(display, "flag_red.png"));
-        imageMap.put("greenFlag.enabled", createImage(display, "flag_green.png"));
-        imageMap.put("blueFlag.enabled", createImage(display, "flag_blue.png"));
-        imageMap.put("orangeFlag.enabled", createImage(display, "flag_orange.png"));
-        imageMap.put("magentaFlag.enabled", createImage(display, "flag_magenta.png"));
 
         imageMap.put("web.enabled", createImage(display, "web.png"));
         imageMap.put("exit.enabled", createImage(display, "exit.png"));
         imageMap.put("copy.enabled", createImage(display, "edit-copy.png"));
-        imageMap.put("cut.enabled", createImage(display, "edit-cut.png"));
-        imageMap.put("paste.enabled", createImage(display, "edit-paste.png"));
         imageMap.put("book-open.enabled", createImage(display, "book_open.png"));
         imageMap.put("page.enabled", createImage(display, "doc.png"));
         imageMap.put("timecult.enabled", createImage(display, "timecult.ico"));
         imageMap.put("timesheet.enabled", createImage(display, "timesheet.png"));
-        imageMap.put("waiting.enabled", createImage(display, "waiting.png"));
         imageMap.put("timer.0.enabled", createImage(display, "timer/timer0.png"));
         imageMap.put("timer.1.enabled", createImage(display, "timer/timer1.png"));
         imageMap.put("timer.2.enabled", createImage(display, "timer/timer2.png"));
@@ -96,17 +98,16 @@ public class IconSet {
         imageMap.put("record-normal.enabled", createImage(display, "record-normal.png"));
         imageMap.put("record-partial.enabled", createImage(display, "record-partial.png"));
         imageMap.put("project-closed.enabled", createImage(display, "project_closed.png"));
-        imageMap.put("close-project.enabled", createImage(display, "close_project.png"));
         imageMap.put("link.enabled", createImage(display, "link.png"));
         imageMap.put("notes.enabled", createImage(display, "notes.gif"));
 
-        imageMap.put("tasklist.inProgress.enabled", createImage(display, "pencil.png"));
-        imageMap.put("tasklist.finished.enabled", createImage(display, "check.png"));
+        imageMap.put("tasklist.inProgress.enabled", createIcon(display, "task"));
+        imageMap.put("tasklist.finished.enabled", createIcon(display, "done"));
         imageMap.put("tasklist.notStarted.enabled", createImage(display, "star.png"));
-        imageMap.put("tasklist.cancelled.enabled", createImage(display, "cancelled.png"));
-        imageMap.put("tasklist.flagged.enabled", createImage(display, "flag_red.png"));
+        imageMap.put("tasklist.cancelled.enabled", createIcon(display, "cancel"));
+        imageMap.put("tasklist.flagged.enabled", createIcon(display, "pin-red"));
         imageMap.put("tasklist.activity.enabled", createImage(display, "activity.png"));
-        imageMap.put("tasklist.waiting.enabled", createImage(display, "waiting.png"));
+        imageMap.put("tasklist.waiting.enabled", createIcon(display, "wait"));
         imageMap.put("tasklist.pdf.enabled", createImage(display, "pdf.png"));
 
         imageMap.put("past.due.enabled", createImage(display, "past_due.png"));
