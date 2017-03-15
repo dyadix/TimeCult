@@ -38,7 +38,7 @@ public class IconSet {
         imageMap.put("newWorkspace.enabled", createIcon(display, "workspace-new"));
         imageMap.put("save.enabled", createIcon(display, "save"));
         imageMap.put("find.enabled", createIcon(display, "edit-find"));
-        imageMap.put("start.enabled", createIcon(display, "timer-start"));
+        imageMap.put("start.enabled", createIcon(display, "timer"));
         imageMap.put("tasklist.enabled", createIcon(display, "tasklist"));
         imageMap.put("quickTimesheet.enabled", createIcon(display, "quick-report"));
         imageMap.put("options.enabled", createIcon(display, "settings"));
