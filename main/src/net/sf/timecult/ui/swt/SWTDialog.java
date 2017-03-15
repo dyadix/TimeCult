@@ -92,7 +92,7 @@ public abstract class SWTDialog extends Dialog {
 	
 	
 	private void addButtonPanel(Shell shell) {        
-        GridData buttonPanelData = new GridData(GridData.FILL_BOTH);
+        GridData buttonPanelData = new GridData(GridData.FILL_HORIZONTAL);
         Group buttonPanel = new Group(shell, SWT.SHADOW_ETCHED_IN);
 
         buttonPanel.setLayoutData(buttonPanelData);
@@ -168,7 +168,7 @@ public abstract class SWTDialog extends Dialog {
 	}
     
     
-    KeyListener getDefaultKeyListener() {
+    protected KeyListener getDefaultKeyListener() {
         return defaultKeyListener;
     }
     

@@ -19,34 +19,22 @@
  */
 package net.sf.timecult.ui.swt.tasklist;
 
-import java.util.Collection;
-import java.util.TreeMap;
-
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.model.ProjectTreeItem;
 import net.sf.timecult.model.Task;
 import net.sf.timecult.model.TaskStatus;
-import net.sf.timecult.ui.swt.MissingSelectionObjectException;
 import net.sf.timecult.ui.swt.SWTDialog;
 import net.sf.timecult.ui.swt.SWTMainWindow;
 import net.sf.timecult.util.ObjectInfoHelper;
-
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.*;
+
+import java.util.Collection;
+import java.util.TreeMap;
 
 public class TaskListView extends SWTDialog {
 
@@ -79,9 +67,9 @@ public class TaskListView extends SWTDialog {
         Composite contentPanel = new Composite(shell, SWT.BORDER);
         contentPanel.setLayout(contentLayout);
 
-        GridData tableLayoutData = new GridData(GridData.FILL_HORIZONTAL
+        GridData tableLayoutData = new GridData(GridData.FILL_BOTH
             | GridData.VERTICAL_ALIGN_FILL);
-        tableLayoutData.heightHint = 200;
+//        tableLayoutData.heightHint = 200;
         GridLayout grid = new GridLayout();
         grid.numColumns = 1;
         grid.makeColumnsEqualWidth = true;
@@ -170,8 +158,8 @@ public class TaskListView extends SWTDialog {
         Task filteredTasks[] = TimeTracker.getInstance().getWorkspace()
             .getTasksByStatus(this.taskStatus);
         TreeMap<String, Task> sortedItems = new TreeMap<String, Task>();
-        for (int i = 0; i < filteredTasks.length; i++) {
-            sortedItems.put(filteredTasks[i].toString(), filteredTasks[i]);
+        for (Task filteredTask : filteredTasks) {
+            sortedItems.put(filteredTask.toString(), filteredTask);
         }
         Collection<Task> tasks = sortedItems.values();
         for (Task task : tasks) {
@@ -214,7 +202,7 @@ public class TaskListView extends SWTDialog {
     }
     
     
-    public void listTasks(TaskStatus status, Class subtype) {
+    void listTasks(TaskStatus status, Class subtype) {
         this.taskStatus = status;
         this.taskListTable.removeAll();
         this.taskSubtype = subtype;
