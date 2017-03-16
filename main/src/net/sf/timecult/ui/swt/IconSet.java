@@ -70,12 +70,13 @@ public class IconSet {
         imageMap.put("magentaFlag.enabled", createIcon(display, "pin-magenta"));
         imageMap.put("inProgress.enabled", createIcon(display, "task"));
 
-        imageMap.put("project.enabled", createImage(display, "project1.png"));
+        imageMap.put("project.enabled", createIcon(display, "project"));
         imageMap.put("newTask.enabled", createImage(display, "star.png"));
         imageMap.put("notStarted.enabled", createImage(display, "star.png"));
         imageMap.put("flaggedList.enabled", createImage(display, "todo.gif"));
         imageMap.put("idle.enabled", createImage(display, "bullet_blue.png"));
         imageMap.put("workspace.enabled", createImage(display, "cog.png"));
+        imageMap.put("activity.enabled", createIcon(display, "activity"));
 
 
         imageMap.put("web.enabled", createImage(display, "web.png"));
@@ -94,7 +95,6 @@ public class IconSet {
         imageMap.put("increase.enabled", createImage(display, "increase.png"));
         imageMap.put("decrease.enabled", createImage(display, "decrease.png"));
         imageMap.put("reopen.enabled", createImage(display, "reopen.png"));
-        imageMap.put("activity.enabled", createImage(display, "activity.png"));
         imageMap.put("record-normal.enabled", createImage(display, "record-normal.png"));
         imageMap.put("record-partial.enabled", createImage(display, "record-partial.png"));
         imageMap.put("project-closed.enabled", createImage(display, "project_closed.png"));
@@ -106,7 +106,7 @@ public class IconSet {
         imageMap.put("tasklist.notStarted.enabled", createImage(display, "star.png"));
         imageMap.put("tasklist.cancelled.enabled", createIcon(display, "cancel"));
         imageMap.put("tasklist.flagged.enabled", createIcon(display, "pin-red"));
-        imageMap.put("tasklist.activity.enabled", createImage(display, "activity.png"));
+        imageMap.put("tasklist.activity.enabled", createIcon(display, "activity"));
         imageMap.put("tasklist.waiting.enabled", createIcon(display, "wait"));
         imageMap.put("tasklist.pdf.enabled", createImage(display, "pdf.png"));
 
