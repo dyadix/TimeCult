@@ -71,11 +71,11 @@ public class IconSet {
         imageMap.put("inProgress.enabled", createIcon(display, "task"));
 
         imageMap.put("project.enabled", createIcon(display, "project"));
-        imageMap.put("newTask.enabled", createImage(display, "star.png"));
-        imageMap.put("notStarted.enabled", createImage(display, "star.png"));
+        imageMap.put("newTask.enabled", createIcon(display, "star"));
+        imageMap.put("notStarted.enabled", createIcon(display, "star"));
         imageMap.put("flaggedList.enabled", createImage(display, "todo.gif"));
         imageMap.put("idle.enabled", createImage(display, "bullet_blue.png"));
-        imageMap.put("workspace.enabled", createImage(display, "cog.png"));
+        imageMap.put("workspace.enabled", createIcon(display, "workspace"));
         imageMap.put("activity.enabled", createIcon(display, "activity"));
 
 
@@ -103,12 +103,12 @@ public class IconSet {
 
         imageMap.put("tasklist.inProgress.enabled", createIcon(display, "task"));
         imageMap.put("tasklist.finished.enabled", createIcon(display, "done"));
-        imageMap.put("tasklist.notStarted.enabled", createImage(display, "star.png"));
+        imageMap.put("tasklist.notStarted.enabled", createIcon(display, "star"));
         imageMap.put("tasklist.cancelled.enabled", createIcon(display, "cancel"));
         imageMap.put("tasklist.flagged.enabled", createIcon(display, "pin-red"));
         imageMap.put("tasklist.activity.enabled", createIcon(display, "activity"));
         imageMap.put("tasklist.waiting.enabled", createIcon(display, "wait"));
-        imageMap.put("tasklist.pdf.enabled", createImage(display, "pdf.png"));
+        imageMap.put("tasklist.pdf.enabled", createIcon(display, "pdf"));
 
         imageMap.put("past.due.enabled", createImage(display, "past_due.png"));
     }
