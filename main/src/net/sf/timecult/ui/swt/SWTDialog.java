@@ -54,7 +54,7 @@ public abstract class SWTDialog extends Dialog {
         this.iconized = iconized;
         defaultKeyListener = new DialogKeyListener();
         this.forcedModal = forcedModal;
-        this.additionalStyle = isResizable ? SWT.MAX | SWT.MIN : 0;
+        this.additionalStyle = isResizable ? SWT.RESIZE | SWT.MAX : 0;
 	}
 	
 	private void setup(Shell shell) {
