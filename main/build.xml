@@ -1,7 +1,7 @@
 <!--
     TimeCult Build File
     
-    Copyright (c) R.Vishnyakov, 2005-2013 <dyadix@gmail.com>
+    Copyright (c) R.Vishnyakov, 2005-2017 <dyadix@gmail.com>
 
      BUILD TARGETS:
 
@@ -18,8 +18,6 @@
      launcher       Builds a launcher (Windows executable);
      winsetup       Creates a Windows setup file. Requires innosetup.dir property pointing
                     to InnoSetup installation directory in build.properties.
-     
-     $Id: build.xml,v 1.30 2010/12/30 15:55:34 dyadix Exp $
 
 -->
 <project name="TimeCult" default="all" basedir=".">
@@ -200,7 +198,6 @@
         <tar destfile="./${build-stamp}-linux.tar.gz" compression="gzip">
             <tarfileset dir="${dist}" prefix="TimeCult-${major}.${minor}">
                 <type type="file"/>
-                <exclude name="**/swt.jar"/>
             </tarfileset>
             <tarfileset
                 file="./timecult.ico"
