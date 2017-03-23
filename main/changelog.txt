@@ -3,6 +3,7 @@
 * Removed buttons' size hints (caused some button labels be truncated).
 * Resizable task list window.
 * Include swt.jar to linux binary distro to stick with precise SWT version.
+* Modern looking flat icons.
 
 1.5
 
