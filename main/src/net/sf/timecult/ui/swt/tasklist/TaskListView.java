@@ -29,6 +29,7 @@ import net.sf.timecult.ui.swt.SWTMainWindow;
 import net.sf.timecult.util.ObjectInfoHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
@@ -48,6 +49,8 @@ public class TaskListView extends SWTDialog {
     private TaskListToolbar       toolbar;
     private Label                 infoText;
     private Label                 parentText;
+
+    private static Point lastSize;
 
 
     public TaskListView(SWTMainWindow mainWindow) {
@@ -149,7 +152,7 @@ public class TaskListView extends SWTDialog {
         closeButton.setText(ResourceHelper.getString("button.close"));
         closeButton.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                TaskListView.this.getShell().setVisible(false);
+                close();
             }
         });
     }
@@ -224,4 +227,13 @@ public class TaskListView extends SWTDialog {
         }
     }
 
+    @Override
+    protected Point getPreferredSize() {
+        return lastSize;
+    }
+
+    @Override
+    protected void storeCurrentSize(Point size) {
+        lastSize = size;
+    }
 }

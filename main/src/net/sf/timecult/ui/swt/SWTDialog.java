@@ -24,9 +24,14 @@ import net.sf.timecult.ResourceHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Label;
 
 
 /**
@@ -50,14 +55,14 @@ public abstract class SWTDialog extends Dialog {
     }
 
     protected SWTDialog(Shell parent, boolean forcedModal, boolean iconized, boolean isResizable) {
-		super(parent);
+        super(parent);
         this.iconized = iconized;
         defaultKeyListener = new DialogKeyListener();
         this.forcedModal = forcedModal;
         this.additionalStyle = isResizable ? SWT.RESIZE | SWT.MAX : 0;
-	}
-	
-	private void setup(Shell shell) {
+    }
+
+    private void setup(Shell shell) {
         if (iconized) {
             Image iconImage = new Image(this.shell.getDisplay(), ResourceHelper
                     .openStream("images/timecult_icon.png"));
@@ -78,20 +83,33 @@ public abstract class SWTDialog extends Dialog {
         shell.setText(getTitle());
         shell.pack();
 
+        Point preferredSize = getPreferredSize();
+        if (preferredSize != null) {
+            shell.setSize(preferredSize);
+        }
+
         if (PlatformUtil.isGtk)
             // TODO: Why not doing a similar thing on Windows? Check.
             SWTMainWindow.centerShellRelatively(getParent(), shell);
         else
             SWTMainWindow.centerShell(shell);
     }
-	
-	
-	protected abstract Composite createContentPanel(Shell shell);
-	protected abstract boolean handleOk();
+
+
+    protected abstract Composite createContentPanel(Shell shell);
+    protected abstract boolean handleOk();
     protected abstract String getTitle();
-	
-	
-	private void addButtonPanel(Shell shell) {        
+
+    protected Point getPreferredSize() {
+        return null;
+    }
+
+    protected void storeCurrentSize(Point size) {
+        // Do nothing by default
+    }
+
+
+    private void addButtonPanel(Shell shell) {
         GridData buttonPanelData = new GridData(GridData.FILL_HORIZONTAL);
         Group buttonPanel = new Group(shell, SWT.SHADOW_ETCHED_IN);
 
@@ -99,15 +117,15 @@ public abstract class SWTDialog extends Dialog {
         
         Label space = new Label(buttonPanel, SWT.NONE);
         GridData spaceLayout = new GridData(GridData.GRAB_HORIZONTAL);
-        space.setLayoutData(spaceLayout);       
-        
-		createButtons(buttonPanel);
+        space.setLayoutData(spaceLayout);
+
+        createButtons(buttonPanel);
 
         GridLayout layout = new GridLayout();
-		layout.numColumns = buttonPanel.getChildren().length + 1;
+        layout.numColumns = buttonPanel.getChildren().length + 1;
 
-		buttonPanel.setLayout(layout);
-	}
+        buttonPanel.setLayout(layout);
+    }
 
     
     /**
@@ -135,37 +153,38 @@ public abstract class SWTDialog extends Dialog {
             }
         });
     }
-	
-	public void open () {
+
+    public void open () {
         if (shell != null && shell.isVisible()) return;
-		Shell parent = getParent();
-		int style = SWT.DIALOG_TRIM | additionalStyle;
-		style |= !PlatformUtil.isGtk || forcedModal ? SWT.APPLICATION_MODAL : 0;
-		if (shell == null) {
+        Shell parent = getParent();
+        int style = SWT.DIALOG_TRIM | additionalStyle;
+        style |= !PlatformUtil.isGtk || forcedModal ? SWT.APPLICATION_MODAL : 0;
+        if (shell == null) {
             shell = new Shell(parent, style);
-			shell.setText(getText());
-			setup(shell);
-			initFields();
-			shell.open();
-		}
-		else {
-			shell.setVisible(true);
-		}
-		Display display = parent.getDisplay();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) display.sleep();
-		}
-	}			
+            shell.setText(getText());
+            setup(shell);
+            initFields();
+            shell.open();
+        }
+        else {
+            shell.setVisible(true);
+        }
+        Display display = parent.getDisplay();
+        while (!shell.isDisposed()) {
+            if (!display.readAndDispatch()) display.sleep();
+        }
+    }
 
     public void close() {
         if (shell != null && !shell.isDisposed()) {
+            storeCurrentSize(shell.getSize());
             shell.setVisible(false);
         }
     }
-	
-	protected void initFields() {
-		// Do nothing
-	}
+
+    protected void initFields() {
+        // Do nothing
+    }
     
     
     protected KeyListener getDefaultKeyListener() {
