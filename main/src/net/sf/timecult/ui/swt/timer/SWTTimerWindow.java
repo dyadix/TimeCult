@@ -20,24 +20,6 @@
 package net.sf.timecult.ui.swt.timer;
 
 import net.sf.timecult.PlatformUtil;
-import net.sf.timecult.ResourceHelper;
-import net.sf.timecult.ui.swt.SWTUIManager;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.ShellAdapter;
-import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.graphics.*;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tray;
-import org.eclipse.swt.widgets.TrayItem;
-
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.conf.AppPreferences;
 import net.sf.timecult.model.Task;
@@ -48,8 +30,21 @@ import net.sf.timecult.stopwatch.Stopwatch;
 import net.sf.timecult.stopwatch.StopwatchEvent;
 import net.sf.timecult.stopwatch.StopwatchListener;
 import net.sf.timecult.ui.swt.SWTMainWindow;
+import net.sf.timecult.ui.swt.SWTUIManager;
 import net.sf.timecult.ui.swt.timelog.TimeLogEntryEditDialog;
 import net.sf.timecult.util.Formatter;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.*;
 
 public class SWTTimerWindow implements StopwatchListener {
 
@@ -92,11 +87,13 @@ public class SWTTimerWindow implements StopwatchListener {
         }
     }
 
-
-    public Shell getParent() {
+    public Shell getParentShell() {
         return _parent.getShell();
     }
 
+    public SWTMainWindow getParent() {
+        return _parent;
+    }
 
     private void setup(Shell shell) {
         FillLayout layout = new FillLayout();
@@ -117,7 +114,7 @@ public class SWTTimerWindow implements StopwatchListener {
 
         GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
         gridData.horizontalSpan = 2;
-        _toolBar = new SWTTimerToolBar(this, shell, gridData);
+        _toolBar = new SWTTimerToolBar(this, shell);
 
         java.awt.Point timerPos = TimeTracker.getInstance()
             .getConfigurationManager().getDefaultTimerPos();
@@ -223,11 +220,8 @@ public class SWTTimerWindow implements StopwatchListener {
         }
     }
 
-    private boolean mustKeep(TimeRecord record) {
-        if (_timeRec.getDuration().getValue() == 0 && AppPreferences.getInstance().isDontSaveEmptyTimeRec()) {
-            return false;
-        }
-        return true;
+    private boolean mustKeep() {
+        return !(_timeRec.getDuration().getValue() == 0 && AppPreferences.getInstance().isDontSaveEmptyTimeRec());
     }
 
     private TimeRecord getTimeRecord() {
@@ -238,7 +232,7 @@ public class SWTTimerWindow implements StopwatchListener {
                 _workspace.roundUpTime(_stopwatch.getDuration()),
                 "running...",
                 true);
-            if (mustKeep(_timeRec)) {
+            if (mustKeep()) {
                 TimeTracker.getInstance().getWorkspace()
                         .recordTimeEx(_timeRec, false);
             }
@@ -257,7 +251,7 @@ public class SWTTimerWindow implements StopwatchListener {
                 true);
         }
         else {
-            if (mustKeep(timeRec)) {
+            if (mustKeep()) {
                 TimeTracker.getInstance().getWorkspace().recordTimeFinish(timeRec);
             }
         }

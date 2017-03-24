@@ -111,6 +111,12 @@ public class IconSet {
         imageMap.put("tasklist.pdf.enabled", createIcon(display, "pdf"));
 
         imageMap.put("past.due.enabled", createImage(display, "past_due.png"));
+
+        imageMap.put("timer.start.enabled", createIcon(display, "timer-start"));
+        imageMap.put("timer.pause.enabled", createIcon(display, "timer-pause"));
+        imageMap.put("timer.pauseResume.enabled", createIcon(display, "timer-pause"));
+        imageMap.put("timer.stop.enabled", createIcon(display, "timer-stop"));
+        imageMap.put("timer.minToTray.enabled", createIcon(display, "tray"));
     }
 
     /**

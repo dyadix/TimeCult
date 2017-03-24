@@ -19,16 +19,13 @@
  */
 package net.sf.timecult.ui.swt.timer;
 
-import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.model.Task;
 import net.sf.timecult.model.TimeRecord;
 import net.sf.timecult.ui.swt.SWTDialog;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -43,7 +40,7 @@ public class SWTNotesDialog extends SWTDialog {
     public static int MAX_NOTE_LENGTH = 80;
 
 	public SWTNotesDialog(SWTTimerWindow timerWindow, Task task) {
-		super(timerWindow.getParent(), false);
+		super(timerWindow.getParentShell(), false);
 		_timerWindow = timerWindow;
 		_task = task;
 		this.setText(_task.getName());

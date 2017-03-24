@@ -21,98 +21,89 @@ package net.sf.timecult.ui.swt.timer;
 
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.stopwatch.Stopwatch;
-
+import net.sf.timecult.ui.swt.IconSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 
 /**
  * Timer tool bar wrapper.
- * @author rvishnyakov
  */
 public class SWTTimerToolBar {
+    private final ToolBar        toolBar;
+    private       ToolItem       pauseButton;
+    private final SWTTimerWindow parent;
 
-	public SWTTimerToolBar(SWTTimerWindow parent, Shell shell, GridData gridData) {
-		_parent = parent;
-		setup(shell, gridData);
-	}
+    private final IconSet iconSet;
+    private final Image   startImage;
+    private final Image   pauseImage;
 
-	private void setup(Shell shell, GridData gridData) {
-		_toolBar = new ToolBar(shell, SWT.FLAT);
-		//_toolBar.setLayoutData(gridData);		
-		createPauseButton();
-		createStopButton();
-        createMinToTrayButton();
-	}
-
-	private ToolItem createStopButton() {
-		_stopButton = createButton("stop", "stop.png", "stop.png");
-		_stopButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				_parent.terminate();
-			}
-		});
-		return _stopButton;
-	}
-
-	private ToolItem createPauseButton() {
-		_pauseButton = createButton("pauseResume", "control_pause_blue.png",
-				"control_pause_blue.png");
-		_pauseButton.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-                pauseOrResume();
-			}
-		});
-		return _pauseButton;
-	}
-    
-    private ToolItem createMinToTrayButton() {
-        this.minToTrayButton = createButton("minToTray", "min_to_tray.png", "min_to_tray.png");
-        this.minToTrayButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent e) {
-                SWTTimerToolBar.this._parent.hide();
-            }
-        });
-        return this.minToTrayButton;
+    public SWTTimerToolBar(SWTTimerWindow parent, Shell shell) {
+        this.parent = parent;
+        iconSet = parent.getParent().getIconSet();
+        this.toolBar = new ToolBar(shell, SWT.FLAT);
+        setup();
+        startImage = iconSet.getIcon("timer.start", true);
+        pauseImage = iconSet.getIcon("timer.pause", true);
     }
 
-	private ToolItem createButton(String tag, String imageEnabled,
-			String imageDisabled) {
-		ToolItem item = new ToolItem(_toolBar, SWT.PUSH);
-		item.setToolTipText(ResourceHelper.getString("button." + tag
-				+ ".tooltip"));
-		item.setImage(new Image(_toolBar.getShell().getDisplay(),
-				ResourceHelper.openStream("images/" + imageEnabled)));
-		item.setDisabledImage(new Image(_toolBar.getShell().getDisplay(),
-				ResourceHelper.openStream("images/" + imageDisabled)));
-		return item;
-	}
-    
-    
+    private void setup() {
+        createPauseButton();
+        createStopButton();
+        createMinToTrayButton();
+    }
+
+    private void createStopButton() {
+        ToolItem stopButton = createButton("stop");
+        stopButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                SWTTimerToolBar.this.parent.terminate();
+            }
+        });
+    }
+
+    private void createPauseButton() {
+        this.pauseButton = createButton("pauseResume");
+        this.pauseButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                pauseOrResume();
+            }
+        });
+    }
+
+    private void createMinToTrayButton() {
+        ToolItem minToTrayButton = createButton("minToTray");
+        minToTrayButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                SWTTimerToolBar.this.parent.hide();
+            }
+        });
+    }
+
+    private ToolItem createButton(String tag) {
+        ToolItem item = new ToolItem(this.toolBar, SWT.PUSH);
+        item.setToolTipText(ResourceHelper.getString("button." + tag
+            + ".tooltip"));
+        item.setImage(iconSet.getIcon("timer." + tag, true));
+        item.setDisabledImage(iconSet.getIcon(tag, false));
+        return item;
+    }
+
+
     public void pauseOrResume() {
-        Stopwatch sw = _parent.getStopwatch();
+        Stopwatch sw = this.parent.getStopwatch();
         if (sw.isRunning()) {
-            _pauseButton.setImage(new Image(_toolBar.getShell()
-                    .getDisplay(), ResourceHelper
-                    .openStream("images/control_play_blue.png")));
+            this.pauseButton.setImage(startImage);
             sw.pause();
         } else {
-            _pauseButton.setImage(new Image(_toolBar.getShell()
-                    .getDisplay(), ResourceHelper
-                    .openStream("images/control_pause_blue.png")));
+            this.pauseButton.setImage(pauseImage);
             sw.resume();
         }
     }
 
-	private ToolBar        _toolBar     = null;
-    private ToolItem       _stopButton  = null;
-    private ToolItem       _pauseButton = null;
-    private SWTTimerWindow _parent      = null;
-    private ToolItem       minToTrayButton;
 
 }
