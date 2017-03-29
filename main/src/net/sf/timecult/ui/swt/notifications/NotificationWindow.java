@@ -19,11 +19,11 @@
  */
 package net.sf.timecult.ui.swt.notifications;
 
+import net.sf.timecult.ui.swt.SWTMainWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -32,22 +32,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-import net.sf.timecult.ResourceHelper;
-import net.sf.timecult.ui.swt.SWTMainWindow;
-
 public class NotificationWindow {
     
     private Display display;
     private Shell shell;
     private String message;
     private static Color backgroundColor;
-    private Image infoBarImage;
 
     public NotificationWindow (SWTMainWindow mainWindow) {
         this.display = mainWindow.getShell().getDisplay();
         backgroundColor = new Color(this.display, 255,255,200);
-        infoBarImage = new Image(display,
-            ResourceHelper.openStream("images/notif/notif_info.png"));
     }
     
     public void showMessage(String message) {
@@ -101,26 +95,21 @@ public class NotificationWindow {
         shell.setText("TimeCult");
         
         GridLayout gl = new GridLayout();
-        gl.numColumns = 3;
+        gl.numColumns = 2;
         gl.marginHeight = 0;
         gl.marginWidth = 0;
         gl.verticalSpacing = 0;
         gl.marginWidth = 0;
         gl.marginTop = 0;
+        gl.marginBottom = 10;
         this.shell.setLayout(gl);
         this.shell.setBackground(backgroundColor);
-        this.shell.setMinimumSize(200, this.shell.getMinimumSize().y);
-        
-        GridData titleData = getGridData();
-        Label titleLabel = new Label(shell, SWT.None);        
-        titleLabel.setLayoutData(titleData);
-        titleLabel.setImage(this.infoBarImage);
-        titleLabel.setBackground(backgroundColor);
+        this.shell.setMinimumSize(400, this.shell.getMinimumSize().y);
 
         GridData messageData = getGridData();
         messageData.verticalIndent = 10;
-        messageData.horizontalIndent = 0;
-        messageData.widthHint = 200;
+        messageData.horizontalIndent = 10;
+        messageData.widthHint = 400;
         Label messageText = new Label(shell, SWT.WRAP);        
         messageText.setText(message);
         messageText.setLayoutData(messageData);
