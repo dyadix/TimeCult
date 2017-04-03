@@ -4,6 +4,7 @@
 * Resizable task list window.
 * Include swt.jar to linux binary distro to stick with precise SWT version.
 * Modern looking flat icons, modified notification popup.
+* Updated status line.
 
 1.5
 

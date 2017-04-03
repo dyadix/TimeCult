@@ -41,88 +41,109 @@ import org.eclipse.swt.widgets.Label;
 
 public class SWTStatusLine implements WorkspaceListener {
 
-	public SWTStatusLine(SWTMainWindow mainWindow) {
+    private Label         _currTimeLabel  = null;
+    private Label         _selectionLabel = null;
+    private Label         _idleLabel      = null;
+    private CurrTimeClock _clock          = new CurrTimeClock();
+    private SWTMainWindow _mainWindow     = null;
+    private long          _idleDuration   = 0;
+    private Label _hyperlinkIndicator;
+    private Label _hyperlinkLabel;
+    private Image _hyperlinkImage;
+    private Label _notesLabel;
+    private Image _notesImage;
+
+    public SWTStatusLine(SWTMainWindow mainWindow) {
         _mainWindow = mainWindow;
-		GridData gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL);
-		gridData.horizontalSpan = 2;
-        gridData.heightHint = 24;
+        GridData gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL);
+        gridData.horizontalSpan = 2;
         GridLayout grid = new GridLayout();
-        grid.numColumns = 6;
+        grid.numColumns = 10;
         grid.makeColumnsEqualWidth = false;
-        Composite statusComposite = new Composite(mainWindow.getShell(), SWT.BORDER);
-		statusComposite.setLayout(grid);
+        Composite statusComposite = new Composite(mainWindow.getShell(), SWT.NONE);
+        statusComposite.setLayout(grid);
         statusComposite.setLayoutData(gridData);
-        _selectionLabel = createLabel(statusComposite, 200, 200, true);
-        _notesLabel = createLabel(statusComposite, 16, 16, false);
-        _hyperlinkIndicator = createLabel(statusComposite, 16, 16, false);
-        _hyperlinkLabel = createLabel(statusComposite, 300, 300, false);
-        _idleLabel = createLabel(statusComposite, 100, 100, false);
-        _currTimeLabel = createLabel(statusComposite, 180, 180, false);
+        _selectionLabel = createLabel(statusComposite, -1, 200, true, SWT.LEFT);
+        createSeparator(statusComposite);
+        _notesLabel = createLabel(statusComposite, 16, 16, false, SWT.CENTER);
+        createSeparator(statusComposite);
+        _hyperlinkIndicator = createLabel(statusComposite, 16, 16, false, SWT.CENTER);
+        _hyperlinkLabel = createLabel(statusComposite, 300, 300, true, SWT.LEFT);
+        createSeparator(statusComposite);
+        _idleLabel = createLabel(statusComposite, 100, 100, true, SWT.CENTER);
+        createSeparator(statusComposite);
+        _currTimeLabel = createLabel(statusComposite, -1, 180, true, SWT.RIGHT);
         IconSet iconSet = _mainWindow.getIconSet();
         _hyperlinkImage = iconSet.getIcon("link", true);
         _notesImage = iconSet.getIcon("notes", true);
-	}
+    }
 
-	public void setSelectionLabel(String s) {
-		_selectionLabel.setText(s);
-	}
+    public void setSelectionLabel(String s) {
+        _selectionLabel.setText(s);
+    }
 
-	private Label createLabel(Composite c, int widthHint, int minWidth, boolean grabSpace) {
-	    GridData labelData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL);
-	    labelData.widthHint = widthHint;
-	    labelData.minimumWidth = minWidth;
-	    labelData.minimumHeight = 20;
-	    labelData.grabExcessHorizontalSpace = grabSpace;
-	    Label l = new Label(c, SWT.BORDER);
-	    l.setText("");
-	    l.setLayoutData(labelData);
-	    return l;
-	}
-    
+    private Label createLabel(Composite c, int widthHint, int minWidth, boolean grabSpace, int align) {
+        return createLabel(c, widthHint, minWidth, grabSpace, false, align);
+    }
+    private void createSeparator(Composite c) {
+        createLabel(c, -1, 5, false, true, SWT.NONE);
+    }
+
+    private Label createLabel(Composite c, int widthHint, int minWidth, boolean grabSpace, boolean isSeparator, int align) {
+        GridData labelData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.VERTICAL_ALIGN_FILL);
+        if (widthHint > 0) labelData.widthHint = widthHint;
+        labelData.minimumWidth = minWidth;
+        labelData.minimumHeight = 20;
+        labelData.grabExcessHorizontalSpace = grabSpace;
+        labelData.horizontalAlignment = SWT.FILL;
+        if (isSeparator) labelData.heightHint = 20;
+        Label l = new Label(c, isSeparator ? SWT.SEPARATOR : align);
+        l.setText("");
+        l.setLayoutData(labelData);
+        return l;
+    }
+
     public void setSelection(Object o) {
         _selectionLabel.setText(ObjectInfoHelper.getObjectInfo(o));
         if (o instanceof ProjectTreeItem) {
-            ProjectTreeItem item = (ProjectTreeItem)o;
+            ProjectTreeItem item = (ProjectTreeItem) o;
             if (item.getHyperlink() != null) {
                 _hyperlinkIndicator.setImage(_hyperlinkImage);
                 _hyperlinkLabel.setToolTipText(item.getHyperlink());
                 if (item.getHyperlink().length() < 50) {
                     _hyperlinkLabel.setText(item.getHyperlink());
-                }
-                else {
+                } else {
                     _hyperlinkLabel.setText("..."
                         + item.getHyperlink().substring(
-                            item.getHyperlink().length() - 50,
-                            item.getHyperlink().length()));
+                        item.getHyperlink().length() - 50,
+                        item.getHyperlink().length()));
                 }
-            }
-            else {
+            } else {
                 _hyperlinkIndicator.setImage(null);
                 _hyperlinkLabel.setToolTipText("");
                 _hyperlinkLabel.setText("");
-            }            
-        }        
+            }
+        }
         updateNotesIndicator(o);
     }
 
-    
+
     private void updateNotesIndicator(Object o) {
         if (o == null) {
             _notesLabel.setImage(null);
             return;
         }
         if (o instanceof DescriptionHolder) {
-            String description = ((DescriptionHolder)o).getDescription();
+            String description = ((DescriptionHolder) o).getDescription();
             if (description != null && !description.isEmpty()) {
                 _notesLabel.setImage(_notesImage);
-            }
-            else {
+            } else {
                 _notesLabel.setImage(null);
             }
         }
     }
 
-    
+
     private class CurrTimeClock extends TimerTask {
 
         public CurrTimeClock() {
@@ -142,21 +163,19 @@ public class SWTStatusLine implements WorkspaceListener {
                             _currTimeLabel.setText(Formatter.toDateTimeString(
                                 Calendar.getInstance().getTime(),
                                 true));
-                        }
-                        else {
+                        } else {
                             CurrTimeClock.this.cancel();
                         }
                     }
                 });
-            }
-            else {
+            } else {
                 this.cancel();
             }
         }
 
     }
-    
-    public void clearIdleTime() {       
+
+    public void clearIdleTime() {
         _idleLabel.setText("");
     }
 
@@ -177,18 +196,6 @@ public class SWTStatusLine implements WorkspaceListener {
     public void workspaceChanged(WorkspaceEvent we) {
         if (we.getId() == WorkspaceEvent.NOTES_UPDATED) {
             updateNotesIndicator(we.getSource());
-        }        
+        }
     }
-    
-    private Label _currTimeLabel = null;
-    private Label _selectionLabel = null;
-    private Label _idleLabel = null;
-    private CurrTimeClock _clock = new CurrTimeClock();
-    private SWTMainWindow _mainWindow = null;
-    private long _idleDuration = 0;
-    private Label _hyperlinkIndicator;
-    private Label _hyperlinkLabel;
-    private Image _hyperlinkImage;
-    private Label _notesLabel;
-    private Image _notesImage;
 }
