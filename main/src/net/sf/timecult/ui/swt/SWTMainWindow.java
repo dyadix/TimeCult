@@ -1,6 +1,6 @@
 /*
  * Copyright (c) Rustam Vishnyakov, 2005-2010 (dyadix@gmail.com)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
+ *
  * $Id: SWTMainWindow.java,v 1.34 2010/09/25 21:14:27 dyadix Exp $
  */
 package net.sf.timecult.ui.swt;
@@ -98,6 +98,7 @@ public class SWTMainWindow {
         GridLayout gridLayout = new GridLayout();
         gridLayout.numColumns = 3;
         gridLayout.marginHeight = gridLayout.marginWidth = 0;
+        gridLayout.horizontalSpacing = 0;
         _shell.setLayout(gridLayout);
 
         _treeTabSash = new SashForm(_shell, SWT.NONE);
@@ -106,11 +107,12 @@ public class SWTMainWindow {
             | GridData.FILL_VERTICAL);
         treeTabData.horizontalSpan = 3;
         _treeTabSash.setLayoutData(treeTabData);
-        
+
         GridLayout treeFilterGrid = new GridLayout();
         treeFilterGrid.verticalSpacing = 2;
         treeFilterGrid.marginBottom = 0;
         treeFilterGrid.marginWidth = 2;
+        treeFilterGrid.marginHeight = 0;
         _treeFilterContainer = new Composite(_treeTabSash, SWT.NONE);
         _treeFilterContainer.setLayout(treeFilterGrid);
         _treeFilterContainer.addControlListener(new ControlAdapter() {
@@ -119,7 +121,7 @@ public class SWTMainWindow {
                     _treeTabSash.getWeights());
             }
         });
-        
+
         _projTreeView = new SWTProjectTreeView(this);
         _mainTabFolder = new SWTMainTabFolder(this);
         _filterView = new AdvancedTimeFilterView(this);
@@ -128,7 +130,7 @@ public class SWTMainWindow {
         _timeLogView = new SWTTimeLogTableView(this);
         _totalsTableView = new SWTTotalsTableView(this);
         _detailsView = new SWTDetailsView(this);
-        
+
         _treeTabSash.setWeights(AppPreferences.getInstance().getTreeTabSashWeights());
 
         //
@@ -208,7 +210,7 @@ public class SWTMainWindow {
         return _statusLine;
     }
 
-    
+
     public void updateTitle() {
         String title = getTitleString();
         this._shell.setText(title);
@@ -242,22 +244,22 @@ public class SWTMainWindow {
         _shell.setMinimized(false);
         _shell.forceActive();
     }
-    
-    
+
+
     public void updateControlsFromPrefs() {
         AppPreferences appPrefs = AppPreferences.getInstance();
         this._treeTabSash.setWeights(appPrefs.getTreeTabSashWeights());
         this._mainTabFolder.selectTab(appPrefs.getSelectedTab());
     }
-    
-    
+
+
     private void addToTray() {
         Tray tray = _shell.getDisplay().getSystemTray();
         _trayItem = new TrayItem(tray, SWT.NONE);
         _trayItem.setImage(getIconSet().getIcon("timecult", true));
         _trayItem.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
-                restoreWindow();                
+                restoreWindow();
             }
         });
         _trayItem.addListener(SWT.MenuDetect, new Listener() {
@@ -265,10 +267,10 @@ public class SWTMainWindow {
                 TrayMenu.getInstance(SWTMainWindow.this).open();
             }
         });
-        _trayItem.setToolTipText(getTitleString());        
-    }    
-    
-    
+        _trayItem.setToolTipText(getTitleString());
+    }
+
+
     public Menu createInProgressStartMenu(MenuItem parentItem,
         SelectionListener l) {
         Menu startMenu = new Menu(parentItem);
@@ -290,7 +292,7 @@ public class SWTMainWindow {
         taskMenuItem.addSelectionListener(l);
         taskMenuItem.setImage(getIconSet().getIcon(iconName, true));
     }
-    
+
     public static void centerShell(Shell shell) {
         Rectangle primaryArea = shell.getDisplay().getPrimaryMonitor()
             .getClientArea();
@@ -299,7 +301,7 @@ public class SWTMainWindow {
             (primaryArea.width - shellArea.width) / 2,
             (primaryArea.height - shellArea.height) / 2);
     }
-    
+
     public static void centerShellRelatively(Shell parent, Shell shell) {
         Rectangle parentArea = parent.getBounds();
         Rectangle shellArea = shell.getBounds();
@@ -307,17 +309,17 @@ public class SWTMainWindow {
         Point shellOrigin = new Point(parentCenter.x - shellArea.width / 2, parentCenter.y - shellArea.height / 2);
         shell.setLocation(shellOrigin);
     }
-    
-    
+
+
     public AdvancedTimeFilterView getFilterView() {
         return _filterView;
     }
-    
-    
+
+
     public MenuFactory getMenuFactory() {
         return _menuFactory;
     }
-    
+
     public File chooseTargetFile(String defaultExtension) {
         FileDialog fileDialog = new FileDialog(getShell(), SWT.SAVE);
         fileDialog.setFilterExtensions(new String[] { defaultExtension, "*.*" });
@@ -327,11 +329,11 @@ public class SWTMainWindow {
             return null;
         return new File(fileDialog.getFilterPath(), name);
     }
-    
+
     public void showPopupMessage(String message) {
         _notificationManager.sendMessage(message);
     }
-    
+
 
     private Shell               _shell;
     private SWTProjectTreeView  _projTreeView;

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) Rustam Vishnyakov, 2007 (dyadix@gmail.com)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
+ *
  * $Id: SWTTotalsTableView.java,v 1.9 2009/11/21 13:58:38 dyadix Exp $
  */
 package net.sf.timecult.ui.swt;
@@ -67,7 +67,7 @@ public class SWTTotalsTableView {
 
     private void setup() {
         TabItem totalsTab = new TabItem(_mainWindow.getMainTabFolder()
-                .getTabs(), SWT.BORDER);
+                .getTabs(), SWT.NONE);
         totalsTab.setText(ResourceHelper.getString("tab.summary"));
         _table = new Table(_mainWindow.getMainTabFolder().getTabs(),
                 SWT.FULL_SELECTION | SWT.BORDER | SWT.MULTI);
@@ -137,8 +137,8 @@ public class SWTTotalsTableView {
             _table.getColumn(i).setWidth(this.appPrefs.getTotalsColWidth(i));
         }
     }
-    
-    
+
+
     private void addRecords(Task task) {
         TimeRecordFilter filter = null;
         if (TimeTracker.getInstance().getFilter() != null) {
@@ -157,8 +157,8 @@ public class SWTTotalsTableView {
             item.setText(2, records[i].getDuration().toString());
         }
     }
-    
-	
+
+
 	private void addChildNodes(TreeItem selectedItem) {
         int nChildren = selectedItem.getItemCount();
         for (int i = 0; i < nChildren; i++) {
@@ -169,11 +169,11 @@ public class SWTTotalsTableView {
             }
         }
     }
-	
+
 	public void updateOnSelection(Object selection) {
 		updateTable();
 	}
-	
+
 	private void addTableItem(TotalsCalculator data, boolean highlight) {
 		StringBuffer buf = new StringBuffer();
 		TableItem item = new TableItem(_table, SWT.NONE);
@@ -201,7 +201,7 @@ public class SWTTotalsTableView {
 		}
         item.setData(data);
 	}
-    
+
     public void copySelectionToClipboard() {
         TableItem[] items = _table.getSelection();
         Clipboard clipboard = new Clipboard(_mainWindow.getShell().getDisplay());
@@ -230,7 +230,7 @@ public class SWTTotalsTableView {
             clipboard.dispose();
         }
     }
-	
+
     private void createPopupMenu() {
         _popup = new Menu(_table);
         _table.setMenu(_popup);
@@ -250,9 +250,9 @@ public class SWTTotalsTableView {
             public void widgetSelected(SelectionEvent evt) {
                 _table.selectAll();
             }
-        });        
+        });
     }
-	
+
 	private SWTMainWindow _mainWindow;
     private Table         _table;
     private TimeLog       _timeLog;

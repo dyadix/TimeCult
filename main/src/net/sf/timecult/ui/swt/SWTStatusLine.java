@@ -1,6 +1,6 @@
 /*
  * Copyright (c) Rustam Vishnyakov, 2005-2010 (dyadix@gmail.com)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
+ *
  * $Id: SWTStatusLine.java,v 1.12 2011/01/16 05:22:53 dragulceo Exp $
  */
 package net.sf.timecult.ui.swt;
@@ -60,7 +60,7 @@ public class SWTStatusLine implements WorkspaceListener {
         GridLayout grid = new GridLayout();
         grid.numColumns = 10;
         grid.makeColumnsEqualWidth = false;
-        Composite statusComposite = new Composite(mainWindow.getShell(), SWT.NONE);
+        Composite statusComposite = new Composite(mainWindow.getShell(), SWT.BORDER);
         statusComposite.setLayout(grid);
         statusComposite.setLayoutData(gridData);
         _selectionLabel = createLabel(statusComposite, -1, 200, true, SWT.LEFT);

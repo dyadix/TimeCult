@@ -1,6 +1,6 @@
 /*
  * Copyright (c) Rustam Vishnyakov, 2007-2010 (dyadix@gmail.com)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
+ *
  * $Id: SWTTimeLogTableView.java,v 1.26 2011/01/20 15:02:22 dyadix Exp $
  */
 package net.sf.timecult.ui.swt;
@@ -59,14 +59,14 @@ import org.eclipse.swt.widgets.TableItem;
 public class SWTTimeLogTableView {
 
     private final static String[] titles   = { "", "table.project", "table.task", "table.startDate", "table.startTime",
-        "table.duration", "table.notes"   };    
+        "table.duration", "table.notes"   };
     private final static int[]    align    = { SWT.LEFT, SWT.LEFT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT,
         SWT.LEFT                          };
-    
+
     private TimeLogToolBar toolBar;
     private Composite contentArea;
     private AppPreferences appPrefs;
-    
+
     private final static int STATUS_COL_WIDTH = 22;
     private final Image normalRecImage;
     private final Image partialRecImage;
@@ -97,19 +97,22 @@ public class SWTTimeLogTableView {
             .getTabs(), SWT.BORDER);
         this.timeLogTab.setText(ResourceHelper.getString("tab.journal"));
         GridData hd = new GridData(GridData.FILL_HORIZONTAL);
-        
+
         contentArea = new Composite(_mainWindow.getMainTabFolder().getTabs(), SWT.NONE);
         contentArea.setLayoutData(hd);
         GridLayout areaLayout = new GridLayout();
-        areaLayout.numColumns = 1;        
+        areaLayout.numColumns = 1;
+        areaLayout.marginWidth = 0;
+        areaLayout.marginHeight = 0;
         contentArea.setLayout(areaLayout);
         this.timeLogTab.setControl(contentArea);
-                
+
         this.toolBar = new TimeLogToolBar(this);
-        
+
         GridData tableLayout = new GridData(GridData.FILL_BOTH);
+        tableLayout.grabExcessVerticalSpace = true;
         _table = new Table(contentArea, SWT.FULL_SELECTION | SWT.BORDER
-            | SWT.MULTI);        
+            | SWT.MULTI);
         _table.setLayoutData(tableLayout);
         _table.setLinesVisible(true);
         _table.setHeaderVisible(true);
@@ -143,7 +146,7 @@ public class SWTTimeLogTableView {
             }
         });
         _table.addSelectionListener(this.toolBar);
-        
+
         createPopupMenu();
 
         for (int i = 0; i < titles.length; i++) {
@@ -155,7 +158,7 @@ public class SWTTimeLogTableView {
             }
             else {
                 column.setWidth(AppPreferences.getInstance().getTimeLogColWidth(i - 1));
-            } 
+            }
             column.setText(titles[i]);
             column.addControlListener(new ControlAdapter() {
                 public void controlResized(ControlEvent e) {
@@ -169,12 +172,12 @@ public class SWTTimeLogTableView {
                 }
             });
         }
-        _filter = TimeTracker.getInstance().getFilter(); 
+        _filter = TimeTracker.getInstance().getFilter();
         updateTable();
         _table.setHeaderVisible(true);
     }
-    
-    
+
+
     private void createPopupMenu() {
         _popup = new Menu(_table);
         _table.setMenu(_popup);
@@ -219,7 +222,7 @@ public class SWTTimeLogTableView {
             }
         });
     }
-    
+
     public void updateTable() {
         AppPreferences appPrefs = AppPreferences.getInstance();
         _table.setRedraw(false);
@@ -260,7 +263,7 @@ public class SWTTimeLogTableView {
             }
         }
     }
-    
+
     private void combineFilters() {
         TimeTracker tracker = TimeTracker.getInstance();
         TimeRecordFilter timeFilter = tracker.getWorkspace().getFilter();
@@ -277,8 +280,8 @@ public class SWTTimeLogTableView {
         }
         _filter = newFilter;
     }
-    
-    
+
+
     /**
      * Searches a table element linked to a given time record, changes it's data
      * to reflect changed time record and selects it.
@@ -292,8 +295,8 @@ public class SWTTimeLogTableView {
             _table.setSelection(foundItem);
         }
     }
-    
-    
+
+
     public void selectItem(TimeRecord timeRec) {
         TableItem foundItem = findItem(timeRec);
         if (foundItem != null) {
@@ -332,8 +335,8 @@ public class SWTTimeLogTableView {
         clipboard.setContents(data, transfers);
         clipboard.dispose();
     }
-    
-    
+
+
     public void editSelection() {
         TableItem[] items = _table.getSelection();
         if (items == null || items.length == 0)
@@ -343,7 +346,7 @@ public class SWTTimeLogTableView {
             _mainWindow, timeRec, false);
         editDialog.open();
     }
-    
+
     public void addNewEntry() {
         ProjectTreeItem selection = TimeTracker.getInstance().getWorkspace().getSelection();
         if (selection != null && selection instanceof Task) {
@@ -387,21 +390,21 @@ public class SWTTimeLogTableView {
         item.setText(6, notes);
         item.setData(timeRec);
     }
-    
-    
+
+
     public SWTMainWindow getMainWindow() {
         return this._mainWindow;
     }
-    
+
     public Table getTable() {
         return this._table;
     }
-    
-    
+
+
     public Composite getContentArea() {
         return this.contentArea;
     }
-    
+
     private TableItem findItem(TimeRecord timeRec) {
         TableItem[] items = _table.getItems();
         TableItem foundItem = null;
@@ -412,7 +415,7 @@ public class SWTTimeLogTableView {
         }
         return foundItem;
     }
-    
+
     public void updateOnTreeSelection(Object object) {
         TimeRecordFilter filter = TimeTracker.getInstance().getFilter();
         if (filter == null) {
@@ -430,14 +433,14 @@ public class SWTTimeLogTableView {
         updateTable();
         this.toolBar.updateOnTreeSelection(object);
     }
-    
+
     /**
      * Joins all the currently selected records saving the first starting time.
      */
     public void joinSelected() {
         TableItem[] selectedItems = _table.getSelection();
         if (selectedItems != null && selectedItems.length > 0) {
-            
+
             if (confirmJoin(selectedItems.length, Formatter.toDateTimeString(
                     ((TimeRecord) selectedItems[0].getData()).getStart(), false))) {
                 TimeRecord[] recs = new TimeRecord[selectedItems.length];
@@ -449,7 +452,7 @@ public class SWTTimeLogTableView {
             }
         }
     }
-    
+
     /**
      * Removes all the currently selected records (if any).
      */
@@ -466,40 +469,40 @@ public class SWTTimeLogTableView {
             }
         }
     }
-    
-    
+
+
     public boolean confirmRemove(int nrecs) {
         String msg = ResourceHelper.getString("message.confirmRemoveRecs");
         msg = msg.replaceAll("%N%", Integer.toString(nrecs));
         return confirm(msg);
     }
-    
+
     public boolean confirmJoin(int nrecs, String time) {
         String msg = ResourceHelper.getString("message.confirmJoinRecs");
         msg = msg.replaceAll("%N%", Integer.toString(nrecs));
         msg = msg.replaceAll("%T%", time);
         return confirm(msg);
     }
-    
+
     public boolean confirm(String msg) {
         MessageBox m = new MessageBox(_mainWindow.getShell(), SWT.ICON_QUESTION | SWT.NO
             | SWT.YES);
-       
+
         m.setMessage(msg);
         m.setText(ResourceHelper.getString("mainwin.confirmation"));
         int result = m.open();
         return (result == SWT.YES);
     }
-    
-    
+
+
     public void select() {
         this.timeLogTab.getParent().setSelection(this.timeLogTab);
     }
-    
+
     private SWTMainWindow _mainWindow;
     private Table         _table;
     private Menu          _popup;
     private TabItem       timeLogTab;
     private TimeRecordFilter _filter;
-    
+
 }
