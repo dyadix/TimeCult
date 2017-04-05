@@ -67,7 +67,7 @@ public class SWTTimeLogTableView {
     private Composite contentArea;
     private AppPreferences appPrefs;
 
-    private final static int STATUS_COL_WIDTH = 22;
+    private final static int STATUS_COL_WIDTH = IconSet.ICON_SIZE + 8;
     private final Image normalRecImage;
     private final Image partialRecImage;
     private final Image idleImage;

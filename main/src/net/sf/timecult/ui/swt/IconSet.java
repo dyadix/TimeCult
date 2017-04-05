@@ -1,6 +1,6 @@
 /*
  * Copyright (c) Rustam Vishnyakov, 2005-2017 (dyadix@gmail.com)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -26,12 +26,13 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 
 public class IconSet {
-    
+    public final static int ICON_SIZE = 24;
+
     public IconSet(Display display) {
         loadImages(display);
     }
-    
-    
+
+
     private void loadImages(Display display) {
         imageMap.put("open.enabled",createIcon(display, "document-open"));
         imageMap.put("open.disabled", createIcon(display, "document-open"));
@@ -95,8 +96,8 @@ public class IconSet {
         imageMap.put("increase.enabled", createImage(display, "increase.png"));
         imageMap.put("decrease.enabled", createImage(display, "decrease.png"));
         imageMap.put("reopen.enabled", createImage(display, "reopen.png"));
-        imageMap.put("record-normal.enabled", createImage(display, "record-normal.png"));
-        imageMap.put("record-partial.enabled", createImage(display, "record-partial.png"));
+        imageMap.put("record-normal.enabled", createIcon(display, "measured_time"));
+        imageMap.put("record-partial.enabled", createIcon(display, "measured_time_part"));
         imageMap.put("project-closed.enabled", createImage(display, "project_closed.png"));
         imageMap.put("link.enabled", createImage(display, "link.png"));
         imageMap.put("notes.enabled", createImage(display, "notes.gif"));
@@ -128,14 +129,14 @@ public class IconSet {
     }
 
     private Image createIcon(Display display, String iconFile) {
-        String resource = "images/icons/" + iconFile + "-24.png";
+        String resource = "images/icons/" + iconFile + "-" + ICON_SIZE + ".png";
         InputStream inputStream = ResourceHelper.openStream(resource);
         if (inputStream == null) {
             throw new RuntimeException("Icon " + resource + " not found");
         }
         return new Image(display, inputStream);
     }
-        
+
     public Image getIcon (String tag, boolean enabled) {
         if (enabled) {
             return imageMap.get(tag + ".enabled");
@@ -144,8 +145,8 @@ public class IconSet {
             return imageMap.get(tag + ".disabled");
         }
     }
-    
-        
+
+
     private HashMap<String,Image> imageMap = new HashMap<String,Image>();
 
 }
