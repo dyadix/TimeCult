@@ -19,12 +19,15 @@
  */
 package net.sf.timecult.ui.swt;
 
-import java.awt.Rectangle;
-import java.io.File;
-import java.util.Calendar;
-
+import net.sf.timecult.AppInfo;
+import net.sf.timecult.ResourceHelper;
+import net.sf.timecult.TimeTracker;
+import net.sf.timecult.io.AutosaveManagerListener;
+import net.sf.timecult.model.*;
+import net.sf.timecult.ui.GenericUIManager;
 import net.sf.timecult.ui.swt.calendar.CalendarDialog;
 import net.sf.timecult.ui.swt.calendar.ICalendarDialogListener;
+import net.sf.timecult.ui.swt.timer.SWTTimerWindow;
 import net.sf.timecult.util.Formatter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -32,154 +35,142 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.FileDialog;
 
-import net.sf.timecult.AppInfo;
-import net.sf.timecult.ResourceHelper;
-import net.sf.timecult.TimeTracker;
-import net.sf.timecult.io.AutosaveManagerListener;
-import net.sf.timecult.model.Project;
-import net.sf.timecult.model.Task;
-import net.sf.timecult.model.TaskStatus;
-import net.sf.timecult.model.TimeRecord;
-import net.sf.timecult.model.TimeRecordFilter;
-import net.sf.timecult.model.Workspace;
-import net.sf.timecult.ui.GenericUIManager;
-import net.sf.timecult.ui.swt.timer.SWTTimerWindow;
-
-import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.util.Calendar;
 
 public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
+    private SWTMainWindow _mainWindow;
+    private Display       _display;
+    private Rectangle     _bounds;
 
-	public void initUI() {
-		_display = new Display();
-		_mainWindow = new SWTMainWindow(this);				
-	}
+    public void initUI() {
+        _display = new Display();
+        _mainWindow = new SWTMainWindow(this);
+    }
 
-	public void setLookAndFeel(String name) {
-		// Ignore		
-	}
+    public void setLookAndFeel(String name) {
+        // Ignore
+    }
 
-	public String getLookAndFeel() {
-		return "SWT";
-	}
+    public String getLookAndFeel() {
+        return "SWT";
+    }
 
-	public void setBounds(int left, int top, int width, int height) {
-		_mainWindow.getShell().setBounds(left, top, width, height);		
-	}
+    public void setBounds(int left, int top, int width, int height) {
+        _mainWindow.getShell().setBounds(left, top, width, height);
+    }
 
-	public Rectangle getBounds() {
-		if (_bounds == null && !_mainWindow.getShell().isDisposed()) {
-			org.eclipse.swt.graphics.Rectangle r = _mainWindow.getShell()
-					.getBounds();
-			_bounds = new Rectangle(r.x, r.y, r.width, r.height);
-		}
-		return _bounds;
-	}
+    public Rectangle getBounds() {
+        if (_bounds == null && !_mainWindow.getShell().isDisposed()) {
+            org.eclipse.swt.graphics.Rectangle r = _mainWindow.getShell()
+                .getBounds();
+            _bounds = new Rectangle(r.x, r.y, r.width, r.height);
+        }
+        return _bounds;
+    }
 
-	public void showError(String message) {
-		_mainWindow.showError(message);		
-	}
+    public void showError(String message) {
+        _mainWindow.showError(message);
+    }
 
-	public void setCurrentSelection(Object object) {
+    public void setCurrentSelection(Object object) {
         _mainWindow.getProjectTreeView().setCurrentSelection(object);
     }
 
-	public void displaySplashScreen() {
-		// TODO Auto-generated method stub
-		
-	}
+    public void displaySplashScreen() {
+        // TODO Auto-generated method stub
 
-	public void startTimer(Workspace workspace, Task task) {
+    }
+
+    public void startTimer(Workspace workspace, Task task) {
         if (!task.isFlagged()) {
             task.setStatus(TaskStatus.IN_PROGRESS);
         }
         _mainWindow.getProjectTreeView().updateTreeItemStyle(task);
         SWTTimerWindow timerWindow = SWTTimerWindow.newInstance(_mainWindow,
-                workspace, task);
+            workspace, task);
         timerWindow.launchTimer();
     }
 
-	public void updateProjectTree() {
-		_mainWindow.getProjectTreeView().update();		
-	}
+    public void updateProjectTree() {
+        _mainWindow.getProjectTreeView().update();
+    }
 
-	public void updateOnSelection(Object object) {
-		_mainWindow.getProjectTreeView().getPopupMenu().updateOnSelection(object);
-		_mainWindow.getMainToolBar().updateOnSelection(object);
-		_mainWindow.getTotalsTableView().updateOnSelection(object);
-		_mainWindow.getDetailsView().updateOnSelection(object);
+    public void updateOnSelection(Object object) {
+        _mainWindow.getProjectTreeView().getPopupMenu().updateOnSelection(object);
+        _mainWindow.getMainToolBar().updateOnSelection(object);
+        _mainWindow.getTotalsTableView().updateOnSelection(object);
+        _mainWindow.getDetailsView().updateOnSelection(object);
         _mainWindow.getStatusLine().setSelection(object);
         _mainWindow.getMainMenu().updateOnSelection(object);
         _mainWindow.getTimeLogView().updateOnTreeSelection(object);
-	}
+    }
 
-	public void updateOnRemove(Object object) {
-		_mainWindow.getProjectTreeView().updateOnRemove(object);	
-	}
+    public void updateOnRemove(Object object) {
+        _mainWindow.getProjectTreeView().updateOnRemove(object);
+    }
 
-	public void updateAll() {        
-		updateProjectTree();
-		updateTimeLog(null);
-		updateTotals();
+    public void updateAll() {
+        updateProjectTree();
+        updateTimeLog(null);
+        updateTotals();
         _mainWindow.updateTitle();
         TrayMenu.dispose();
         //_mainWindow.getMainMenu().updateFlagged();
         TimeRecordFilter filter = TimeTracker.getInstance().getWorkspace().getFilter();
         _mainWindow.getFilterView().updateFilterList();
         _mainWindow.getFilterView().setFilterSelection(filter);
-	}
+    }
 
-	public File chooseFile(boolean forOpen) {
-        FileDialog fileDialog = null;
-		if (fileDialog == null) {
-			if(forOpen) {
-				fileDialog = new FileDialog(_mainWindow.getShell(), SWT.OPEN);
-			}
-			else {
-				fileDialog = new FileDialog(_mainWindow.getShell(), SWT.SAVE);
-			}
-		}
-		fileDialog.setFilterExtensions(new String[] { "*.tmt", "*.*" });
-		fileDialog.open();
-		String name = fileDialog.getFileName();
+    public File chooseFile(boolean forOpen) {
+        FileDialog fileDialog = forOpen ?
+            new FileDialog(_mainWindow.getShell(), SWT.OPEN) :
+            new FileDialog(_mainWindow.getShell(), SWT.SAVE);
+        fileDialog.setFilterExtensions(new String[]{"*.tmt", "*.*"});
+        fileDialog.open();
+        String name = fileDialog.getFileName();
 
-		if ((name == null) || (name.length() == 0))
-			return null;
+        if ((name == null) || (name.length() == 0))
+            return null;
 
-		File file = new File(fileDialog.getFilterPath(), name);
-		return file;
-	}
-	
-	public File chooseTargetCsvFile() {
-	    return _mainWindow.chooseTargetFile("*.csv");
-	}
+        return new File(fileDialog.getFilterPath(), name);
+    }
+
+    public File chooseTargetCsvFile() {
+        return _mainWindow.chooseTargetFile("*.csv");
+    }
 
 
-	public void setSaveEnabled(boolean enabled) {
-		_mainWindow.getMainToolBar().setSaveEnabled(enabled);
-		_mainWindow.getMainMenu().setSaveItemEnabled(enabled);
-	}
+    public void setSaveEnabled(boolean enabled) {
+        _mainWindow.getMainToolBar().setSaveEnabled(enabled);
+        _mainWindow.getMainMenu().setSaveItemEnabled(enabled);
+    }
 
-	public void updateFileMenu() {
-		_mainWindow.getMainMenu().updateFileMenu();
-		
-	}
+    public void updateFileMenu() {
+        _mainWindow.getMainMenu().updateFileMenu();
 
-	public void updateTimeLog(Object source) {
-		_mainWindow.getTimeLogView().updateTable();
+    }
+
+    public void updateTimeLog(Object source) {
+        _mainWindow.getTimeLogView().updateTable();
         if (source != null && source instanceof TimeRecord) {
             _mainWindow.getTimeLogView().select();
             _mainWindow.getTimeLogView().selectItem((TimeRecord) source);
             _mainWindow.getProjectTreeView().setCurrentSelection(((TimeRecord) source).getTask());
         }
-	}
+    }
 
-	public void updateTotals() {
-		_mainWindow.getTotalsTableView().updateTable();		
-	}
+    public void updateTotals() {
+        _mainWindow.getTotalsTableView().updateTable();
+    }
 
-	public boolean confirmTaskDeletion(Task task) {
+    public boolean confirmTaskDeletion(Task task) {
         MessageBox m = new MessageBox(_mainWindow.getShell(), SWT.ICON_QUESTION
             | SWT.NO | SWT.YES);
         m.setMessage(ResourceHelper.getString("message.removeTask") + " '"
@@ -209,83 +200,80 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
 
     }
 
-	public boolean confirmExit(String message) {
-		return _mainWindow.confirmExit(message);
-	}
+    public boolean confirmExit(String message) {
+        return _mainWindow.confirmExit(message);
+    }
 
-	public boolean confirmSave() {
-		return _mainWindow.confirmSave();
-	}   
+    public boolean confirmSave() {
+        return _mainWindow.confirmSave();
+    }
 
-	public void cancelExit() {
+    public void cancelExit() {
         //
         // We are just restarting the UI
         //
-		startUI();		
-	}
+        startUI();
+    }
 
     public boolean activeTimersExist() {
         return SWTTimerWindow.activeTimersExist();
-    }    
+    }
 
-	public void startUI() {
-	    // 
+    public void startUI() {
+        //
         //To catch up with loaded configuration
         //
-        updateAll(); 
+        updateAll();
         _mainWindow.updateControlsFromPrefs();
-        
-		_mainWindow.getShell().open();
-		while (!_mainWindow.getShell().isDisposed()) {
-			//
-			// Keep bounds before disposing the display to allow
-			// configuration manager to save them.
-			//
-			org.eclipse.swt.graphics.Rectangle r = _mainWindow.getShell()
-					.getBounds();
-			_bounds = new Rectangle(r.x, r.y, r.width, r.height);
-			
-			try {
-			if (!_display.readAndDispatch())
-				_display.sleep();
-			}
-			catch (Exception e) {
-			    _mainWindow.showError(createErrorMessage(e));			    
-			    _display.dispose();
-			    System.exit(1);
-			}
-		}
+
+        _mainWindow.getShell().open();
+        while (!_mainWindow.getShell().isDisposed()) {
+            //
+            // Keep bounds before disposing the display to allow
+            // configuration manager to save them.
+            //
+            org.eclipse.swt.graphics.Rectangle r = _mainWindow.getShell()
+                .getBounds();
+            _bounds = new Rectangle(r.x, r.y, r.width, r.height);
+
+            try {
+                if (!_display.readAndDispatch())
+                    _display.sleep();
+            } catch (Exception e) {
+                _mainWindow.showError(createErrorMessage(e));
+                _display.dispose();
+                System.exit(1);
+            }
+        }
         _display.dispose();
-	}
-	
-	private String createErrorMessage(Exception e) {
+    }
+
+    private String createErrorMessage(Exception e) {
         e.printStackTrace();
-	    StringBuffer buf = new StringBuffer();
-	    buf.append("Fatal application error: ");
-	    if (e instanceof NullPointerException){
-	        buf.append("NPE");
-	    }
-	    else {
-	        buf.append(e.getMessage());
-	    }
-	    buf.append('\n');	    
-	    buf.append("Details:\n");
-	    int i = 0;
-	    for (StackTraceElement ste : e.getStackTrace()) {
-	        if (i < 1) {
-	            buf.append("\tVersion:\t").append(AppInfo.getVersionString()).append('\n');	            
-	            buf.append("\tClass:\t").append(ste.getClassName()).append('\n');
-	            buf.append("\tLine:\t").append(ste.getLineNumber()).append('\n');
-	            buf.append("\tFile:\t").append(ste.getFileName()).append('\n');
-	            i ++;
-	        }
-	        else {
-	            break;
-	        }
-	    }
-	    buf.append("The application will now exit.\n");
-	    return buf.toString();
-	}
+        StringBuilder buf = new StringBuilder();
+        buf.append("Fatal application error: ");
+        if (e instanceof NullPointerException) {
+            buf.append("NPE");
+        } else {
+            buf.append(e.getMessage());
+        }
+        buf.append('\n');
+        buf.append("Details:\n");
+        int i = 0;
+        for (StackTraceElement ste : e.getStackTrace()) {
+            if (i < 1) {
+                buf.append("\tVersion:\t").append(AppInfo.getVersionString()).append('\n');
+                buf.append("\tClass:\t").append(ste.getClassName()).append('\n');
+                buf.append("\tLine:\t").append(ste.getLineNumber()).append('\n');
+                buf.append("\tFile:\t").append(ste.getFileName()).append('\n');
+                i++;
+            } else {
+                break;
+            }
+        }
+        buf.append("The application will now exit.\n");
+        return buf.toString();
+    }
 
     public void setIdleTime(long duration) {
         _mainWindow.getStatusLine().setIdleTime(duration);
@@ -294,7 +282,7 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
     public void clearIdleTime() {
         _mainWindow.getStatusLine().clearIdleTime();
     }
-    
+
     public IconSet getIconSet() {
         return _mainWindow.getIconSet();
     }
@@ -303,22 +291,22 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
         MessageBox m = new MessageBox(_mainWindow.getShell(), SWT.ICON_WARNING | SWT.OK);
         m.setMessage(message);
         m.setText(ResourceHelper.getString("dialog.warning"));
-        m.open();        
+        m.open();
     }
-    
+
     public void rebindWorkspaceListeners(Workspace workspace) {
         workspace.addListener(_mainWindow.getProjectTreeView().getPopupMenu());
         workspace.addListener(_mainWindow.getStatusLine());
-    }    
-    
+    }
+
 
     /**
      * From AutosaveManagerListener.
      */
     public void doSave() {
         TimeTracker tt = TimeTracker.getInstance();
-        if (tt.getWorkspace() !=null && !tt.isSaving()) {
-            if (tt.getWorkspace().hasBeenModified()) {            
+        if (tt.getWorkspace() != null && !tt.isSaving()) {
+            if (tt.getWorkspace().hasBeenModified()) {
                 if (!_display.isDisposed()) {
                     _display.asyncExec(new Runnable() {
                         public void run() {
@@ -329,23 +317,23 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
             }
         }
     }
-    
+
     public Display getDisplay() {
         return this._display;
     }
 
-    public void showNotification(String message) {        
+    public void showNotification(String message) {
         _mainWindow.showPopupMessage(message);
     }
 
     public static void setTimeCultWindowIcons(Shell shell) {
         Image iconImage_16x16 = new Image(shell.getDisplay(), ResourceHelper.openStream("images/timecult_icon.png"));
         Image iconImage_32x32 = new Image(shell.getDisplay(), ResourceHelper.openStream("images/timecult_icon_32x32.png"));
-        shell.setImages(new Image[] { iconImage_16x16, iconImage_32x32 });
+        shell.setImages(new Image[]{iconImage_16x16, iconImage_32x32});
     }
 
     public static Text addDateField(final SWTDialog dialog, Composite contentPanel) {
-        IconSet iconSet = ((SWTUIManager)TimeTracker.getInstance().getUIManager()).getIconSet();
+        IconSet iconSet = ((SWTUIManager) TimeTracker.getInstance().getUIManager()).getIconSet();
         //
         // Create date entry panel
         //
@@ -382,10 +370,5 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
         });
         return dateField;
     }
-    
-    
-	private SWTMainWindow _mainWindow = null;
-    private Display _display;
-    private Rectangle _bounds;    
 
 }
