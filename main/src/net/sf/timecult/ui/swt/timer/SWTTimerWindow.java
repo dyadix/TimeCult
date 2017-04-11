@@ -20,6 +20,7 @@
 package net.sf.timecult.ui.swt.timer;
 
 import net.sf.timecult.PlatformUtil;
+import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.conf.AppPreferences;
 import net.sf.timecult.model.Task;
@@ -45,6 +46,8 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.*;
+
+import java.io.*;
 
 public class SWTTimerWindow implements StopwatchListener {
 
@@ -100,11 +103,15 @@ public class SWTTimerWindow implements StopwatchListener {
         layout.type = SWT.VERTICAL;
         shell.setLayout(layout);
         SWTUIManager.setTimeCultWindowIcons(shell);
+        Display parentShellDisplay = _parent.getShell().getDisplay();
+        Font font = loadLcdFont(parentShellDisplay);
+        if (font == null) {
+            font = new Font(parentShellDisplay, "Tahoma", 16, SWT.BOLD);
+        }
 
         _timeLabel = new Label(shell, SWT.BORDER);
-        _timeLabel.setFont(new Font(_parent.getShell().getDisplay(), "Tahoma",
-            16, SWT.BOLD));
-        _timeLabel.setText("00:00:00");
+        _timeLabel.setFont(font);
+        _timeLabel.setText("0:00:00");
         _timeLabel.setBackground(new Color(_parent.getShell().getDisplay(),
             192, 230, 230));
         _timeLabel.setForeground(new Color(_parent.getShell().getDisplay(), 64,
@@ -370,6 +377,35 @@ public class SWTTimerWindow implements StopwatchListener {
         else {
             _trayItem.setVisible(true);
         }
+    }
+
+    private static Font loadLcdFont(Display display) {
+        String resource = "fonts/repet.ttf";
+        InputStream inputStream = ResourceHelper.openStream(resource);
+        OutputStream outputStream = null;
+        try {
+            File tmpFile = File.createTempFile("tmp_", "font");
+            outputStream = new FileOutputStream(tmpFile);
+            int byteRead;
+            while ((byteRead = inputStream.read()) >= 0) {
+                outputStream.write(byteRead);
+            }
+            if (display.loadFont(tmpFile.getPath())) {
+                return new Font(display, "Repetition Scrolling", 20, SWT.NORMAL);
+            }
+        } catch (IOException e) {
+            /*ignore*/
+        }
+        finally {
+            try {
+                inputStream.close();
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+            catch (IOException e) { /*ignore*/ }
+        }
+        return null;
     }
 
 
