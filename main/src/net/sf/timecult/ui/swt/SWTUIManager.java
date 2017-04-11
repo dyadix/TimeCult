@@ -20,6 +20,7 @@
 package net.sf.timecult.ui.swt;
 
 import net.sf.timecult.AppInfo;
+import net.sf.timecult.PlatformUtil;
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.io.AutosaveManagerListener;
@@ -48,9 +49,13 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
     private SWTMainWindow _mainWindow;
     private Display       _display;
     private Rectangle     _bounds;
+    private SplashScreen  _splashScreen;
 
     public void initUI() {
         _display = new Display();
+        if (PlatformUtil.isOSLinux()) {
+            _splashScreen = new SplashScreen(_display);
+        }
         _mainWindow = new SWTMainWindow(this);
     }
 
@@ -220,6 +225,7 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
     }
 
     public void startUI() {
+        if (_splashScreen != null) _splashScreen.open();
         //
         //To catch up with loaded configuration
         //
