@@ -1,6 +1,6 @@
 /*
  * Copyright (c) TimeCult Project Team, 2005-2011 (dyadix@gmail.com)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
+ *
  * $Id: SWTTimerWindow.java,v 1.25 2011/01/19 14:22:05 dyadix Exp $
  */
 package net.sf.timecult.ui.swt.timer;
@@ -43,8 +43,8 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
 import java.io.*;
@@ -99,8 +99,8 @@ public class SWTTimerWindow implements StopwatchListener {
     }
 
     private void setup(Shell shell) {
-        FillLayout layout = new FillLayout();
-        layout.type = SWT.VERTICAL;
+        GridLayout layout = new GridLayout();
+        layout.numColumns = 1;
         shell.setLayout(layout);
         SWTUIManager.setTimeCultWindowIcons(shell);
         Display parentShellDisplay = _parent.getShell().getDisplay();
@@ -109,18 +109,23 @@ public class SWTTimerWindow implements StopwatchListener {
             font = new Font(parentShellDisplay, "Tahoma", 16, SWT.BOLD);
         }
 
-        _timeLabel = new Label(shell, SWT.BORDER);
+        Color background = new Color(parentShellDisplay, 192, 230, 230);
+        Color foreground = new Color(parentShellDisplay, 64, 115, 115);
+
+        Composite labelCell = new Composite(shell, SWT.BORDER);
+        GridData gridData = new GridData();
+        gridData.grabExcessHorizontalSpace = true;
+        labelCell.setLayoutData(gridData);
+        labelCell.setLayout(new GridLayout());
+        labelCell.setBackground(background);
+        _timeLabel = new Label(labelCell, SWT.NONE);
         _timeLabel.setFont(font);
-        _timeLabel.setText("0:00:00");
-        _timeLabel.setBackground(new Color(_parent.getShell().getDisplay(),
-            192, 230, 230));
-        _timeLabel.setForeground(new Color(_parent.getShell().getDisplay(), 64,
-            115, 115));
+        _timeLabel.setText("00:00:00");
+        _timeLabel.setBackground(background);
+        _timeLabel.setForeground(foreground);
         _timeLabel.setAlignment(SWT.RIGHT);
         _timeLabel.setToolTipText(_task.toString());
 
-        GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-        gridData.horizontalSpan = 2;
         _toolBar = new SWTTimerToolBar(this, shell);
 
         java.awt.Point timerPos = TimeTracker.getInstance()
@@ -294,7 +299,7 @@ public class SWTTimerWindow implements StopwatchListener {
      * Checks if the timer window is within the limits of the currently active
      * display area. If not, move the timer window so, that it becomes visible
      * again.
-     * 
+     *
      * @param shell
      *            The timer window (shell).
      */
@@ -384,12 +389,13 @@ public class SWTTimerWindow implements StopwatchListener {
         InputStream inputStream = ResourceHelper.openStream(resource);
         OutputStream outputStream = null;
         try {
-            File tmpFile = File.createTempFile("tmp_", "font");
+            File tmpFile = File.createTempFile("tmp_", ".ttf");
             outputStream = new FileOutputStream(tmpFile);
             int byteRead;
             while ((byteRead = inputStream.read()) >= 0) {
                 outputStream.write(byteRead);
             }
+            outputStream.close();
             if (display.loadFont(tmpFile.getPath())) {
                 return new Font(display, "Repetition Scrolling", 20, SWT.NORMAL);
             }

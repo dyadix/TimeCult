@@ -5,6 +5,7 @@
 * Include swt.jar to linux binary distro to stick with precise SWT version.
 * Modern looking flat icons, modified notification popup.
 * Updated status line.
+* A built-in LCD font is used in timer window.
 
 1.5
 
