@@ -17,13 +17,12 @@
  */
 package net.sf.timecult.ui.swt;
 
-import java.io.InputStream;
-import java.util.HashMap;
-
 import net.sf.timecult.ResourceHelper;
-
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
+
+import java.io.InputStream;
+import java.util.HashMap;
 
 public class IconSet {
     public final static int ICON_SIZE = 24;
@@ -74,17 +73,10 @@ public class IconSet {
         imageMap.put("project.enabled", createIcon(display, "project"));
         imageMap.put("newTask.enabled", createIcon(display, "star"));
         imageMap.put("notStarted.enabled", createIcon(display, "star"));
-        imageMap.put("flaggedList.enabled", createImage(display, "todo.gif"));
-        imageMap.put("idle.enabled", createImage(display, "bullet_blue.png"));
+        imageMap.put("idle.enabled", createIcon(display, "idle"));
         imageMap.put("workspace.enabled", createIcon(display, "workspace"));
         imageMap.put("activity.enabled", createIcon(display, "activity"));
 
-
-        imageMap.put("web.enabled", createImage(display, "web.png"));
-        imageMap.put("exit.enabled", createImage(display, "exit.png"));
-        imageMap.put("copy.enabled", createImage(display, "edit-copy.png"));
-        imageMap.put("book-open.enabled", createImage(display, "book_open.png"));
-        imageMap.put("page.enabled", createImage(display, "doc.png"));
         imageMap.put("timecult.enabled", createImage(display, "timecult.ico"));
         imageMap.put("timesheet.enabled", createImage(display, "timesheet.png"));
         imageMap.put("timer.0.enabled", createImage(display, "timer/timer0.png"));
