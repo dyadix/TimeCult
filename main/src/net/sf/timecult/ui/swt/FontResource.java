@@ -20,7 +20,6 @@
 
 package net.sf.timecult.ui.swt;
 
-import com.sun.istack.internal.NotNull;
 import net.sf.timecult.ResourceHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
@@ -35,7 +34,7 @@ import java.io.*;
 public class FontResource {
     private final Font _font;
 
-    public FontResource(@NotNull Shell shell, @NotNull String fontName, int fontSize, @NotNull String resourceUri) {
+    public FontResource(Shell shell, String fontName, int fontSize, String resourceUri) {
         _font = load(shell.getDisplay(), fontName, shell.getFont(), fontSize, resourceUri);
         shell.addDisposeListener(
             new DisposeListener() {
@@ -49,10 +48,10 @@ public class FontResource {
 
     private Font load(
         Display display,
-        @NotNull String fontName,
-        @NotNull Font fallbakcFont,
+        String fontName,
+        Font fallbakcFont,
         int fontSize,
-        @NotNull String resourceUrl) {
+        String resourceUrl) {
         InputStream inputStream = ResourceHelper.openStream(resourceUrl);
         OutputStream outputStream = null;
         try {
