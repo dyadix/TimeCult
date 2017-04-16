@@ -1,6 +1,6 @@
 /*
  * Copyright (c) Rustam Vishnyakov, 2005-2007 (dyadix@gmail.com)
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
+ *
  * $Id: SWTTimerToolBar.java,v 1.5 2009/02/20 20:46:34 dyadix Exp $
  */
 package net.sf.timecult.ui.swt.timer;
@@ -89,7 +89,7 @@ public class SWTTimerToolBar {
         item.setToolTipText(ResourceHelper.getString("button." + tag
             + ".tooltip"));
         item.setImage(iconSet.getIcon("timer." + tag, true));
-        item.setDisabledImage(iconSet.getIcon(tag, false));
+        item.setDisabledImage(iconSet.getIcon("timer." + tag, false));
         return item;
     }
 

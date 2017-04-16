@@ -88,27 +88,27 @@ public class IconSet {
         imageMap.put("decrease.enabled", createImage(display, "decrease.png"));
         imageMap.put("reopen.enabled", createImage(display, "reopen.png"));
         loadIcon("record-normal", display, "measured_time");
-        loadIcon("record-partial.enabled", display, "measured_time_part");
+        loadIcon("record-partial", display, "measured_time_part");
         imageMap.put("project-closed.enabled", createImage(display, "project_closed.png"));
         imageMap.put("link.enabled", createImage(display, "link.png"));
         imageMap.put("notes.enabled", createImage(display, "notes.gif"));
 
-        loadIcon("tasklist.inProgress.enabled", display, "task");
-        loadIcon("tasklist.finished.enabled", display, "done");
-        loadIcon("tasklist.notStarted.enabled", display, "star");
-        loadIcon("tasklist.cancelled.enabled", display, "cancel");
-        loadIcon("tasklist.flagged.enabled", display, "pin-red");
-        loadIcon("tasklist.activity.enabled", display, "activity");
-        loadIcon("tasklist.waiting.enabled", display, "wait");
-        loadIcon("tasklist.pdf.enabled", display, "pdf");
+        loadIcon("tasklist.inProgress", display, "task");
+        loadIcon("tasklist.finished", display, "done");
+        loadIcon("tasklist.notStarted", display, "star");
+        loadIcon("tasklist.cancelled", display, "cancel");
+        loadIcon("tasklist.flagged", display, "pin-red");
+        loadIcon("tasklist.activity", display, "activity");
+        loadIcon("tasklist.waiting", display, "wait");
+        loadIcon("tasklist.pdf", display, "pdf");
 
         imageMap.put("past.due.enabled", createImage(display, "past_due.png"));
 
-        loadIcon("timer.start.enabled", display, "timer-start");
-        loadIcon("timer.pause.enabled", display, "timer-pause");
-        loadIcon("timer.pauseResume.enabled", display, "timer-pause");
-        loadIcon("timer.stop.enabled", display, "timer-stop");
-        loadIcon("timer.minToTray.enabled", display, "tray");
+        loadIcon("timer.start", display, "timer-start");
+        loadIcon("timer.pause", display, "timer-pause");
+        loadIcon("timer.pauseResume", display, "timer-pause");
+        loadIcon("timer.stop", display, "timer-stop");
+        loadIcon("timer.minToTray", display, "tray");
     }
 
     /**

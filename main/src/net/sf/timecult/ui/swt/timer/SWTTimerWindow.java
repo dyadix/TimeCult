@@ -20,7 +20,6 @@
 package net.sf.timecult.ui.swt.timer;
 
 import net.sf.timecult.PlatformUtil;
-import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.conf.AppPreferences;
 import net.sf.timecult.model.Task;
@@ -46,8 +45,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
-
-import java.io.*;
 
 public class SWTTimerWindow implements StopwatchListener {
 
@@ -104,10 +101,7 @@ public class SWTTimerWindow implements StopwatchListener {
         shell.setLayout(layout);
         SWTUIManager.setTimeCultWindowIcons(shell);
         Display parentShellDisplay = _parent.getShell().getDisplay();
-        Font font = loadLcdFont(parentShellDisplay);
-        if (font == null) {
-            font = new Font(parentShellDisplay, "Tahoma", 16, SWT.BOLD);
-        }
+        Font font = _parent.getLcdFont();
 
         Color background = new Color(parentShellDisplay, 192, 230, 230);
         Color foreground = new Color(parentShellDisplay, 64, 115, 115);
@@ -382,36 +376,6 @@ public class SWTTimerWindow implements StopwatchListener {
         else {
             _trayItem.setVisible(true);
         }
-    }
-
-    private static Font loadLcdFont(Display display) {
-        String resource = "fonts/repet.ttf";
-        InputStream inputStream = ResourceHelper.openStream(resource);
-        OutputStream outputStream = null;
-        try {
-            File tmpFile = File.createTempFile("tmp_", ".ttf");
-            outputStream = new FileOutputStream(tmpFile);
-            int byteRead;
-            while ((byteRead = inputStream.read()) >= 0) {
-                outputStream.write(byteRead);
-            }
-            outputStream.close();
-            if (display.loadFont(tmpFile.getPath())) {
-                return new Font(display, "Repetition Scrolling", 20, SWT.NORMAL);
-            }
-        } catch (IOException e) {
-            /*ignore*/
-        }
-        finally {
-            try {
-                inputStream.close();
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-            }
-            catch (IOException e) { /*ignore*/ }
-        }
-        return null;
     }
 
 

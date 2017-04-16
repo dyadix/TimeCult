@@ -31,6 +31,7 @@ import net.sf.timecult.ui.swt.notifications.NotificationManager;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.*;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
@@ -40,6 +41,25 @@ import org.eclipse.swt.widgets.*;
 import java.io.File;
 
 public class SWTMainWindow {
+
+    private Shell               _shell;
+    private SWTProjectTreeView  _projTreeView;
+    private SashForm            _treeTabSash;
+    private SWTMainTabFolder    _mainTabFolder;
+    private SWTMainMenu         _mainMenu;
+    private SWTTimeLogTableView _timeLogView;
+    private SWTMainToolBar      _mainToolBar;
+    private SWTTotalsTableView  _totalsTableView;
+    //private SashForm            _treeFilterSash;
+    private SWTDetailsView      _detailsView;
+    private SWTStatusLine       _statusLine;
+    private IconSet             _iconSet;
+    private Composite           _treeFilterContainer;
+    private TrayItem            _trayItem;
+    private AdvancedTimeFilterView   _filterView;
+    private MenuFactory         _menuFactory;
+    private NotificationManager _notificationManager;
+    private FontResource        _lcdFontResource;
 
     public SWTMainWindow(SWTUIManager uiManager) {
         _shell = new Shell(uiManager.getDisplay());
@@ -132,6 +152,8 @@ public class SWTMainWindow {
         _detailsView = new SWTDetailsView(this);
 
         _treeTabSash.setWeights(AppPreferences.getInstance().getTreeTabSashWeights());
+
+        _lcdFontResource = new FontResource(_shell, "Repetition Scrolling", 20, "fonts/repet.ttf");
 
         //
         // On close
@@ -320,6 +342,7 @@ public class SWTMainWindow {
         return _menuFactory;
     }
 
+    @SuppressWarnings("SameParameterValue")
     public File chooseTargetFile(String defaultExtension) {
         FileDialog fileDialog = new FileDialog(getShell(), SWT.SAVE);
         fileDialog.setFilterExtensions(new String[] { defaultExtension, "*.*" });
@@ -334,23 +357,7 @@ public class SWTMainWindow {
         _notificationManager.sendMessage(message);
     }
 
-
-    private Shell               _shell;
-    private SWTProjectTreeView  _projTreeView;
-    private SashForm            _treeTabSash;
-    private SWTMainTabFolder    _mainTabFolder;
-    private SWTMainMenu         _mainMenu;
-    private SWTTimeLogTableView _timeLogView;
-    private SWTMainToolBar      _mainToolBar;
-    private SWTTotalsTableView  _totalsTableView;
-    //private SashForm            _treeFilterSash;
-    private SWTDetailsView      _detailsView;
-    private SWTStatusLine       _statusLine;
-    private IconSet             _iconSet;
-    private Composite           _treeFilterContainer;
-    private TrayItem            _trayItem;
-    private AdvancedTimeFilterView   _filterView;
-    private MenuFactory         _menuFactory;
-    private NotificationManager _notificationManager;
-
+    public Font getLcdFont() {
+        return _lcdFontResource.getFont();
+    }
 }
