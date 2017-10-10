@@ -30,6 +30,7 @@ import net.sf.timecult.util.ObjectInfoHelper;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
@@ -121,9 +122,6 @@ public class TaskListView extends SWTDialog {
             column.setWidth(length[i]);
         }
         addTableData();
-        for (TableColumn column : taskListTable.getColumns()) {
-            column.pack();
-        }
         
         this.infoText = new Label(contentPanel, SWT.None);        
         this.infoText.setLayoutData(infoLayoutData);       
@@ -235,5 +233,12 @@ public class TaskListView extends SWTDialog {
     @Override
     protected void storeCurrentSize(Point size) {
         lastSize = size;
+    }
+
+    @Override
+    protected void setup(Shell shell) {
+        super.setup(shell);
+        Rectangle displayRect = shell.getDisplay().getBounds();
+        shell.setSize(displayRect.width / 2, displayRect.height / 2);
     }
 }

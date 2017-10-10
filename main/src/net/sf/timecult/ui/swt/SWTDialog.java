@@ -62,7 +62,7 @@ public abstract class SWTDialog extends Dialog {
         this.additionalStyle = isResizable ? SWT.RESIZE | SWT.MAX : 0;
     }
 
-    private void setup(Shell shell) {
+    protected void setup(Shell shell) {
         if (iconized) {
             Image iconImage = new Image(this.shell.getDisplay(), ResourceHelper
                     .openStream("images/timecult_icon.png"));
