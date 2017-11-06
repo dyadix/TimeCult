@@ -41,7 +41,6 @@ import java.util.TreeMap;
 public class TaskListView extends SWTDialog {
 
     private static final String[] titleKeys = { "table.task" };
-    private static final int[]    length    = { 500 };
     private static final int[]    align     = { SWT.LEFT };
     private SWTMainWindow         mainWindow;
     private Table                 taskListTable;
@@ -119,9 +118,16 @@ public class TaskListView extends SWTDialog {
             TableColumn column = new TableColumn(taskListTable, SWT.NONE);
             column.setAlignment(align[i]);
             column.setText(ResourceHelper.getString(titleKeys[i]));
-            column.setWidth(length[i]);
         }
         addTableData();
+
+        taskListTable.addControlListener(new ControlAdapter() {
+            @Override
+            public void controlResized(ControlEvent e) {
+                int width = taskListTable.getClientArea().width;
+                taskListTable.getColumn(0).setWidth(width);
+            }
+        });
         
         this.infoText = new Label(contentPanel, SWT.None);        
         this.infoText.setLayoutData(infoLayoutData);       
