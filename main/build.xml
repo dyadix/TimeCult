@@ -47,6 +47,7 @@
     <!-- DocMC compiler -->
     <property name="doc.base" location="doc"/>
     <property name="linux-scripts" location="linux"/>
+    <property name="build-artifacts" location="${build}/artifacts"/>
 
     <condition property="isOsWindows">
         <os family="windows"/>
@@ -67,11 +68,23 @@
         </fileset>
     </path>
 
+    <scriptdef name="file.date" language="javascript">
+        <attribute name="file"/>
+        <attribute name="property"/>
+        fileName = attributes.get("file");
+        property = attributes.get("property");
+        file = new java.io.File(fileName);
+        fileTimestamp = file.lastModified();
+        dateFormat = new java.text.SimpleDateFormat("YYMMdd");
+        fileDate = dateFormat.format(new java.util.Date(fileTimestamp));
+        project.setNewProperty(property, fileDate);
+    </scriptdef>
+
     <target name="init">
         <tstamp>
             <format property="TODAY" pattern="MMMM d, yyyy" locale="en"/>
         </tstamp>
-        <length file="${change-log-file}" property="build.number"/>
+        <file.date file="${change-log-file}" property="build.number"/>
         <property name="build-stamp" value="${appname}-${major}.${minor}-${build.number}"/>
     </target>
 
@@ -195,7 +208,7 @@
     </target>
 
     <target name="linux-dist" if="isOsLinux" depends="package">
-        <tar destfile="./${build-stamp}-linux.tar.gz" compression="gzip">
+        <tar destfile="${build-artifacts}/${build-stamp}-linux.tar.gz" compression="gzip">
             <tarfileset dir="${dist}" prefix="TimeCult-${major}.${minor}">
                 <type type="file"/>
             </tarfileset>
@@ -210,7 +223,7 @@
     </target>
 
     <target name="win-dist" if="isOsWindows" depends="launcher">
-        <zip destfile="./${build-stamp}-win-${os.arch}-portable.zip">
+        <zip destfile="${build-artifacts}/${build-stamp}-win-${os.arch}-portable.zip">
             <zipfileset dir="${dist}" prefix="${build-stamp}"/>
         </zip>
     </target>
@@ -238,7 +251,7 @@
     </target>
 
     <target name="source-package" depends="init">
-        <zip destfile="./${build-stamp}-src.zip">
+        <zip destfile="${build-artifacts}/${build-stamp}-src.zip">
             <fileset dir="." includes="build.number,build.properties,build.xml,gpl.txt,launch4j.xml"/>
             <fileset dir="." includes="readme.txt,timecult.ico,timecult-win32.iss,version.number"/>
             <zipfileset dir="src" includes="*/**" excludes="**/CVS" prefix="src"/>
