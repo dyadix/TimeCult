@@ -6,6 +6,8 @@
 * Modern looking flat icons, modified notification popup.
 * Updated status line.
 * A built-in LCD font is used in timer window.
+* Fixed a bug when the app window is not shown again when being restored from hidden state (hide when minimized),
+  occurred on Linux/Gnome 3.
 
 1.5
 
