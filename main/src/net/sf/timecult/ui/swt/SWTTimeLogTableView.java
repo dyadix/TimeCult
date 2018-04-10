@@ -19,46 +19,27 @@
  */
 package net.sf.timecult.ui.swt;
 
-import java.util.Vector;
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.TimeTracker;
 import net.sf.timecult.conf.AppPreferences;
-import net.sf.timecult.model.Project;
-import net.sf.timecult.model.ProjectTreeItem;
-import net.sf.timecult.model.Task;
-import net.sf.timecult.model.TimeRecord;
-import net.sf.timecult.model.TimeRecordFilter;
-import net.sf.timecult.model.TimeUtil;
+import net.sf.timecult.model.*;
 import net.sf.timecult.model.ProjectTreeItem.ItemType;
 import net.sf.timecult.ui.swt.timelog.TimeLogEntryEditDialog;
 import net.sf.timecult.ui.swt.timelog.TimeLogToolBar;
 import net.sf.timecult.util.Formatter;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.TextTransfer;
 import org.eclipse.swt.dnd.Transfer;
-import org.eclipse.swt.events.ControlAdapter;
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.*;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Menu;
-import org.eclipse.swt.widgets.MenuItem;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.TabItem;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.*;
 
 public class SWTTimeLogTableView {
 
-    private final static String[] titles   = { "", "table.project", "table.task", "table.startDate", "table.startTime",
+    private final static String[] titleKeys   = { "", "table.project", "table.task", "table.startDate", "table.startTime",
         "table.duration", "table.notes"   };
     private final static int[]    align    = { SWT.LEFT, SWT.LEFT, SWT.LEFT, SWT.RIGHT, SWT.RIGHT, SWT.RIGHT,
         SWT.LEFT                          };
@@ -71,13 +52,16 @@ public class SWTTimeLogTableView {
     private final Image normalRecImage;
     private final Image partialRecImage;
     private final Image idleImage;
+    private final String[] titles;
 
 
     public SWTTimeLogTableView(SWTMainWindow mainWindow) {
         _mainWindow = mainWindow;
         this.appPrefs = AppPreferences.getInstance();
-        for (int i = 1; i < titles.length; i++) {
-            titles[i] = ResourceHelper.getString(titles[i]);
+        titles = new String[titleKeys.length];
+        titles[0] = "";
+        for (int i = 1; i < titleKeys.length; i++) {
+            titles[i] = ResourceHelper.getString(titleKeys[i]);
         }
         normalRecImage = this._mainWindow.getIconSet().getIcon(
             "record-normal",

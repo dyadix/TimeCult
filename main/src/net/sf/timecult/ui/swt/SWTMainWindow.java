@@ -42,7 +42,8 @@ import java.io.File;
 
 public class SWTMainWindow {
 
-    private Shell               _shell;
+    private final Display display;
+    private Shell _shell;
     private SWTProjectTreeView  _projTreeView;
     private SashForm            _treeTabSash;
     private SWTMainTabFolder    _mainTabFolder;
@@ -62,7 +63,8 @@ public class SWTMainWindow {
     private FontResource        _lcdFontResource;
 
     public SWTMainWindow(SWTUIManager uiManager) {
-        _shell = new Shell(uiManager.getDisplay());
+        display = uiManager.getDisplay();
+        _shell = new Shell(display);
         _menuFactory = new MenuFactory(this);
         _notificationManager = new NotificationManager(this);
         setup();
@@ -263,6 +265,15 @@ public class SWTMainWindow {
 
     public void restoreWindow() {
         _shell.setVisible(true);
+        if (!_shell.isVisible()) {
+            _trayItem.dispose();
+            _shell.dispose();
+            _shell = new Shell(display);
+            setup();
+            addToTray();
+            _shell.open();
+            _shell.setActive();
+        }
         _shell.setMinimized(false);
         _shell.forceActive();
     }
