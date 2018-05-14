@@ -55,8 +55,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
     private Text notesField;
     private SWTMainWindow mainWindow;
     private boolean isNew = true;
-    private Workspace workspace = TimeTracker.getInstance().getWorkspace();
-    
+
     //
     // A temporary hardcoded time precision.
     // TODO: Replace with configurable value.
@@ -68,6 +67,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         super(mainWindow.getShell(), true);
         this.mainWindow = mainWindow;
         this.timeRec = new TimeRecord(task, getDefaultStartTime(), 0, "");
+        Workspace workspace = TimeTracker.getInstance().getWorkspace();
         this.timeRec = workspace.createRecord(task, getDefaultStartTime(), 0, "", true);
     }
 
@@ -190,7 +190,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         // Add date entry field (text)
         //
         GridData gd = new GridData();
-        gd.widthHint = 80;        
+        gd.widthHint = 80;
         startDateField = new Text(dateEntryPanel, SWT.BORDER);
         startDateField.setText(Formatter.toDateString(timeRec.getStart()));        
         //
@@ -342,37 +342,8 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         startTimeField.setText(Formatter.toTimeString(new Date(newTime)));
     }
 
-    
-    //
-    // Return a default time to be used when a new time record is added manually.
-    // If there are today's records, use the latest record to find out a start
-    // time for the next record. Otherwise use current time.
-    //
     private Date getDefaultStartTime() {
-        Date startTime = Calendar.getInstance().getTime();
-        Date lastRecorded = null;
-        TimeRecord timeRecords[] = TimeTracker.getInstance().getWorkspace()
-            .getTimeLog().getTimeRecords(null);
-        if (timeRecords != null && timeRecords.length > 0) {
-            lastRecorded = timeRecords[timeRecords.length - 1].getEnd();
-        }
-        if (lastRecorded != null && isSameDay(lastRecorded, startTime)) {
-            startTime = lastRecorded;
-        }
-        return startTime;
-    }
-    
-    
-    //
-    // Test if the two dates represent the same day.
-    //
-    private boolean isSameDay(Date d1, Date d2) {
-        Calendar c1 = Calendar.getInstance();
-        c1.setTime(d1);
-        Calendar c2 = Calendar.getInstance();
-        c2.setTime(d2);
-        return c1.get(Calendar.YEAR) == c2.get(Calendar.YEAR)
-            && c1.get(Calendar.DAY_OF_YEAR) == c2.get(Calendar.DAY_OF_YEAR);
+        return Calendar.getInstance().getTime();
     }
     
 
