@@ -99,10 +99,6 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         Label startTimeLabel = new Label(contentPanel, SWT.None);
         startTimeLabel.setText(ResourceHelper.getString("table.startTime")
             + ":");
-        /*
-        startTimeField = createTextField(contentPanel, Formatter
-            .toTimeString(timeRec.getStart()), 50);
-        */
         createStartTimeField(contentPanel);
 
         Label durationLabel = new Label(contentPanel, SWT.None);
@@ -222,7 +218,7 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         // Add duration field (text)
         //
         GridData gd = new GridData();
-        gd.widthHint = 50;
+        gd.horizontalAlignment = SWT.RIGHT;
         this.durationField = new Text(durationPanel, SWT.BORDER);
         this.durationField.setText(Formatter.toDurationString(timeRec
             .getDuration().getValue(), true));        
@@ -263,7 +259,6 @@ public class TimeLogEntryEditDialog extends SWTDialog implements ICalendarDialog
         // Add start time field (text)
         //
         GridData gd = new GridData();
-        gd.widthHint = 50;
         this.startTimeField = new Text(startTimePanel, SWT.BORDER);
         this.startTimeField.setText(Formatter.toTimeString(this.timeRec.getStart()));
         this.startTimeField.setLayoutData(gd);
