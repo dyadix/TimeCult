@@ -75,9 +75,5 @@ public class IdleTask extends Task {
         this.defaultNote = defaultNote;
     }
 
-    @Override
-    public Totals getTotals(TimeLog timeLog, TimeRecordFilter filter) {
-        return EMPTY_TOTALS;
-    }
 
 }
