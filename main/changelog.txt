@@ -8,6 +8,8 @@
 * A built-in LCD font is used in timer window.
 * Fixed a bug when the app window is not shown again when being restored from hidden state (hide when minimized),
   occurred on Linux/Gnome 3.
+* File logging (<config dir>/logs)
+* Correct workspace unlocking on exit.
 
 1.5
 
