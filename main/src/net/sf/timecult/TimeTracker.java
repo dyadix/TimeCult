@@ -20,7 +20,9 @@
 package net.sf.timecult;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.*;
 
 import net.sf.timecult.conf.AppPreferences;
 import net.sf.timecult.conf.ConfigurationManager;
@@ -47,8 +49,11 @@ import net.sf.timecult.util.Formatter;
  * @author rvishnyakov (rvishnyakov@yahoo.com)
  */
 public class TimeTracker implements WorkspaceListener {
+    private final static Logger LOGGER = Logger.getLogger(TimeTracker.class.getName());
 
-    public final static String FILE_EXT = ".tmt";    
+    public final static String FILE_EXT = ".tmt";
+
+    private FileHandler fileHandler;
 
     public TimeTracker() {
     	//_uiManager = new SwingUIManager();
@@ -81,6 +86,7 @@ public class TimeTracker implements WorkspaceListener {
      
     
     public void startUI() {
+        LOGGER.info("Starting UI");
     	_uiManager.startUI();
     }
 
@@ -108,6 +114,7 @@ public class TimeTracker implements WorkspaceListener {
 
     public static void main(String[] args) {        
         TimeTracker timeTracker = new TimeTracker();
+        timeTracker.initLogger();
         timeTracker.loadConfiguration();        
         if (args.length > 0) {
             File cmdlineFile = new File(args[0]);
@@ -120,6 +127,26 @@ public class TimeTracker implements WorkspaceListener {
             }
         }  
         timeTracker.startUI();
+    }
+
+    private void initLogger() {
+        Logger rootLogger = Logger.getLogger("");
+        try {
+            String logPath = _confManager.getLogDir() + File.separator + "timecult.log";
+            fileHandler = new FileHandler(logPath, 8192, 1);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Can't initialize logging", e);
+        }
+        if (fileHandler != null) {
+            for(Handler handler : rootLogger.getHandlers()) {
+                if (handler instanceof ConsoleHandler) {
+                    rootLogger.removeHandler(handler);
+                    break;
+                }
+            }
+            fileHandler.setFormatter(new SimpleFormatter());
+            rootLogger.addHandler(fileHandler);
+        }
     }
 
     public void selectObject(Object object) {
@@ -516,7 +543,9 @@ public class TimeTracker implements WorkspaceListener {
     }
 
     public void close(int errCode) {
+        LOGGER.info("Shutting down, error code " + errCode);
         FileLockManager.unlockAll();
+        if (fileHandler != null) fileHandler.close();
         System.exit(errCode);
     }
     
@@ -534,7 +563,7 @@ public class TimeTracker implements WorkspaceListener {
     private File _workspaceFile = null;
     private static TimeTracker _activeInstance = null;
     private Vector<File> _recentlyOpenFiles = new Vector<File>();
-    private ConfigurationManager _confManager = null;
+    private ConfigurationManager _confManager;
     private boolean _isUIInitialized = false;
     private AutosaveManager autosaveManager;
     private boolean saving;

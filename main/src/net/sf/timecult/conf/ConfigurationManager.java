@@ -131,6 +131,14 @@ public class ConfigurationManager {
     	}
     	return confDir.toString();
     }
+
+    public String getLogDir() {
+        String logDirPath = getConfigDir() + File.separator + "logs";
+        File logDir = new File(logDirPath);
+        //noinspection ResultOfMethodCallIgnored
+        logDir.mkdirs();
+        return logDirPath;
+    }
     
     public void setDefaultTimerPos(Point pos) {
         this.timerPos = pos;
