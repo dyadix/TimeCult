@@ -248,7 +248,7 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
             } catch (Exception e) {
                 _mainWindow.showError(createErrorMessage(e));
                 _display.dispose();
-                System.exit(1);
+                TimeTracker.getInstance().close(1);
             }
         }
         _display.dispose();

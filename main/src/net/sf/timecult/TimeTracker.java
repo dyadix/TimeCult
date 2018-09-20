@@ -382,8 +382,7 @@ public class TimeTracker implements WorkspaceListener {
                 ResourceHelper.getString("message.activeTimers"));
         }
         if (doExit) {
-            FileLockManager.unlockAll();
-            System.exit(0);
+            close(0);
         }
         else {
             _uiManager.cancelExit();
@@ -514,6 +513,11 @@ public class TimeTracker implements WorkspaceListener {
             }
         }
         return recentTasks.toArray(new Task[recentTasks.size()]);
+    }
+
+    public void close(int errCode) {
+        FileLockManager.unlockAll();
+        System.exit(errCode);
     }
     
     
