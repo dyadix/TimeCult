@@ -28,10 +28,10 @@ import java.util.TreeMap;
  */
 public class Project extends ProjectTreeItem implements TotalsCalculator, DescriptionHolder {
     
-    public enum SortCriteria { DEFAULT, BY_ID, BY_NAME };
+    public enum SortCriteria { DEFAULT, BY_ID, BY_NAME }
 
-    private TaskContainer    taskContainer    = null;
-    private ProjectContainer projectContainer = null;
+    private TaskContainer    taskContainer;
+    private ProjectContainer projectContainer;
     private String           description      = "";
 
 
@@ -97,13 +97,13 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
             return subprojects;
         }
         TreeMap<String, Project> sortedMap = new TreeMap<String, Project>();
-        for (int i = 0; i < subprojects.length; i++) {
+        for (Project subproject : subprojects) {
             switch (sortCriteria) {
-            case BY_NAME:
-                sortedMap.put(subprojects[i].getName(), subprojects[i]);
-                break;
-            case BY_ID:
-                sortedMap.put(subprojects[i].getId(), subprojects[i]);
+                case BY_NAME:
+                    sortedMap.put(subproject.getName(), subproject);
+                    break;
+                case BY_ID:
+                    sortedMap.put(subproject.getId(), subproject);
             }
         }
         return sortedMap.values().toArray(new Project[0]);
@@ -134,15 +134,15 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
 
     private void removeAllSubprojects(TimeLog timeLog) {
         Project[] subprojects = projectContainer.getProjects();
-        for (int i = 0; i < subprojects.length; i++) {
-            subprojects[i].removeAllTasks(timeLog);
-            subprojects[i].removeAllSubprojects(timeLog);
+        for (Project subproject : subprojects) {
+            subproject.removeAllTasks(timeLog);
+            subproject.removeAllSubprojects(timeLog);
         }
         projectContainer.removeAll();
     }
 
     private void removeAllTasks(TimeLog timeLog) {
-        Task tasks[] = taskContainer.getTasks();
+        Task[] tasks = taskContainer.getTasks();
         if (tasks.length == 0) {
             return;
         }
@@ -161,11 +161,11 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
     @Override
     public Totals getTotals(TimeLog timeLog, TimeRecordFilter filter) {
         Totals projTotals = new Totals();
-        Task tasks[] = getTasks(SortCriteria.DEFAULT);
+        Task[] tasks = getTasks(SortCriteria.DEFAULT);
         for (Task task : tasks) {
             projTotals.addTotals(task.getTotals(timeLog, filter));
         }
-        Project subprojects[] = getSubprojects(SortCriteria.DEFAULT);
+        Project[] subprojects = getSubprojects(SortCriteria.DEFAULT);
         for (Project subproject : subprojects) {
             projTotals.addTotals(subproject.getTotals(timeLog, filter));
         }
@@ -207,7 +207,7 @@ public class Project extends ProjectTreeItem implements TotalsCalculator, Descri
      * @return True if there are open items.
      */
     public boolean hasOpenItems() {
-        Project subprojects[] = this.getSubprojects(SortCriteria.DEFAULT);
+        Project[] subprojects = this.getSubprojects(SortCriteria.DEFAULT);
         for (Project subproject: subprojects) {
             if (!subproject.isClosed() || subproject.hasOpenItems()) {
                 return true;
