@@ -1,7 +1,7 @@
 <!--
     TimeCult Build File
     
-    Copyright (c) R.Vishnyakov, 2005-2017 <dyadix@gmail.com>
+    Copyright (c) R.Vishnyakov, 2005-2019 <dev@codeflections.com>
 
      BUILD TARGETS:
 
@@ -103,7 +103,7 @@
     <!-- Compile all the application -->
     <target name="compile" depends="init">
         <mkdir dir="${classes}"/>
-        <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" source="1.7" debug="on" target="1.7">
+        <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" source="1.8" debug="on" target="1.8">
             <classpath refid="classpath.id"/>
         </javac>
     </target>
