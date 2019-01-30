@@ -48,6 +48,7 @@
     <property name="doc.base" location="doc"/>
     <property name="linux-scripts" location="linux"/>
     <property name="build-artifacts" location="${build}/artifacts"/>
+    <property name="build-number-file" location="build.number"/>
 
     <condition property="isOsWindows">
         <os family="windows"/>
@@ -68,26 +69,29 @@
         </fileset>
     </path>
 
-    <scriptdef name="file.date" language="javascript">
-        <attribute name="file"/>
-        <attribute name="property"/>
-        fileName = attributes.get("file");
-        property = attributes.get("property");
-        file = new java.io.File(fileName);
-        fileTimestamp = file.lastModified();
-        dateFormat = new java.text.SimpleDateFormat("YYMMdd");
-        fileDate = dateFormat.format(new java.util.Date(fileTimestamp));
-        project.setNewProperty(property, fileDate);
-    </scriptdef>
-
-    <target name="init">
+    <target name="init" depends="update-build-number">
+        <loadproperties srcfile="${build-number-file}"/>
         <tstamp>
             <format property="TODAY" pattern="MMMM d, yyyy" locale="en"/>
         </tstamp>
-        <file.date file="${change-log-file}" property="build.number"/>
         <property name="build-stamp" value="${appname}-${major}.${minor}-${build.number}"/>
     </target>
 
+    <target name="update-build-number" depends="test-build-number-update" if="build-number-update-required">
+        <buildnumber file="${build-number-file}"/>
+    </target>
+
+    <target name="test-build-number-update">
+        <uptodate targetfile="${build-number-file}" property="build-number-is-up-to-date">
+            <srcfiles dir="${source}" includes="**/*.*"/>
+            <srcfiles dir="${resources}" includes="**/*.*/"/>
+        </uptodate>
+        <condition property="build-number-update-required">
+            <not>
+               <isset property="build-number-is-up-to-date"/>
+            </not>
+        </condition>
+    </target>
 
     <!-- Deploy to the final location -->
     <target name="deploy" depends="package">
