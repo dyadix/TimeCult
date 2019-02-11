@@ -19,6 +19,8 @@
  */
 package net.sf.timecult.conf;
 
+import net.sf.timecult.PlatformUtil;
+
 import java.util.Vector;
 
 /**
@@ -89,6 +91,9 @@ public class AppPreferences {
     }
     
     public boolean isHideWhenMinimized() {
+        if (PlatformUtil.isOSLinux()) {
+            return false; // Doesn't work reliably on Linux
+        }
         return this.hideWhenMinimized;
     }
     

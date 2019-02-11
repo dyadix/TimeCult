@@ -1,7 +1,7 @@
 package net.sf.timecult.ui.swt.prefs;
 
+import net.sf.timecult.PlatformUtil;
 import net.sf.timecult.ResourceHelper;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -42,9 +42,13 @@ public class GeneralPrefsPanel {
     
     private void addMinimizeToTray() {        
         this.minToTrayBox = new Button(this.contentArea, SWT.CHECK);
-        this.minToTrayBox.setSelection(prefsDialog.getAppPreferences().isHideWhenMinimized());
+        this.minToTrayBox.setSelection(!PlatformUtil.isOSLinux() && prefsDialog.getAppPreferences().isHideWhenMinimized());
         Label l = new Label(this.contentArea, SWT.None);
         l.setText(ResourceHelper.getString("dialog.options.hideWhenMinimized"));
+        if (PlatformUtil.isOSLinux()) {
+            this.minToTrayBox.setEnabled(false);
+            l.setEnabled(false);
+        }
     }
     
     private void addKeepTimerPos() {        
