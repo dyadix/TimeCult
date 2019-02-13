@@ -80,7 +80,7 @@ public class SWTAboutDialog extends SWTDialog{
         this.infoPanelLayout = new StackLayout(); 
         this.infoPanel.setLayout(this.infoPanelLayout);
         this.aboutPanel = createAboutPanel(this.infoPanel, shell);
-        this.creditsPanel = createCreditsPanel(this.infoPanel, shell);
+        this.creditsPanel = createCreditsPanel(this.infoPanel);
         this.infoPanelLayout.topControl = this.aboutPanel;
         return contentPanel;
     }
@@ -100,7 +100,7 @@ public class SWTAboutDialog extends SWTDialog{
 
         Color titleColor = new Color(shell.getDisplay(), 142, 36, 0);
         Label titleLabel = new Label(aboutPanel, SWT.NULL);
-        FontData titleFdata[] = titleLabel.getFont().getFontData();
+        FontData[] titleFdata = titleLabel.getFont().getFontData();
         titleFdata[0].height = 18;
         titleFdata[0].setStyle(SWT.BOLD);
         titleFdata[0].setName("Arial");
@@ -114,7 +114,7 @@ public class SWTAboutDialog extends SWTDialog{
             + ResourceHelper.getString("message.about.version") + " "
             + AppInfo.getMajorVersion() + "." + AppInfo.getMinorVersion());
 
-        FontData fdata[] = versionLabel.getFont().getFontData();
+        FontData[] fdata = versionLabel.getFont().getFontData();
         fdata[0].height = 10;
         fdata[0].setStyle(SWT.BOLD);
         fdata[0].setName("Arial");
@@ -125,14 +125,14 @@ public class SWTAboutDialog extends SWTDialog{
         infoLabel.setText("\n" + ResourceHelper.getString("message.about.build")
             + " " + AppInfo.getBuild() + ", "
             + AppInfo.getBuildDate()
-            + "\nCopyright \u00a9 TimeCult Project Team 2005-2015\n\n\n");
+            + "\nCopyright \u00a9 TimeCult Project Team 2005-2019\n\n\n");
         
         
         return aboutPanel;        
     }
     
     
-    private Composite createCreditsPanel(Composite parent, Shell shell) {
+    private Composite createCreditsPanel(Composite parent) {
         Composite creditsPanel = new Composite(parent, SWT.NULL);
         GridLayout creditsGL = new GridLayout();
         creditsGL.marginWidth = 0;
@@ -150,13 +150,11 @@ public class SWTAboutDialog extends SWTDialog{
     }
     
     private String getCreditsText() {
-        StringBuffer buf = new StringBuffer();
-        buf.append("Author, Project Admin:\n");
-        buf.append("\tRustam Vishnyakov\n");
-        buf.append("Translators:\n");
-        buf.append("\tKristian Struck\n");
-        buf.append("\tPhilippe Charles\n");
-        return buf.toString();
+        return "Author, Project Admin:\n" +
+            "\tRustam Vishnyakov\n" +
+            "Translators:\n" +
+            "\tKristian Struck\n" +
+            "\tPhilippe Charles\n";
     }
     
     @Override
