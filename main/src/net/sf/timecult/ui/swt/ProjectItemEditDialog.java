@@ -257,7 +257,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
         GenericUIManager uiManager = appInstance.getUIManager();
         ProjectTreeItem treeItem = null;
         ProjectTreeItem selectedItem = this.appInstance.getWorkspace().getSelection();
-        if (selectedItem != null && selectedItem instanceof Project) {
+        if (selectedItem instanceof Project) {
             treeItem = this.appInstance.getWorkspace().createItem((Project)selectedItem, this.itemType, id, name);
             if (treeItem != null) {
                 TimeTracker.getInstance().getUIManager().updateProjectTree();
