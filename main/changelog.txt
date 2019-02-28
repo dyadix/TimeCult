@@ -9,6 +9,7 @@
 * Disabled "hide when minimized" option on Linux (works unreliably).
 * File logging (<config dir>/logs)
 * Correct workspace unlocking on exit.
+* Bug fix: a dialog was closing on Enter when there was an error message.
 
 1.5
 
