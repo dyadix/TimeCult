@@ -226,7 +226,7 @@ public abstract class SWTDialog extends Dialog {
             textField.setText(defaultValue);
         }
         Object layout = parent.getLayout();
-        if (layout != null && layout instanceof GridLayout) {
+        if (layout instanceof GridLayout) {
             GridData gdata = new GridData();
             if (widthHint != -1) {
                 gdata.widthHint = widthHint;
