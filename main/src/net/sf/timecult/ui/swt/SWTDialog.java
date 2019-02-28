@@ -196,8 +196,9 @@ public abstract class SWTDialog extends Dialog {
         public void keyPressed(KeyEvent evt) {
             switch (evt.keyCode) {
             case SWT.CR:
-                handleOk();
-                shell.setVisible(false);
+                if (handleOk()) {
+                    shell.setVisible(false);
+                }
                 break;
             case SWT.ESC:
                 shell.setVisible(false);
