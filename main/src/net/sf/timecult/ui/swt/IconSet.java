@@ -78,7 +78,6 @@ public class IconSet {
         loadIcon("activity", display, "activity");
 
         imageMap.put("timecult.enabled", createImage(display, "timecult.ico"));
-        imageMap.put("timesheet.enabled", createImage(display, "timesheet.png"));
         imageMap.put("timer.0.enabled", createImage(display, "timer/timer0.png"));
         imageMap.put("timer.1.enabled", createImage(display, "timer/timer1.png"));
         imageMap.put("timer.2.enabled", createImage(display, "timer/timer2.png"));
