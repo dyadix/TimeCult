@@ -111,7 +111,7 @@ public abstract class SWTDialog extends Dialog {
 
     private void addButtonPanel(Shell shell) {
         GridData buttonPanelData = new GridData(GridData.FILL_HORIZONTAL);
-        Group buttonPanel = new Group(shell, SWT.SHADOW_ETCHED_IN);
+        Composite buttonPanel = new Composite(shell, SWT.NONE);
 
         buttonPanel.setLayoutData(buttonPanelData);
         
