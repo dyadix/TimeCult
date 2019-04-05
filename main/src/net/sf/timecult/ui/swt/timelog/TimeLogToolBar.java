@@ -20,19 +20,17 @@
 package net.sf.timecult.ui.swt.timelog;
 
 import net.sf.timecult.model.Duration;
+import net.sf.timecult.model.Task;
+import net.sf.timecult.model.TimeRecord;
+import net.sf.timecult.ui.swt.SWTTimeLogTableView;
 import net.sf.timecult.ui.swt.ToolBarBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.ToolItem;
-
-import net.sf.timecult.model.Task;
-import net.sf.timecult.model.TimeRecord;
-import net.sf.timecult.ui.swt.SWTTimeLogTableView;
 
 public class TimeLogToolBar extends ToolBarBase implements SelectionListener {
 
@@ -79,14 +77,13 @@ public class TimeLogToolBar extends ToolBarBase implements SelectionListener {
     }
 
 
-    private ToolItem createDeleteButton() {
+    private void createDeleteButton() {
         ToolItem item = createButton("deleteRecord", SWT.PUSH);
         item.addSelectionListener(new SelectionAdapter() {
             public void widgetSelected(SelectionEvent evt) {
                 TimeLogToolBar.this.timeLogTable.removeSelected();
             }
         });
-        return item;
     }
     
     private ToolItem createJoinButton() {
@@ -102,7 +99,7 @@ public class TimeLogToolBar extends ToolBarBase implements SelectionListener {
 
     public void updateOnTreeSelection(Object selection) {
         addButton.setEnabled(false);
-        if (selection != null && selection instanceof Task) {
+        if (selection instanceof Task) {
             Task task = (Task)selection;
             if (!task.isClosed()) {
                 addButton.setEnabled(true);
@@ -117,13 +114,13 @@ public class TimeLogToolBar extends ToolBarBase implements SelectionListener {
      */
     public void widgetSelected(SelectionEvent evt) {
         Object source = evt.getSource();
-        if (source != null && source instanceof Table) {
-            TableItem items[] = ((Table) source).getSelection();
+        if (source instanceof Table) {
+            TableItem[] items = ((Table) source).getSelection();
             if (items.length > 0) {
                 long total_duration = 0;
-                for (int i = 0; i < items.length; i++) {
-                    if(items[i].getData() instanceof TimeRecord) {
-                        total_duration += ((TimeRecord) items[i].getData()).getDuration().getValue();
+                for (TableItem tableItem : items) {
+                    if (tableItem.getData() instanceof TimeRecord) {
+                        total_duration += ((TimeRecord) tableItem.getData()).getDuration().getValue();
                     }
                 }
                 timeLogTable.getMainWindow().getStatusLine().setSelectionLabel("Duration: " + (new Duration(total_duration)).toString());
