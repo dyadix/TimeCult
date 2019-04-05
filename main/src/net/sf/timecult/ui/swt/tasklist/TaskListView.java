@@ -67,7 +67,7 @@ public class TaskListView extends SWTDialog {
         GridLayout contentLayout = new GridLayout();
         contentLayout.numColumns = 1;
         contentLayout.makeColumnsEqualWidth = true;
-        Composite contentPanel = new Composite(shell, SWT.BORDER);
+        Composite contentPanel = new Composite(shell, SWT.NONE);
         contentPanel.setLayout(contentLayout);
 
         GridData tableLayoutData = new GridData(GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_FILL);

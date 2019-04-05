@@ -94,7 +94,7 @@ public abstract class ProjectItemEditDialog extends SWTDialog {
     
     @Override
     protected Composite createContentPanel(Shell shell) {     
-        Composite textPanel = new Composite(shell, SWT.BORDER);
+        Composite textPanel = new Composite(shell, SWT.NONE);
         GridLayout grid = new GridLayout();
         grid.numColumns = 2;
         textPanel.setLayout(grid);
