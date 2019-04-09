@@ -35,8 +35,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
 
-import java.util.ArrayList;
-
 
 /**
  * @author Rustam Vishnyakov <dyadix@gmail.com>
@@ -44,14 +42,10 @@ import java.util.ArrayList;
 public class FindDialog extends SWTDialog {
 
     private Text textToFind;
-    private ArrayList<ProjectTreeItem> foundItems;
     private final Workspace workspace;
-    private int currItem = 0;
-    private Label statusLabel;
     private final SWTMainWindow mainWindow;
-    private Button findNextButton;
     private SWTProjectTreeView projectTreeView;
-    private String currSearchKey;
+    private Table taskListTable;
 
     public FindDialog(SWTMainWindow mainWindow, Workspace workspace) {
         super(mainWindow.getShell(), true);
@@ -78,16 +72,6 @@ public class FindDialog extends SWTDialog {
             }
         });
 
-        findNextButton = new Button(buttonPanel, SWT.FLAT );
-        findNextButton.setLayoutData(buttonLayout);
-        findNextButton.setText(ResourceHelper.getString("button.find.next"));
-        findNextButton.addSelectionListener(new SelectionAdapter() {
-            public void widgetSelected(SelectionEvent evt) {
-                switchToNext();
-            }
-        });
-        findNextButton.setEnabled(false);
-
         Button cancelButton = new Button(buttonPanel, SWT.FLAT);
         cancelButton.setLayoutData(buttonLayout);
         cancelButton.setText(ResourceHelper.getString("button.close"));
@@ -98,47 +82,27 @@ public class FindDialog extends SWTDialog {
         });
     }
 
-    private void selectItem(int itemNo) {
-        statusLabel.setText((itemNo + 1) + " of " + foundItems.size());
-        this.mainWindow.getProjectTreeView().setCurrentSelection(foundItems.get(itemNo));
-    }
-
     private void doFind() {
-        currSearchKey =  textToFind.getText();
+        taskListTable.setRedraw(false);
+        taskListTable.removeAll();
+        String currSearchKey = textToFind.getText();
         ProjectTreeItem[] allFoundItems = workspace.findItems(currSearchKey, false, projectTreeView.getSortCriteria());
-        foundItems = new ArrayList<ProjectTreeItem>();
         for (ProjectTreeItem item : allFoundItems) {
             if (this.projectTreeView.isVisible(item)) {
-                foundItems.add(item);
+                TableItem taskItem = new TableItem(taskListTable, SWT.NONE);
+                taskItem.setData(item);
+                taskItem.setText(item.getName());
             }
         }
-        currItem = 0;
-        if (foundItems == null || foundItems.size() == 0) {
-            statusLabel.setText("Nothing found.");
-        } else {
-            findNextButton.setEnabled(foundItems.size() > 1);
-            selectItem(currItem);
-        }
+        taskListTable.setRedraw(true);
     }
 
-    private boolean switchToNext() {
-        if (currSearchKey != null && !currSearchKey.equals(textToFind.getText())) return false;
-        if (foundItems != null && foundItems.size() > 0) {
-            currItem++;
-            if (currItem >= foundItems.size()) {
-                return false;
-            }
-            selectItem(currItem);
-            return true;
-        }
-        return false;
-    }
 
     @Override
     protected Composite createContentPanel(Shell shell) {
         Composite textPanel = new Composite(shell, SWT.BORDER);
         GridLayout grid = new GridLayout();
-        grid.numColumns = 2;
+        grid.numColumns = 1;
         textPanel.setLayout(grid);
         //
         // Text sample
@@ -151,9 +115,7 @@ public class FindDialog extends SWTDialog {
             public void keyPressed(KeyEvent e) {
                 switch (e.keyCode) {
                     case SWT.CR:
-                        if (!switchToNext()) {
-                            doFind();
-                        }
+                        doFind();
                         FindDialog.this.textToFind.setFocus();
                         break;
                     case SWT.ESC:
@@ -164,14 +126,14 @@ public class FindDialog extends SWTDialog {
         });
         this.textToFind.setFocus();
         //
-        // Status string
+        // Results table
         //
-        Label itemsLabel = new Label(textPanel, SWT.None);
-        itemsLabel.setText(ResourceHelper.getString("find.item"));
-        statusLabel = new Label(textPanel, SWT.BORDER);
-        GridData gl = new GridData();
-        gl.widthHint = 410;
-        statusLabel.setLayoutData(gl);
+        GridData tableLayoutData = new GridData(GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_FILL);
+        tableLayoutData.grabExcessHorizontalSpace = true;
+        taskListTable = new Table(textPanel, SWT.FULL_SELECTION | SWT.BORDER);
+        taskListTable.setLayoutData(tableLayoutData);
+        taskListTable.setLinesVisible(true);
+        taskListTable.setHeaderVisible(false);
         return textPanel;
     }
 
