@@ -31,6 +31,7 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.*;
@@ -48,10 +49,23 @@ public class FindDialog extends SWTDialog {
     private Table taskListTable;
 
     public FindDialog(SWTMainWindow mainWindow, Workspace workspace) {
-        super(mainWindow.getShell(), true);
+        super(mainWindow.getShell(), true, true, true);
         this.workspace = workspace;
         this.mainWindow = mainWindow;
         this.projectTreeView = mainWindow.getProjectTreeView();
+    }
+
+    private void setInitialSize(Shell parentShell, Shell thisShell) {
+        Point parentSize = parentShell.getSize();
+        float ratio = 0.7f;
+        thisShell.setSize(Math.round(ratio * parentSize.x), Math.round(ratio * parentSize.y));
+    }
+
+    @Override
+    protected void setup(Shell shell) {
+        super.setup(shell);
+        setInitialSize(mainWindow.getShell(), shell);
+        SWTMainWindow.centerShellRelatively(getParent(), shell);
     }
 
     @Override
@@ -109,7 +123,9 @@ public class FindDialog extends SWTDialog {
         //
         Label textLabel = new Label(textPanel, SWT.None);
         textLabel.setText(ResourceHelper.getString("find.searchString"));
-        this.textToFind = createTextField(textPanel, "", 400);
+        this.textToFind = new Text(textPanel, SWT.BORDER);
+        GridData searchTextLayoutData  = new GridData(GridData.FILL_HORIZONTAL);
+        textToFind.setLayoutData(searchTextLayoutData);
         this.textToFind.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {

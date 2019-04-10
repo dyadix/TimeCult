@@ -88,11 +88,7 @@ public abstract class SWTDialog extends Dialog {
             shell.setSize(preferredSize);
         }
 
-        if (PlatformUtil.isGtk)
-            // TODO: Why not doing a similar thing on Windows? Check.
-            SWTMainWindow.centerShellRelatively(getParent(), shell);
-        else
-            SWTMainWindow.centerShell(shell);
+        SWTMainWindow.centerShellRelatively(getParent(), shell);
     }
 
 
