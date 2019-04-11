@@ -22,6 +22,7 @@ package net.sf.timecult.ui.swt.search;
 
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.model.ProjectTreeItem;
+import net.sf.timecult.model.Task;
 import net.sf.timecult.model.Workspace;
 import net.sf.timecult.ui.swt.SWTDialog;
 import net.sf.timecult.ui.swt.SWTMainWindow;
@@ -150,6 +151,13 @@ public class FindDialog extends SWTDialog {
         taskListTable.setLayoutData(tableLayoutData);
         taskListTable.setLinesVisible(true);
         taskListTable.setHeaderVisible(false);
+        taskListTable.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent evt) {
+                if (evt.keyCode == SWT.CR) {
+                    switchToSelection();
+                }
+            }
+        });
         return textPanel;
     }
 
@@ -163,4 +171,12 @@ public class FindDialog extends SWTDialog {
         return ResourceHelper.getString("find.title");
     }
 
+    private void switchToSelection() {
+        TableItem[] items = taskListTable.getSelection();
+        if (items.length > 0) {
+            ProjectTreeItem selectedItem = (ProjectTreeItem) items[0].getData();
+            this.mainWindow.getProjectTreeView().setCurrentSelection(selectedItem);
+            close();
+        }
+    }
 }
