@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Rustam Vishnyakov, 2005-2010 (dyadix@gmail.com)
+ * Copyright (c) Rustam Vishnyakov, 2005-2019 (dyadix@gmail.com)
  * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -219,8 +219,10 @@ public class TimeTracker implements WorkspaceListener {
                 }
             }
             catch (Exception e) {
-                _uiManager.showError("Cannot read " + sourceFile.getName()
-                    + ":\n" + e.getLocalizedMessage());                
+                final String message = "Cannot read " + sourceFile.getName()
+                    + ":\n" + e.getLocalizedMessage();
+                LOGGER.log(Level.SEVERE, message, e);
+                _uiManager.showError(message);
                 if (oldFile != null && oldFile != sourceFile) {
                     loadWorkspace(oldFile);
                 }
