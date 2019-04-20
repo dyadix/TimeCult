@@ -22,11 +22,8 @@ package net.sf.timecult.ui.swt.search;
 
 import net.sf.timecult.ResourceHelper;
 import net.sf.timecult.model.ProjectTreeItem;
-import net.sf.timecult.model.Task;
 import net.sf.timecult.model.Workspace;
-import net.sf.timecult.ui.swt.SWTDialog;
-import net.sf.timecult.ui.swt.SWTMainWindow;
-import net.sf.timecult.ui.swt.SWTProjectTreeView;
+import net.sf.timecult.ui.swt.*;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
@@ -48,6 +45,7 @@ public class FindDialog extends SWTDialog {
     private final SWTMainWindow mainWindow;
     private SWTProjectTreeView projectTreeView;
     private Table taskListTable;
+    private ItemStyleFactory styleFactory;
 
     public FindDialog(SWTMainWindow mainWindow, Workspace workspace) {
         super(mainWindow.getShell(), true, true, true);
@@ -107,9 +105,25 @@ public class FindDialog extends SWTDialog {
                 TableItem taskItem = new TableItem(taskListTable, SWT.NONE);
                 taskItem.setData(item);
                 taskItem.setText(item.getName());
+                ItemStyle style = styleFactory.getItemStyle(item);
+                applyStyle(taskItem, style);
             }
         }
         taskListTable.setRedraw(true);
+    }
+
+    @SuppressWarnings("Duplicates")
+    private void applyStyle(TableItem item, ItemStyle style) {
+        if (style.getFont() != null) {
+            item.setFont(style.getFont());
+        }
+        if (style.getBackground() != null) {
+            item.setBackground(style.getBackground());
+        }
+        if (style.getForeground() != null) {
+            item.setForeground(style.getForeground());
+        }
+        item.setImage(style.getImage());
     }
 
 
@@ -158,6 +172,7 @@ public class FindDialog extends SWTDialog {
                 }
             }
         });
+        styleFactory = new ItemStyleFactory(mainWindow, taskListTable.getBackground());
         return textPanel;
     }
 
