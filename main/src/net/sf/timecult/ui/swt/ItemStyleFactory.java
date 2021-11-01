@@ -85,16 +85,37 @@ public class ItemStyleFactory {
 
         Display display = mainWindow.getShell().getDisplay();
         this.normalTextColor = display.getSystemColor(SWT.COLOR_WIDGET_FOREGROUND);
-        this.disabledTextColor = new Color(display, 128, 128, 192);
-        this.refFlagTextColor = new Color(display, 255, 0, 0);
-        this.greenFlagTextColor = new Color(display, 0, 127, 0);
-        this.blueFlagTextColor = new Color(display, 0, 0, 255);
-        this.orangeFlagTextColor = new Color(display, 255, 127, 0);
-        this.magentaFlagTextColor = new Color(display, 200, 0, 100);
+
+        Color rawRed = new Color(display, 255, 0, 0);
+        Color rawGreen = new Color(display, 0, 128, 0);
+        Color rawBlue = new Color(display, 0, 90, 255);
+        Color rawOrange = new Color(display, 255, 127, 0);
+        Color rawMagenta = new Color(display, 200, 0, 100);
+
+        float alpha = 0.7f;
+        this.disabledTextColor = blend(normalTextColor, background, 0.5f);
+        this.refFlagTextColor = blend(normalTextColor, rawRed, alpha);
+        this.greenFlagTextColor = blend(normalTextColor, rawGreen, alpha);
+        this.blueFlagTextColor = blend(normalTextColor, rawBlue, alpha);
+        this.orangeFlagTextColor = blend(normalTextColor, rawOrange, alpha);
+        this.magentaFlagTextColor = blend(normalTextColor, rawMagenta, alpha);
         dueHighlihgtColor = new Color(
             display,
             background.getRed(), background.getGreen() * 3/4, background.getBlue() *3/4);
 
+    }
+
+
+    private Color blend(Color c1, Color c2, float alpha) {
+        return new Color(
+            blend(c1.getRed(), c2.getRed(), alpha),
+            blend(c1.getGreen(), c2.getGreen(), alpha),
+            blend(c1.getBlue(), c2.getBlue(), alpha));
+    }
+
+    private int blend(int i1, int i2, float alpha) {
+        float f = i1 * (1 - alpha) + i2 * alpha;
+        return Math.round(f);
     }
 
     public ItemStyle getItemStyle(ProjectTreeItem modelItem) {
