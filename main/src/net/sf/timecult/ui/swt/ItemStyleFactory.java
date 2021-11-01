@@ -35,8 +35,8 @@ public class ItemStyleFactory {
     private final SWTMainWindow          _mainWindow;
     private final HashMap<Integer, Font> _fontMap = new HashMap<Integer, Font>();
 
-    private       Color normalTextColor;
-    private       Color disabledTextColor;
+    private final Color normalTextColor;
+    private final Color disabledTextColor;
     private final Color refFlagTextColor;
     private final Color greenFlagTextColor;
     private final Color blueFlagTextColor;
@@ -106,14 +106,14 @@ public class ItemStyleFactory {
     }
 
 
-    private Color blend(Color c1, Color c2, float alpha) {
+    public static Color blend(Color c1, Color c2, float alpha) {
         return new Color(
             blend(c1.getRed(), c2.getRed(), alpha),
             blend(c1.getGreen(), c2.getGreen(), alpha),
             blend(c1.getBlue(), c2.getBlue(), alpha));
     }
 
-    private int blend(int i1, int i2, float alpha) {
+    private static int blend(int i1, int i2, float alpha) {
         float f = i1 * (1 - alpha) + i2 * alpha;
         return Math.round(f);
     }

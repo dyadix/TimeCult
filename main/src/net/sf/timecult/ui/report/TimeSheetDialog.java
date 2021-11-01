@@ -19,11 +19,12 @@
  */
 package net.sf.timecult.ui.report;
 
-import java.text.SimpleDateFormat;
-//import java.util.Calendar;
-import java.util.Date;
-
+import net.sf.timecult.ResourceHelper;
+import net.sf.timecult.TimeTracker;
+import net.sf.timecult.model.Duration;
 import net.sf.timecult.model.TotalsCalculator;
+import net.sf.timecult.ui.swt.ItemStyleFactory;
+import net.sf.timecult.ui.swt.SWTDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -32,17 +33,10 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.*;
 
-import net.sf.timecult.ResourceHelper;
-import net.sf.timecult.TimeTracker;
-import net.sf.timecult.model.Duration;
-import net.sf.timecult.ui.swt.SWTDialog;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class TimeSheetDialog extends SWTDialog {
 
@@ -116,6 +110,11 @@ public class TimeSheetDialog extends SWTDialog {
     }
     
     private void addTableData(Shell shell, Table table) {
+        Color stripeColor =
+            ItemStyleFactory.blend(
+                shell.getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND),
+                new Color(this.shell.getDisplay(), 235, 235, 210),
+                0.2f);
         TotalsCalculator[] items = timeSheet.getItems();
         Date[] dates = this.timeSheet.getDates();
         long[] totals = new long[dates.length];
@@ -132,7 +131,7 @@ public class TimeSheetDialog extends SWTDialog {
             Font f = makeBoldFont(shell, item.getFont().getFontData());
             item.setFont(dates.length + 1, f);
             if(!odd) {
-                item.setBackground(new Color(this.shell.getDisplay(), 235, 235, 210));
+                item.setBackground(stripeColor);
             }
             odd = !odd;
         }
