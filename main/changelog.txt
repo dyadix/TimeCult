@@ -1,3 +1,7 @@
+1.7
+
+* Adaptive project tree view item colors, work for dark themes
+
 1.6
 
 * Removed buttons' size hints (caused some button labels be truncated).
