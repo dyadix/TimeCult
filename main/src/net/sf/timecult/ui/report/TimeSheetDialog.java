@@ -45,10 +45,10 @@ import net.sf.timecult.model.Duration;
 import net.sf.timecult.ui.swt.SWTDialog;
 
 public class TimeSheetDialog extends SWTDialog {
-    
-    private TimeSheet timeSheet;
-    private String title;
-    private Shell shell;
+
+    private final TimeSheet timeSheet;
+    private final String    title;
+    private final Shell     shell;
 
     public TimeSheetDialog(Shell parent, String title, Date endDate) {
         super(parent, false);
@@ -60,9 +60,9 @@ public class TimeSheetDialog extends SWTDialog {
     }
     
     public void addItems(TotalsCalculator[] items) {
-        for (int i = 0; i < items.length; i++) {
-            if (this.timeSheet.getTimeUsed(items[i]).getValue() != 0) {
-                this.timeSheet.addItem(items[i]);
+        for (TotalsCalculator item : items) {
+            if (this.timeSheet.getTimeUsed(item).getValue() != 0) {
+                this.timeSheet.addItem(item);
             }
         }
     }
@@ -83,14 +83,14 @@ public class TimeSheetDialog extends SWTDialog {
         table.setLayoutData(tableLayoutData);
         table.setHeaderVisible(true);
         //table.setLinesVisible(true);
-        Date dates[] = this.timeSheet.getDates();
+        Date[] dates = this.timeSheet.getDates();
         TableColumn itemCol = new TableColumn(table, SWT.NONE);
         itemCol.setText(ResourceHelper.getString("message.item"));
         itemCol.setWidth(200);
-        for (int i = 0; i < dates.length; i++) {
+        for (Date date : dates) {
             TableColumn column = new TableColumn(table, SWT.NONE);
             SimpleDateFormat dateFormatter = new SimpleDateFormat("E, dd MMM");
-            column.setText(dateFormatter.format(dates[i]));
+            column.setText(dateFormatter.format(date));
             column.setWidth(80);
             column.setAlignment(SWT.RIGHT);
         }
@@ -116,9 +116,9 @@ public class TimeSheetDialog extends SWTDialog {
     }
     
     private void addTableData(Shell shell, Table table) {
-        TotalsCalculator items[] = timeSheet.getItems();
-        Date dates[] = this.timeSheet.getDates();
-        long totals[] = new long[dates.length];
+        TotalsCalculator[] items = timeSheet.getItems();
+        Date[] dates = this.timeSheet.getDates();
+        long[] totals = new long[dates.length];
         boolean odd = true;
         for (int i = 0; i < items.length; i++) {
             TableItem item = new TableItem(table, SWT.NONE);
@@ -148,11 +148,10 @@ public class TimeSheetDialog extends SWTDialog {
     }
     
     private Font makeBoldFont(Shell shell, FontData[] f) {
-        for(int i = 0; i < f.length; i ++) {
-            f[i].setStyle(SWT.BOLD);
+        for (FontData fontData : f) {
+            fontData.setStyle(SWT.BOLD);
         }
-        Font fn = new Font(shell.getDisplay(), f);
-        return fn;
+        return new Font(shell.getDisplay(), f);
     }
 
     @Override
