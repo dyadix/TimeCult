@@ -26,9 +26,9 @@ package net.sf.timecult.model;
  */
 public class Task extends ProjectTreeItem implements TotalsCalculator, DescriptionHolder {
 
-    private TaskStatus status      = new TaskStatus();
-    private String     description = "";
-    private WaitReason waitReason;
+    private final TaskStatus status      = new TaskStatus();
+    private       String     description = "";
+    private       WaitReason waitReason;
 
     public Task(Project parent, String id, String name) {
         super(id, name, parent);
@@ -41,7 +41,7 @@ public class Task extends ProjectTreeItem implements TotalsCalculator, Descripti
      */
     public boolean equals(Object o) {
         boolean equal = false;
-        if (o != null && o instanceof Task) {
+        if (o instanceof Task) {
             Task t = (Task) o;
             if (t.getId() == getId())
                 equal = true;
@@ -60,7 +60,7 @@ public class Task extends ProjectTreeItem implements TotalsCalculator, Descripti
             localTaskFilter = (TimeRecordFilter) filter.clone();
         }
         localTaskFilter.setTask(this);
-        TimeRecord timeRecords[] = timeLog.getTimeRecords(localTaskFilter);
+        TimeRecord[] timeRecords = timeLog.getTimeRecords(localTaskFilter);
         for (TimeRecord timeRecord : timeRecords) {
             totals.addDuration(TimeUtil.getFilteredTimeRec(filter, timeRecord).getDuration());
         }
