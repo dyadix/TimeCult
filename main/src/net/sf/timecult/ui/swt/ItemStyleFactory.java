@@ -26,6 +26,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 //import org.eclipse.swt.widgets.TreeItem;
 
 import java.util.HashMap;
@@ -82,17 +83,16 @@ public class ItemStyleFactory {
         _closedProjectImage = iconSet.getIcon("project-closed", true);
         pastDeadlineImage = iconSet.getIcon("past.due", true);
 
-        this.disabledTextColor = new Color(mainWindow.getShell().getDisplay(),
-            128, 128, 192);
-        this.normalTextColor = new Color(mainWindow.getShell().getDisplay(),
-            0, 0, 0);
-        this.refFlagTextColor = new Color(mainWindow.getShell().getDisplay(), 255, 0, 0);
-        this.greenFlagTextColor = new Color(mainWindow.getShell().getDisplay(), 0, 127, 0);
-        this.blueFlagTextColor = new Color(mainWindow.getShell().getDisplay(), 0, 0, 255);
-        this.orangeFlagTextColor = new Color(mainWindow.getShell().getDisplay(), 255, 127, 0);
-        this.magentaFlagTextColor = new Color(mainWindow.getShell().getDisplay(), 200, 0, 100);
+        Display display = mainWindow.getShell().getDisplay();
+        this.normalTextColor = display.getSystemColor(SWT.COLOR_WIDGET_FOREGROUND);
+        this.disabledTextColor = new Color(display, 128, 128, 192);
+        this.refFlagTextColor = new Color(display, 255, 0, 0);
+        this.greenFlagTextColor = new Color(display, 0, 127, 0);
+        this.blueFlagTextColor = new Color(display, 0, 0, 255);
+        this.orangeFlagTextColor = new Color(display, 255, 127, 0);
+        this.magentaFlagTextColor = new Color(display, 200, 0, 100);
         dueHighlihgtColor = new Color(
-            mainWindow.getShell().getDisplay(),
+            display,
             background.getRed(), background.getGreen() * 3/4, background.getBlue() *3/4);
 
     }
