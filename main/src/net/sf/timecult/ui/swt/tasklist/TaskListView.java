@@ -54,7 +54,7 @@ public class TaskListView extends SWTDialog {
 
 
     public TaskListView(SWTMainWindow mainWindow) {
-        super(mainWindow.getShell(), true, false, true);
+        super(mainWindow.getShell(), true, true, true);
         this.mainWindow = mainWindow;
         this.taskSubtype = Task.class;
     }
@@ -244,7 +244,8 @@ public class TaskListView extends SWTDialog {
     @Override
     protected void setup(Shell shell) {
         super.setup(shell);
-        Rectangle displayRect = shell.getDisplay().getBounds();
-        shell.setSize(displayRect.width / 2, displayRect.height / 2);
+        Point parentSize = mainWindow.getShell().getSize();
+        shell.setSize(Math.round(parentSize.x * 0.9f), Math.round(parentSize.y * 0.9f));
+        SWTMainWindow.centerShellRelatively(getParent(), shell);
     }
 }
