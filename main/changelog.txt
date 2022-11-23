@@ -1,6 +1,7 @@
 1.7
 
 * Adaptive project tree view item colors, work for dark themes
+* Fixed Task list size/location for multiple monitors
 
 1.6
 
