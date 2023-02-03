@@ -1,9 +1,6 @@
 /*
- * File: StopwatchEvent.java
- * Created: 30.05.2005
+ * Copyright (c) TimeCult Project Team, 2005-2023 (dyadix@gmail.com)
  *
- * Copyright (c) Rustam Vishnyakov, 2005-2006 (rvishnyakov@yahoo.com)
- * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -17,32 +14,35 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * $Id: $
  */
 package net.sf.timecult.stopwatch;
 
 /**
  * Stopwatch event.
- * @author rvishnyakov (rvishnyakov@yahoo.com)
  */
 public class StopwatchEvent {
 
-    public final static int START = 0;
-    public final static int STOP = 1;
-    public final static int TICK = 2;
+    public enum Type {
+        START,
+        STOP,
+        TICK
+    }
 
-    public StopwatchEvent(int id, Stopwatch source) {
-        _id = id;
+    private final Stopwatch _source;
+    private final Type      _eventType;
+
+    public StopwatchEvent(Type eventType, Stopwatch source) {
+        _eventType = eventType;
         _source = source;
     }
 
-    public int getID() {
-        return _id;
+    public Type getType() {
+        return _eventType;
     }
 
     public Stopwatch getSource() {
         return _source;
     }
-
-    private Stopwatch _source = null;
-    private int _id = -1;
 }

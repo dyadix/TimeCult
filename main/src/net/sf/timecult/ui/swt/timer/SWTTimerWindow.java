@@ -48,31 +48,31 @@ import org.eclipse.swt.widgets.*;
 
 public class SWTTimerWindow implements StopwatchListener {
 
-    private final static int MAX_TITLE_CHARS        = 15;
-    private final static int NIMAGES                = 4;
-    private final static int NOTIF_MESSAGE_INTERVAL = 300000;           // 5
-                                                                         // min
-    private Workspace        workspace              = TimeTracker.getInstance()
-                                                        .getWorkspace();
+    private final static int       MAX_TITLE_CHARS        = 15;
+    private final static int       NIMAGES                = 4;
+    private final static int       NOTIF_MESSAGE_INTERVAL = 300000;           // 5
+    // min
+    private final        Workspace workspace              = TimeTracker.getInstance()
+        .getWorkspace();
 
-    private Shell           _shell;
-    private Stopwatch       _stopwatch;
-    private long            _duration;
-    private Display         _display;
-    private Task            _task;
-    private Label           _timeLabel;
-    private SWTMainWindow   _parent;
-    private static int      _instanceCount;
-    private TrayItem        _trayItem;
-    private TimerTrayMenu   _trayMenu;
-    private int             _imageCount;
-    private SWTTimerToolBar _toolBar;
-    private TimeRecord      _timeRec;
-    private Workspace       _workspace;
+    private        Shell           _shell;
+    private final  Stopwatch       _stopwatch;
+    private        long            _duration;
+    private        Display         _display;
+    private final  Task            _task;
+    private        Label           _timeLabel;
+    private final  SWTMainWindow   _parent;
+    private static int             _instanceCount;
+    private        TrayItem        _trayItem;
+    private        TimerTrayMenu   _trayMenu;
+    private        int             _imageCount;
+    private        SWTTimerToolBar _toolBar;
+    private        TimeRecord      _timeRec;
+    private final  Workspace       _workspace;
 
-    private long            _lastNotifTime;
-    private long            _lastIntervalTime;
-    private long            _saveTimersInterval     = 10000; // 10 seconds by default
+    private long _lastNotifTime;
+    private long _lastIntervalTime;
+    private long _saveTimersInterval = 10000; // 10 seconds by default
 
 
     private SWTTimerWindow(SWTMainWindow parent, Workspace workspace, Task task) {
@@ -174,8 +174,8 @@ public class SWTTimerWindow implements StopwatchListener {
 
 
     public void stateChanged(StopwatchEvent evt) {
-        switch (evt.getID()) {
-        case StopwatchEvent.STOP:
+        switch (evt.getType()) {
+        case STOP:
             if (_task != null) {
                 //
                 // Keep the current timer position
@@ -187,7 +187,7 @@ public class SWTTimerWindow implements StopwatchListener {
                 addTimeRecord();
             }
             break;
-        case StopwatchEvent.TICK:
+        case TICK:
             _duration = evt.getSource().getDuration();
             if (_duration - _lastNotifTime >= NOTIF_MESSAGE_INTERVAL
                 && AppPreferences.getInstance().isRunningTimerNotification()) {
@@ -201,26 +201,17 @@ public class SWTTimerWindow implements StopwatchListener {
                 _lastIntervalTime = _duration;
                 getTimeRecord().setDuration(_workspace.roundUpTime(_stopwatch.getDuration()));
                 if (!_display.isDisposed()) {
-                    _display.asyncExec(new Runnable() {
-
-                        public void run() {
-                            TimeTracker
-                                .getInstance()
-                                .getWorkspace()
-                                .fireWorkspaceChanged(
-                                    new WorkspaceEvent(
-                                        WorkspaceEvent.WORKSPACE_TIME_REC_ADDED));
-                        }
-                    });
+                    _display.asyncExec(
+                        () -> TimeTracker
+                            .getInstance()
+                            .getWorkspace()
+                            .fireWorkspaceChanged(
+                                new WorkspaceEvent(
+                                    WorkspaceEvent.WORKSPACE_TIME_REC_ADDED)));
                 }
             }
             if (!_display.isDisposed()) {
-                _display.asyncExec(new Runnable() {
-
-                    public void run() {
-                        updateView(_duration);
-                    }
-                });
+                _display.asyncExec(() -> updateView(_duration));
             }
             break;
         }
@@ -278,7 +269,7 @@ public class SWTTimerWindow implements StopwatchListener {
                 _trayItem.setToolTipText(_task.toString() + ": "
                     + Formatter.toDurationString(duration, true));
                 _trayItem.setImage(_parent.getIconSet().getIcon(
-                    "timer." + Integer.toString(_imageCount),
+                    "timer." + _imageCount,
                     true));
                 _imageCount++;
                 if (_imageCount >= NIMAGES) {
@@ -359,11 +350,9 @@ public class SWTTimerWindow implements StopwatchListener {
 
             }
         });
-        _trayItem.addListener(SWT.MenuDetect, new Listener() {
-            public void handleEvent(Event evt) {
-                _trayMenu = new TimerTrayMenu(SWTTimerWindow.this);
-                _trayMenu.open();
-            }
+        _trayItem.addListener(SWT.MenuDetect, evt -> {
+            _trayMenu = new TimerTrayMenu(SWTTimerWindow.this);
+            _trayMenu.open();
         });
     }
 

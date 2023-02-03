@@ -46,7 +46,7 @@ public class Stopwatch extends TimerTask {
             }
             _isRunning = true;
         }
-        fireStateChanged(new StopwatchEvent(StopwatchEvent.START, this));
+        fireStateChanged(new StopwatchEvent(StopwatchEvent.Type.START, this));
     }
 
 
@@ -58,7 +58,7 @@ public class Stopwatch extends TimerTask {
             _isRunning = false;
             _timer.cancel();
         }
-        fireStateChanged(new StopwatchEvent(StopwatchEvent.STOP, this));
+        fireStateChanged(new StopwatchEvent(StopwatchEvent.Type.STOP, this));
     }
 
 
@@ -134,7 +134,7 @@ public class Stopwatch extends TimerTask {
     public void run() {
         if (_isRunning) {
             _duration += _delay;
-            fireStateChanged(new StopwatchEvent(StopwatchEvent.TICK, this));
+            fireStateChanged(new StopwatchEvent(StopwatchEvent.Type.TICK, this));
         }
     }
 

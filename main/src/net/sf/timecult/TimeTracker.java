@@ -1,6 +1,6 @@
 /*
- * Copyright (c) Rustam Vishnyakov, 2005-2019 (dyadix@gmail.com)
- * 
+ * Copyright (c) TimeCult Project Team, 2005-2023 (dyadix@gmail.com)
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
- * $Id: TimeTracker.java,v 1.38 2011/01/16 06:00:21 dragulceo Exp $
+ *
+ * $Id: $
  */
 package net.sf.timecult;
 
@@ -45,13 +45,23 @@ import net.sf.timecult.util.Formatter;
 /**
  * Top-level component, acts as a controller. Contains main() method to launch
  * the application.
- * 
- * @author rvishnyakov (rvishnyakov@yahoo.com)
  */
 public class TimeTracker implements WorkspaceListener {
     private final static Logger LOGGER = Logger.getLogger(TimeTracker.class.getName());
 
     public final static String FILE_EXT = ".tmt";
+
+    private        Workspace            _workspace         = null;
+    private        ProjectTreeItem      _clipboardItem     = null;
+    private final  GenericUIManager     _uiManager;
+    private        File                 _workspaceFile     = null;
+    private static TimeTracker          _activeInstance    = null;
+    private final  List<File>           _recentlyOpenFiles = new ArrayList<>();
+    private final  ConfigurationManager _confManager;
+    private final  boolean              _isUIInitialized;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final  AutosaveManager      autosaveManager;
+    private        boolean              saving;
 
     private FileHandler fileHandler;
 
@@ -65,8 +75,7 @@ public class TimeTracker implements WorkspaceListener {
         resetWorkspace();
         _uiManager.initUI();
         _isUIInitialized = true;
-        Runtime.getRuntime().addShutdownHook(
-                new Thread(new ConfigurationSaver()));        
+        Runtime.getRuntime().addShutdownHook(new Thread(new ConfigurationSaver()));
     }
 
 
@@ -93,14 +102,12 @@ public class TimeTracker implements WorkspaceListener {
 
     public void updateTask(Task task) {
         _uiManager.updateProjectTree();
-        _workspace.fireWorkspaceChanged(new WorkspaceEvent(
-                WorkspaceEvent.WORKSPACE_TASK_CHANGED));
+        _workspace.fireWorkspaceChanged(new WorkspaceEvent(WorkspaceEvent.WORKSPACE_TASK_CHANGED));
     }
 
     public void updateProject(Project project) {
         _uiManager.updateProjectTree();
-        _workspace.fireWorkspaceChanged(new WorkspaceEvent(
-                WorkspaceEvent.WORKSPACE_PROJECT_CHANGED));
+        _workspace.fireWorkspaceChanged(new WorkspaceEvent(WorkspaceEvent.WORKSPACE_PROJECT_CHANGED));
     }
 
     public TimeLog getTimeLog() {
@@ -161,7 +168,7 @@ public class TimeTracker implements WorkspaceListener {
     
     public void removeSelection() {
         boolean confirmed = false;
-        Project parent = null;
+        Project parent;
         ProjectTreeItem removable = null;
         ProjectTreeItem selectedItem = _workspace.getSelection();
         if (selectedItem != null) {
@@ -192,7 +199,7 @@ public class TimeTracker implements WorkspaceListener {
     public void loadWorkspace(File sourceFile) {
         if (FileLockManager.isLocked(sourceFile.getAbsolutePath())) {
             _uiManager.showError("The file " + sourceFile
-                + " is already open, please choose anothe file!");
+                + " is already open, please choose another file!");
             return;
         }
         File oldFile = _workspaceFile;
@@ -290,12 +297,7 @@ public class TimeTracker implements WorkspaceListener {
      * @see net.sf.timecult.model.WorkspaceListener#workspaceChanged(net.sf.timecult.model.WorkspaceEvent)
      */
     public void workspaceChanged(WorkspaceEvent we) {
-        if (_workspace.hasBeenModified()) {
-            _uiManager.setSaveEnabled(true);
-        }
-        else {
-        	_uiManager.setSaveEnabled(false);
-        }
+        _uiManager.setSaveEnabled(_workspace.hasBeenModified());
         _uiManager.updateTimeLog(we.getSource());
         if (we.getId() == WorkspaceEvent.FILTER_CHANGED) {
             _uiManager.updateProjectTree();
@@ -377,7 +379,7 @@ public class TimeTracker implements WorkspaceListener {
     public void openRecentFile() {
         File recentFile = null;
         if (!_recentlyOpenFiles.isEmpty()) {
-            recentFile = _recentlyOpenFiles.lastElement();
+            recentFile = _recentlyOpenFiles.get(_recentlyOpenFiles.size() - 1);
         }
         if (recentFile != null && !FileLockManager.isLocked(recentFile.getAbsolutePath())) {
             loadWorkspace(recentFile);
@@ -437,7 +439,7 @@ public class TimeTracker implements WorkspaceListener {
 
     public void startTimer() {
         ProjectTreeItem selectedItem = _workspace.getSelection();
-        if (selectedItem != null && selectedItem instanceof Task) {
+        if (selectedItem instanceof Task) {
         	_uiManager.startTimer(_workspace, (Task)selectedItem);
         }
     }
@@ -466,12 +468,12 @@ public class TimeTracker implements WorkspaceListener {
 
         public void stateChanged(StopwatchEvent evt) {
 
-            switch (evt.getID()) {
-            case StopwatchEvent.STOP:
+            switch (evt.getType()) {
+            case STOP:
                 _uiManager.clearIdleTime();
                 nextNotifTime = IDLE_NOTIFICATION_INTERVAL;
                 break;
-            case StopwatchEvent.TICK:
+            case TICK:
                 long idleTime = evt.getSource().getDuration();
                 _uiManager.setIdleTime(idleTime);
                 if (AppPreferences.getInstance().isIdleTimeNotification()) {
@@ -497,7 +499,6 @@ public class TimeTracker implements WorkspaceListener {
             _clipboardItem = selectedItem;
             _workspace.unlinkParent(selectedItem);
             _uiManager.updateOnRemove(selectedItem);
-            selectedItem = null;
         }
     }
     
@@ -532,7 +533,7 @@ public class TimeTracker implements WorkspaceListener {
     }
 
     public Task[] getRecentTasks(int maxNumber) {
-        List<Task> recentTasks = new ArrayList<Task>(maxNumber);
+        List<Task> recentTasks = new ArrayList<>(maxNumber);
         TimeRecord[] records = getTimeLog().getTimeRecords(null);
         for (int i = records.length - 1; i >= 0; i--) {
             Task recordedTask = records[i].getTask();
@@ -541,7 +542,7 @@ public class TimeTracker implements WorkspaceListener {
                 if (recentTasks.size() >= maxNumber) break;
             }
         }
-        return recentTasks.toArray(new Task[recentTasks.size()]);
+        return recentTasks.toArray(new Task[0]);
     }
 
     public void close(int errCode) {
@@ -550,24 +551,5 @@ public class TimeTracker implements WorkspaceListener {
         if (fileHandler != null) fileHandler.close();
         System.exit(errCode);
     }
-    
-    
-    // Private attributes
-    //========================================================================
-
-    private Workspace _workspace = null;
-    //private ProjectTreeItem _selectedItem = null;
-    private ProjectTreeItem _clipboardItem = null;
-    //private Task _selectedTask = null;
-    //private Project _selectedProject = null;
-    //private MainWindow _mainWindow = null;
-    private GenericUIManager _uiManager = null;
-    private File _workspaceFile = null;
-    private static TimeTracker _activeInstance = null;
-    private Vector<File> _recentlyOpenFiles = new Vector<File>();
-    private ConfigurationManager _confManager;
-    private boolean _isUIInitialized = false;
-    private AutosaveManager autosaveManager;
-    private boolean saving;
 
 }
