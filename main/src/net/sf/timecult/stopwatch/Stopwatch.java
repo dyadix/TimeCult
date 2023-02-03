@@ -1,9 +1,6 @@
 /*
- * File: Timer.java
- * Created: 30.05.2005
+ * Copyright (c) TimeCult Project Team, 2005-2023 (dyadix@gmail.com)
  *
- * Copyright (c) Rustam Vishnyakov, 2005-2006 (rvishnyakov@yahoo.com)
- * 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -17,6 +14,8 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * $Id: $
  */
 package net.sf.timecult.stopwatch;
 
@@ -24,10 +23,15 @@ import java.util.*;
 
 /**
  * Measures time intervals.
- * 
- * @author rvishnyakov (rvishnyakov@yahoo.com)
  */
 public class Stopwatch extends TimerTask {
+
+    private       Timer                   _timer     = null;
+    private       Date                    _startTime = null;
+    private       long                    _duration  = 0;
+    private final long                    _delay     = 500;         // TODO: Make it changable.
+    private final List<StopwatchListener> _listeners = new ArrayList<>();
+    private       boolean                 _isRunning = false;
 
     /**
      * Starts the timer and records the current time as start time.
@@ -110,15 +114,14 @@ public class Stopwatch extends TimerTask {
 
 
     /**
-     * Sends a notification to all the listners.
+     * Sends a notification to all the listeners.
      * 
      * @param evt
      *            The event to notify the listeners with.
      */
     private void fireStateChanged(StopwatchEvent evt) {
-        for (Iterator iter = _listeners.iterator(); iter.hasNext();) {
-            StopwatchListener l = (StopwatchListener) iter.next();
-            l.stateChanged(evt);
+        for (StopwatchListener listener : _listeners) {
+            listener.stateChanged(evt);
         }
     }
 
@@ -137,34 +140,9 @@ public class Stopwatch extends TimerTask {
 
 
     public void copyListenersTo(Stopwatch stopwatch) {
-        for (Object _listener : _listeners) {
-            stopwatch.addStopwatchListener((StopwatchListener) _listener);
+        for (StopwatchListener _listener : _listeners) {
+            stopwatch.addStopwatchListener(_listener);
         }
     }
 
-
-    /**
-     * @return the _interval
-     */
-    public long getInterval() {
-        return _interval;
-    }
-
-
-    /**
-     * @param interval
-     *            the _interval to set
-     */
-    public void setInterval(long ticks) {
-        this._interval = ticks;
-    }
-
-    private Timer   _timer     = null;
-    private Date    _startTime = null;
-    private long    _duration  = 0;
-    private long    _delay     = 500;         // TODO: Make it changable.
-    private long    _interval  = 10;          // 600 - 5 minutes
-    private long    _crtTicks  = 10;          // 600 - 5 minutes
-    private Vector  _listeners = new Vector();
-    private boolean _isRunning = false;
 }
