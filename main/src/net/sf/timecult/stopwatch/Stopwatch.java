@@ -28,17 +28,28 @@ public class Stopwatch extends TimerTask {
 
     private       Timer                   _timer     = null;
     private       Date                    _startTime = null;
-    private       long                    _duration  = 0;
+    private       long                    _duration;
+    private final long                    _initDuration;
     private final long                    _delay     = 500;         // TODO: Make it changable.
     private final List<StopwatchListener> _listeners = new ArrayList<>();
     private       boolean                 _isRunning = false;
+    private final boolean                 _countdown;
+
+    public Stopwatch() {
+        this(0, false);
+    }
+
+    public Stopwatch(long initDuration, boolean countdown) {
+        _initDuration = initDuration;
+        _countdown = countdown;
+    }
 
     /**
      * Starts the timer and records the current time as start time.
      */
     public void start() {
         _startTime = getCurrentTime();
-        _duration = 0;
+        _duration = _initDuration;
         if (!_isRunning) {
             if (_timer == null) {
                 _timer = new Timer();
@@ -99,9 +110,12 @@ public class Stopwatch extends TimerTask {
         return _startTime;
     }
 
+    public long getCounted() {
+        return _duration;
+    }
 
     public long getDuration() {
-        return _duration;
+        return _countdown ? _initDuration - _duration : _duration;
     }
 
 
@@ -133,8 +147,14 @@ public class Stopwatch extends TimerTask {
      */
     public void run() {
         if (_isRunning) {
-            _duration += _delay;
-            fireStateChanged(new StopwatchEvent(StopwatchEvent.Type.TICK, this));
+            _duration += _countdown ? - _delay : _delay;
+            if (_duration <= 0) {
+                _duration = 0;
+                stop();
+            }
+            else {
+                fireStateChanged(new StopwatchEvent(StopwatchEvent.Type.TICK, this));
+            }
         }
     }
 
