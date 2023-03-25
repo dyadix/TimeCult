@@ -440,7 +440,7 @@ public class TimeTracker implements WorkspaceListener {
     public void startTimer() {
         ProjectTreeItem selectedItem = _workspace.getSelection();
         if (selectedItem instanceof Task) {
-        	_uiManager.startTimer(_workspace, (Task)selectedItem);
+        	_uiManager.startTimer(_workspace, (Task)selectedItem, -1);
         }
     }
 

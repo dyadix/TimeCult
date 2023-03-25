@@ -75,8 +75,8 @@ public class SWTTimerWindow implements StopwatchListener {
     private long _saveTimersInterval = 10000; // 10 seconds by default
 
 
-    private SWTTimerWindow(SWTMainWindow parent, Workspace workspace, Task task) {
-        _stopwatch = new Stopwatch();
+    private SWTTimerWindow(SWTMainWindow parent, Workspace workspace, Task task, long initTime) {
+        _stopwatch = initTime > 0 ? new Stopwatch(initTime, true) : new Stopwatch();
         _stopwatch.addStopwatchListener(this);
         _task = task;
         _parent = parent;
@@ -137,10 +137,9 @@ public class SWTTimerWindow implements StopwatchListener {
     }
 
 
-    public static SWTTimerWindow newInstance(SWTMainWindow mainWindow,
-        Workspace workspace, Task task) {
+    public static SWTTimerWindow newInstance(SWTMainWindow mainWindow, Workspace workspace, Task task, long initTime) {
         incInstances();
-        return new SWTTimerWindow(mainWindow, workspace, task);
+        return new SWTTimerWindow(mainWindow, workspace, task, initTime);
     }
 
 

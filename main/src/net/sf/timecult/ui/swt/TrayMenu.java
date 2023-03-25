@@ -95,22 +95,16 @@ public class TrayMenu {
         startItem.setMenu(this.mainWindow.createInProgressStartMenu(
             startItem,
             new SelectionAdapter() {
-                public void widgetSelected(SelectionEvent evt) {                    
+                public void widgetSelected(SelectionEvent evt) {
                     if (evt.getSource() instanceof MenuItem) {
                         MenuItem item = (MenuItem) evt.getSource();
                         Object data = item.getData();
-                        if (data instanceof Task) {
-                            final Task task = (Task) data;
-                            mainWindow.getShell().getDisplay().timerExec(500, new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    TimeTracker.getInstance().getUIManager()
-                                            .startTimer(
-                                                    TimeTracker.getInstance().getWorkspace(),
-                                                    task);
-                                }
-                            });
+                        if (data instanceof Task task) {
+                            mainWindow.getShell().getDisplay().timerExec(500,
+                                () -> TimeTracker.getInstance().getUIManager()
+                                    .startTimer(
+                                        TimeTracker.getInstance().getWorkspace(),
+                                        task, -1));
                         }
                     }
                 }

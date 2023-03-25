@@ -93,13 +93,12 @@ public class SWTUIManager implements GenericUIManager, AutosaveManagerListener {
 
     }
 
-    public void startTimer(Workspace workspace, Task task) {
+    public void startTimer(Workspace workspace, Task task, long initTime) {
         if (!task.isFlagged()) {
             task.setStatus(TaskStatus.IN_PROGRESS);
         }
         _mainWindow.getProjectTreeView().updateTreeItemStyle(task);
-        SWTTimerWindow timerWindow = SWTTimerWindow.newInstance(_mainWindow,
-            workspace, task);
+        SWTTimerWindow timerWindow = SWTTimerWindow.newInstance(_mainWindow, workspace, task, initTime);
         timerWindow.launchTimer();
     }
 
