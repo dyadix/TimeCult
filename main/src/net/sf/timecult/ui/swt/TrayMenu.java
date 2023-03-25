@@ -35,10 +35,10 @@ import org.eclipse.swt.widgets.Shell;
 
 public class TrayMenu {
 
-    private SWTMainWindow   mainWindow;
-    private Shell           trayShell;
-    private static TrayMenu instance;
-    private Menu            popup;
+    private final  SWTMainWindow mainWindow;
+    private        Shell         trayShell;
+    private static TrayMenu      instance;
+    private        Menu          popup;
 
 
     private TrayMenu(SWTMainWindow mainWindow) {
@@ -96,8 +96,7 @@ public class TrayMenu {
             startItem,
             new SelectionAdapter() {
                 public void widgetSelected(SelectionEvent evt) {
-                    if (evt.getSource() instanceof MenuItem) {
-                        MenuItem item = (MenuItem) evt.getSource();
+                    if (evt.getSource() instanceof MenuItem item) {
                         Object data = item.getData();
                         if (data instanceof Task task) {
                             mainWindow.getShell().getDisplay().timerExec(500,
@@ -122,12 +121,7 @@ public class TrayMenu {
         popup.addMenuListener(new MenuAdapter() {
             @Override
             public void menuHidden(MenuEvent e) {
-                trayShell.getDisplay().timerExec(100, new Runnable() {
-                    @Override
-                    public void run() {
-                        disposeShell();
-                    }
-                });
+                trayShell.getDisplay().timerExec(100, () -> disposeShell());
             }
         });
     }
