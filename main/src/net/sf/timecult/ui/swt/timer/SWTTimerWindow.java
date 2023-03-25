@@ -177,14 +177,17 @@ public class SWTTimerWindow implements StopwatchListener {
         switch (evt.getType()) {
         case STOP:
             if (_task != null) {
-                //
-                // Keep the current timer position
-                //
-                org.eclipse.swt.graphics.Point timerLoc = _shell
-                    .getLocation();
-                TimeTracker.getInstance().getConfigurationManager()
-                    .setDefaultTimerPos(timerLoc.x, timerLoc.y);
-                addTimeRecord();
+                Runnable recordRunnable = () -> {
+                    Point timerLoc = _shell.getLocation();
+                    TimeTracker.getInstance().getConfigurationManager().setDefaultTimerPos(timerLoc.x, timerLoc.y);
+                    addTimeRecord();
+                };
+                if (_display.getThread() == Thread.currentThread()) {
+                    recordRunnable.run();
+                }
+                else {
+                    _display.asyncExec(recordRunnable);
+                }
             }
             break;
         case TICK:
