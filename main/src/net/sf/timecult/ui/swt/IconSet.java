@@ -108,6 +108,8 @@ public class IconSet {
         loadIcon("timer.pauseResume", display, "timer-pause");
         loadIcon("timer.stop", display, "timer-stop");
         loadIcon("timer.minToTray", display, "tray");
+
+        loadIcon("tomato", display, "tomato");
     }
 
     /**
