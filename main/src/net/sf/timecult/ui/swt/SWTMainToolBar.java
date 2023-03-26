@@ -26,7 +26,6 @@ import net.sf.timecult.model.Task;
 import net.sf.timecult.ui.report.TimeSheetHelper;
 import net.sf.timecult.ui.swt.search.FindDialog;
 import net.sf.timecult.ui.swt.tasklist.TaskListView;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -40,6 +39,7 @@ public class SWTMainToolBar extends ToolBarBase {
     private ToolItem _saveButton;
     private ToolItem _startButton;
     private ToolItem _timeSheetButton;
+    private ToolItem _pomoButton;
 
     private final SWTMainWindow _mainWindow;
 
@@ -55,6 +55,7 @@ public class SWTMainToolBar extends ToolBarBase {
             createOpenButton();
             createSaveButton();
             createStartButton();
+            createPomodoroButton();
             createShowFlaggedButton();
             createTimeSheetButton();
             createFindButton();
@@ -140,12 +141,19 @@ public class SWTMainToolBar extends ToolBarBase {
         });
     }
 
+    private void createPomodoroButton() {
+        _pomoButton = createButton("tomato", SWT.PUSH);
+        _pomoButton.setEnabled(true);
+    }
+
     public void updateOnSelection(Object selection) {
         _startButton.setEnabled(false);
+        _pomoButton.setEnabled(false);
         _timeSheetButton.setEnabled(false);
         if (selection instanceof Task task) {
             if (task.isStandaloneTimerEnabled()) {
                 _startButton.setEnabled(true);
+                _pomoButton.setEnabled(true);
             }
         } else if (selection instanceof Project) {
             _timeSheetButton.setEnabled(true);
