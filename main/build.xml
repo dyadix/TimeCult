@@ -107,7 +107,7 @@
     <!-- Compile all the application -->
     <target name="compile" depends="init">
         <mkdir dir="${classes}"/>
-        <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" source="1.8" debug="on" target="1.8">
+        <javac srcdir="${source}" destdir="${classes}" includes="**/*.java" source="17" debug="on" target="17">
             <classpath refid="classpath.id"/>
         </javac>
     </target>
