@@ -74,6 +74,8 @@ public class SWTTimerWindow implements StopwatchListener {
     private long _lastIntervalTime;
     private long _saveTimersInterval = 10000; // 10 seconds by default
 
+    private final TimerTrayImage _trayImage;
+
 
     private SWTTimerWindow(SWTMainWindow parent, Workspace workspace, Task task, long initTime) {
         _initTime = initTime;
@@ -82,6 +84,7 @@ public class SWTTimerWindow implements StopwatchListener {
         _task = task;
         _parent = parent;
         _workspace = workspace;
+        _trayImage = new TimerTrayImage(parent.getShell().getDisplay());
         long roundUpInterval = _workspace.getSettings().getRoundUpInterval();
         if (roundUpInterval > 0) {
             _saveTimersInterval = roundUpInterval;
@@ -274,15 +277,19 @@ public class SWTTimerWindow implements StopwatchListener {
             if (_trayItem != null) {
                 _trayItem.setToolTipText(_task.toString() + ": "
                     + Formatter.toDurationString(duration, true));
-                _trayItem.setImage(_parent.getIconSet().getIcon(
-                    "timer." + _imageCount,
-                    true));
+                _trayImage.fill(durationToDegrees(duration));
+                _trayItem.setImage(_trayImage.get());
                 _imageCount++;
                 if (_imageCount >= NIMAGES) {
                     _imageCount = 0;
                 }
             }
         }
+    }
+
+    private int durationToDegrees(long duration) {
+        long halfHourMin = duration % 1800000;
+        return (int) (halfHourMin / 5000);
     }
 
 
