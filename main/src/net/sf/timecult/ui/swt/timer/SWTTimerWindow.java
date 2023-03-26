@@ -57,7 +57,6 @@ public class SWTTimerWindow implements StopwatchListener {
 
     private        Shell           _shell;
     private final  Stopwatch       _stopwatch;
-    private        long            _duration;
     private        Display         _display;
     private final  Task            _task;
     private        Label           _timeLabel;
@@ -69,6 +68,7 @@ public class SWTTimerWindow implements StopwatchListener {
     private        SWTTimerToolBar _toolBar;
     private        TimeRecord      _timeRec;
     private final  Workspace       _workspace;
+    private final  long            _initTime;
 
     private long _lastNotifTime;
     private long _lastIntervalTime;
@@ -76,6 +76,7 @@ public class SWTTimerWindow implements StopwatchListener {
 
 
     private SWTTimerWindow(SWTMainWindow parent, Workspace workspace, Task task, long initTime) {
+        _initTime = initTime;
         _stopwatch = initTime > 0 ? new Stopwatch(initTime, true) : new Stopwatch();
         _stopwatch.addStopwatchListener(this);
         _task = task;
@@ -174,48 +175,48 @@ public class SWTTimerWindow implements StopwatchListener {
 
     public void stateChanged(StopwatchEvent evt) {
         switch (evt.getType()) {
-        case STOP:
-            if (_task != null) {
-                Runnable recordRunnable = () -> {
-                    Point timerLoc = _shell.getLocation();
-                    TimeTracker.getInstance().getConfigurationManager().setDefaultTimerPos(timerLoc.x, timerLoc.y);
-                    addTimeRecord();
-                };
-                if (_display.getThread() == Thread.currentThread()) {
-                    recordRunnable.run();
-                }
-                else {
-                    _display.asyncExec(recordRunnable);
+            case STOP -> {
+                decInstances();
+                if (_task != null) {
+                    Runnable recordRunnable = () -> {
+                        Point timerLoc = _shell.getLocation();
+                        TimeTracker.getInstance().getConfigurationManager().setDefaultTimerPos(timerLoc.x, timerLoc.y);
+                        addTimeRecord();
+                    };
+                    if (_display.getThread() == Thread.currentThread()) {
+                        recordRunnable.run();
+                    } else {
+                        _display.asyncExec(recordRunnable);
+                    }
                 }
             }
-            break;
-        case TICK:
-            _duration = evt.getSource().getDuration();
-            if (_duration - _lastNotifTime >= NOTIF_MESSAGE_INTERVAL
-                && AppPreferences.getInstance().isRunningTimerNotification()) {
-                _lastNotifTime = evt.getSource().getDuration();
-                _parent.showPopupMessage(_task.toString() + "\n"
-                    + Formatter.toDurationString(_duration, true));
-            }
-            long intervalTime = _duration - _lastIntervalTime;
-            intervalTime = _workspace.roundUpTime(intervalTime);
-            if (intervalTime >= _saveTimersInterval) {
-                _lastIntervalTime = _duration;
-                getTimeRecord().setDuration(_workspace.roundUpTime(_stopwatch.getDuration()));
+            case TICK -> {
+                long duration = evt.getSource().getDuration();
+                if (duration - _lastNotifTime >= NOTIF_MESSAGE_INTERVAL
+                    && AppPreferences.getInstance().isRunningTimerNotification()) {
+                    _lastNotifTime = evt.getSource().getDuration();
+                    _parent.showPopupMessage(_task.toString() + "\n"
+                        + Formatter.toDurationString(duration, true));
+                }
+                long intervalTime = duration - _lastIntervalTime;
+                intervalTime = _workspace.roundUpTime(intervalTime);
+                if (intervalTime >= _saveTimersInterval) {
+                    _lastIntervalTime = duration;
+                    getTimeRecord().setDuration(_workspace.roundUpTime(_stopwatch.getDuration()));
+                    if (!_display.isDisposed()) {
+                        _display.asyncExec(
+                            () -> TimeTracker
+                                .getInstance()
+                                .getWorkspace()
+                                .fireWorkspaceChanged(
+                                    new WorkspaceEvent(
+                                        WorkspaceEvent.WORKSPACE_TIME_REC_ADDED)));
+                    }
+                }
                 if (!_display.isDisposed()) {
-                    _display.asyncExec(
-                        () -> TimeTracker
-                            .getInstance()
-                            .getWorkspace()
-                            .fireWorkspaceChanged(
-                                new WorkspaceEvent(
-                                    WorkspaceEvent.WORKSPACE_TIME_REC_ADDED)));
+                    _display.asyncExec(() -> updateView(_stopwatch.getCounted()));
                 }
             }
-            if (!_display.isDisposed()) {
-                _display.asyncExec(() -> updateView(_duration));
-            }
-            break;
         }
     }
 
@@ -244,6 +245,9 @@ public class SWTTimerWindow implements StopwatchListener {
         AppPreferences appPrefs = TimeTracker.getInstance().getAppPreferences();
         TimeRecord timeRec = getTimeRecord();
         timeRec.setNotes("");
+        if (_initTime > 0 && _stopwatch.getCounted() <= 0) {
+            timeRec.setDuration(_initTime);
+        }
         TimeLogEntryEditDialog entryDialog = null;
         if (appPrefs.isShowRecEditDialog()) {
             entryDialog = new TimeLogEntryEditDialog(_parent, timeRec,
@@ -311,7 +315,6 @@ public class SWTTimerWindow implements StopwatchListener {
             _trayItem.setVisible(false);
             _trayItem.dispose();
         }
-        decInstances();
         _stopwatch.stop();
         _shell.dispose();
     }

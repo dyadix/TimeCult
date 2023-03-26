@@ -143,6 +143,11 @@ public class SWTMainToolBar extends ToolBarBase {
 
     private void createPomodoroButton() {
         _pomoButton = createButton("tomato", SWT.PUSH);
+        _pomoButton.addSelectionListener(new SelectionAdapter() {
+            public void widgetSelected(SelectionEvent e) {
+                TimeTracker.getInstance().startPomodoro();
+            }
+        });
         _pomoButton.setEnabled(true);
     }
 
