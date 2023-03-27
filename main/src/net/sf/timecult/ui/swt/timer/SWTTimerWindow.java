@@ -182,6 +182,10 @@ public class SWTTimerWindow implements StopwatchListener {
                 decInstances();
                 if (_task != null) {
                     Runnable recordRunnable = () -> {
+                        if (_trayItem != null) {
+                            _trayItem.setVisible(false);
+                            _trayItem.dispose();
+                        }
                         Point timerLoc = _shell.getLocation();
                         TimeTracker.getInstance().getConfigurationManager().setDefaultTimerPos(timerLoc.x, timerLoc.y);
                         addTimeRecord();
@@ -318,10 +322,6 @@ public class SWTTimerWindow implements StopwatchListener {
 
 
     public void terminate() {
-        if (_trayItem != null) {
-            _trayItem.setVisible(false);
-            _trayItem.dispose();
-        }
         _stopwatch.stop();
         _shell.dispose();
     }
