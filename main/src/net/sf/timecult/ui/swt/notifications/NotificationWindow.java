@@ -34,8 +34,9 @@ import org.eclipse.swt.widgets.Shell;
 
 public class NotificationWindow {
     
-    private Display display;
-    private Shell shell;
+    private final Display display;
+    private       Shell   shell;
+
     private String message;
     private static Color backgroundColor;
 
@@ -46,48 +47,41 @@ public class NotificationWindow {
     
     public void showMessage(String message) {
         this.message = message;
-        this.display.asyncExec( new Runnable() {
-            public void run() {
-                shell = new Shell(display, SWT.ON_TOP | SWT.BORDER);
-                setup(shell);
-                shell.pack();
-                Rectangle displayBounds = Display.getDefault().getPrimaryMonitor().getBounds();
-                int xLoc = displayBounds.x + displayBounds.width - shell.getBounds().width;
-                int yLoc = displayBounds.y + displayBounds.height - shell.getBounds().height;
-                shell.setLocation(new Point(xLoc - 10, yLoc - 45));
-                shell.setAlpha(0);
-                shell.open();
-                shell.addKeyListener(new KeyAdapter(){
-                    @Override
-                    public void keyPressed(KeyEvent e) {
-                        shell.close();                        
-                    }
-
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                        //                        
-                    }});
-            }}
+        this.display.asyncExec(() -> {
+            shell = new Shell(display, SWT.ON_TOP | SWT.BORDER);
+            setup(shell);
+            shell.pack();
+            Rectangle displayBounds = Display.getDefault().getPrimaryMonitor().getBounds();
+            int xLoc = displayBounds.x + displayBounds.width - shell.getBounds().width;
+            int yLoc = displayBounds.y + displayBounds.height - shell.getBounds().height;
+            shell.setLocation(new Point(xLoc - 10, yLoc - 45));
+            shell.setAlpha(0);
+            shell.open();
+            shell.addKeyListener(new KeyAdapter(){
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    shell.close();
+                }
+            });
+        }
         );
     }
     
     public void setAlpha(final int alpha) {
-        this.display.asyncExec( new Runnable() {
-            public void run() {
-                if (!shell.isDisposed() && shell.isVisible()) {
-                    shell.setAlpha(alpha);
-                }
-            }}
+        this.display.asyncExec(() -> {
+            if (!shell.isDisposed() && shell.isVisible()) {
+                shell.setAlpha(alpha);
+            }
+        }
         );
     }
     
     public void close() {
-        this.display.asyncExec( new Runnable() {
-            public void run() {
-                if (!shell.isDisposed() && shell.isVisible()) {
-                    shell.close();
-                }                
-            }} 
+        this.display.asyncExec(() -> {
+            if (!shell.isDisposed() && shell.isVisible()) {
+                shell.close();
+            }
+        }
         );        
     }
     
@@ -99,7 +93,6 @@ public class NotificationWindow {
         gl.marginHeight = 0;
         gl.marginWidth = 0;
         gl.verticalSpacing = 0;
-        gl.marginWidth = 0;
         gl.marginTop = 0;
         gl.marginBottom = 10;
         this.shell.setLayout(gl);
