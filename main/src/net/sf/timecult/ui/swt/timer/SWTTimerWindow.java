@@ -186,6 +186,9 @@ public class SWTTimerWindow implements StopwatchListener {
                             _trayItem.setVisible(false);
                             _trayItem.dispose();
                         }
+                        if (_initTime > 0) {
+                            _parent.showPopupMessage("Pomodoro timer finished");
+                        }
                         Point timerLoc = _shell.getLocation();
                         TimeTracker.getInstance().getConfigurationManager().setDefaultTimerPos(timerLoc.x, timerLoc.y);
                         addTimeRecord();

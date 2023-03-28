@@ -41,7 +41,7 @@ public class NotificationWindow {
 
     public NotificationWindow (SWTMainWindow mainWindow) {
         this.display = mainWindow.getShell().getDisplay();
-        backgroundColor = new Color(this.display, 255,255,200);
+        backgroundColor = mainWindow.getShell().getBackground();
     }
     
     public void showMessage(String message) {
