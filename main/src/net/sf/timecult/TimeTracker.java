@@ -14,15 +14,8 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- *
- * $Id: $
  */
 package net.sf.timecult;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.*;
 
 import net.sf.timecult.conf.AppPreferences;
 import net.sf.timecult.conf.ConfigurationManager;
@@ -40,6 +33,13 @@ import net.sf.timecult.stopwatch.StopwatchListener;
 import net.sf.timecult.ui.GenericUIManager;
 import net.sf.timecult.ui.swt.SWTUIManager;
 import net.sf.timecult.util.Formatter;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.logging.*;
 
 
 /**
@@ -100,12 +100,12 @@ public class TimeTracker implements WorkspaceListener {
     }
 
 
-    public void updateTask(Task task) {
+    public void updateTask() {
         _uiManager.updateProjectTree();
         _workspace.fireWorkspaceChanged(new WorkspaceEvent(WorkspaceEvent.WORKSPACE_TASK_CHANGED));
     }
 
-    public void updateProject(Project project) {
+    public void updateProject() {
         _uiManager.updateProjectTree();
         _workspace.fireWorkspaceChanged(new WorkspaceEvent(WorkspaceEvent.WORKSPACE_PROJECT_CHANGED));
     }
@@ -173,16 +173,14 @@ public class TimeTracker implements WorkspaceListener {
         ProjectTreeItem selectedItem = _workspace.getSelection();
         if (selectedItem != null) {
             removable = selectedItem;
-            if (selectedItem instanceof Task) {
-                Task selectedTask = (Task) selectedItem;
+            if (selectedItem instanceof Task selectedTask) {
                 confirmed = _uiManager.confirmTaskDeletion(selectedTask);
                 if (confirmed) {
                     parent = selectedTask.getProject();
                     _workspace.removeTask(parent, selectedTask.getId());
                 }
             }
-            else if (selectedItem instanceof Project) {
-                Project project = (Project) selectedItem;
+            else if (selectedItem instanceof Project project) {
                 confirmed = _uiManager.confirmProjectDeletion(project);
                 if (confirmed) {
                     parent = project.getParent();
@@ -420,14 +418,6 @@ public class TimeTracker implements WorkspaceListener {
         }
     }
 
-    /*
-    public void setFilter(TimeRecordFilter filter) {
-		this._workspace.setFilter(filter);
-		_uiManager.updateTimeLog(null);
-        _uiManager.updateTotals();
-	}
-    */
-
     public TimeRecordFilter getFilter() {
         return this._workspace.getFilter();
     }
@@ -476,24 +466,23 @@ public class TimeTracker implements WorkspaceListener {
         public void stateChanged(StopwatchEvent evt) {
 
             switch (evt.getType()) {
-            case STOP:
-                _uiManager.clearIdleTime();
-                nextNotifTime = IDLE_NOTIFICATION_INTERVAL;
-                break;
-            case TICK:
-                long idleTime = evt.getSource().getDuration();
-                _uiManager.setIdleTime(idleTime);
-                if (AppPreferences.getInstance().isIdleTimeNotification()) {
-                    if (idleTime >= nextNotifTime) {
-                        _uiManager.showNotification(ResourceHelper
-                            .getString("workspace.idle")
-                            + ":\n\n"
-                            + Formatter.toDurationString(idleTime, true));
-                        nextNotifTime += IDLE_NOTIFICATION_INTERVAL;
+                case STOP -> {
+                    _uiManager.clearIdleTime();
+                    nextNotifTime = IDLE_NOTIFICATION_INTERVAL;
+                }
+                case TICK -> {
+                    long idleTime = evt.getSource().getDuration();
+                    _uiManager.setIdleTime(idleTime);
+                    if (AppPreferences.getInstance().isIdleTimeNotification()) {
+                        if (idleTime >= nextNotifTime) {
+                            _uiManager.showNotification(ResourceHelper
+                                .getString("workspace.idle")
+                                + ":\n\n"
+                                + Formatter.toDurationString(idleTime, true));
+                            nextNotifTime += IDLE_NOTIFICATION_INTERVAL;
+                        }
                     }
                 }
-                break;
-
             }
         }
 
@@ -523,13 +512,7 @@ public class TimeTracker implements WorkspaceListener {
     public boolean isLocalClipboardEmpty() {
         return _clipboardItem == null;
     }
-    
-    /*
-    public ProjectTreeItem getSelection() {
-        return _selectedItem;
-    }
-    */
-    
+
     public ConfigurationManager getConfigurationManager() {
         return this._confManager;
     }

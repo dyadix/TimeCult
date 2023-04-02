@@ -1,6 +1,6 @@
 /*
- * Copyright (c) Rustam Vishnyakov, 2005-2009 (dyadix@gmail.com)
- * 
+ * Copyright (c) TimeCult Project Team, 2005-2023 (dyadix@gmail.com)
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -14,8 +14,6 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; if not, write to the Free Software Foundation, Inc.,
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
- * $Id: ActivityEditDialog.java,v 1.5 2010/02/20 12:53:28 dyadix Exp $
  */
 package net.sf.timecult.ui.swt;
 
@@ -40,7 +38,7 @@ public class ActivityEditDialog extends ProjectItemEditDialog {
 		
     @Override
     protected boolean afterUpdate() {
-        TimeTracker.getInstance().updateTask(this.activity);
+        TimeTracker.getInstance().updateTask();
         return true;
     }
 
