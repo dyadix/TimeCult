@@ -2,6 +2,8 @@
 
 * Adaptive project tree view item colors, work for dark themes
 * Fixed Task list size/location for multiple monitors
+* Fixed a problem when the main window goes out of display area on app restart when one of the monitors
+  is disconnected.
 
 1.6
 

@@ -20,11 +20,12 @@
 package net.sf.timecult.conf;
 
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.io.*;
 import java.util.Properties;
 
 import net.sf.timecult.TimeTracker;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Provides simple services to save/and retrieve user preferences.
@@ -72,6 +73,16 @@ public class ConfigurationManager {
             int left = Integer.parseInt(props.getProperty(APP_WIN_LEFT));
             int width = Integer.parseInt(props.getProperty(APP_WIN_WIDTH));
             int height = Integer.parseInt(props.getProperty(APP_WIN_HEIGHT));
+            Rectangle currBounds = new Rectangle(left, top, width, height);
+            Display display = Display.getCurrent();
+            if (display != null) {
+                Rectangle displayBounds = display.getBounds();
+                if (!displayBounds.intersects(currBounds)) {
+                    // Drag a window to a visible display area
+                    left = displayBounds.x;
+                    top = displayBounds.y - displayBounds.height;
+                }
+            }
             _timeTracker.getUIManager().setBounds(left, top, width, height);
             String lfClassName = props.getProperty(LOOK_AND_FEEL);
             if (lfClassName != null) {
@@ -98,7 +109,7 @@ public class ConfigurationManager {
         //
         // Window coordinates
         //
-        Rectangle winBounds = _timeTracker.getUIManager().getBounds();
+        java.awt.Rectangle winBounds = _timeTracker.getUIManager().getBounds();
         this.props.setProperty(APP_WIN_TOP, Integer.toString(winBounds.y));
         this.props.setProperty(APP_WIN_LEFT, Integer.toString(winBounds.x));
         this.props.setProperty(APP_WIN_HEIGHT, Integer.toString(winBounds.height));
